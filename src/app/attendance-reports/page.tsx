@@ -1,11 +1,13 @@
+import PageHeading from "@/components/PageHeading";
+
 export default function AttendanceReportsPage() {
     return (
         <section>
-            <h2 className="text-2xl font-bold mb-4">Attendance Reports</h2>
-            <div className="bg-white shadow-md rounded-md p-4">
-                <p>This is the Attendance Reports page content.</p>
-                {/* Add course management components here */}
-            </div>
-        </section>
+        <PageHeading title="Attendance Reports" description="View and manage attendance records" />
+        <div className="bg-white shadow-md rounded-md p-6">
+            <p className="text-gray-600">Detailed attendance reports and analytics will be displayed here.</p>
+            {/* Add components for filtering, viewing, and exporting reports */}
+        </div>
+    </section>
     );
 }

@@ -1,0 +1,20 @@
+[
+    {
+        "id": "d1",
+        "name": "Device A",
+        "location": "Room 101",
+        "status": "online"
+    },
+    {
+        "id": "d2",
+        "name": "Device B",
+        "location": "Lab 202",
+        "status": "offline"
+    },
+    {
+        "id": "d3",
+        "name": "Device C",
+        "location": "Office 301",
+        "status": "online"
+    }
+]

@@ -1,22 +1,47 @@
+import PageHeading from "@/components/PageHeading";
+import DashboardCard from "@/components/DashboardCard";
+
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faBook, faPhone, faUsers } from "@fortawesome/free-solid-svg-icons";
+
+import initialCourses from "@/data/jsons/courses.json";
+import initialDevices from "@/data/jsons/devices.json";
+import initialRooms from "@/data/jsons/rooms.json";
+
+
 export default function HomePage() {
   return (
-      <section>
-          <h2 className="text-2xl font-bold mb-4">Dashboard Overview</h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4"> {/* Responsive grid */}
-              <div className="bg-white shadow-md rounded-md p-4">
-                  <h3 className="font-semibold mb-2">Total Courses</h3>
-                  <p className="text-xl">15</p>
-              </div>
-              <div className="bg-white shadow-md rounded-md p-4">
-                  <h3 className="font-semibold mb-2">Active Devices</h3>
-                  <p className="text-xl">22</p>
-              </div>
-              <div className="bg-white shadow-md rounded-md p-4">
-                  <h3 className="font-semibold mb-2">Rooms Available</h3>
-                  <p className="text-xl">10</p>
-              </div>
-              {/* Add more dashboard widgets/cards here */}
-          </div>
-      </section>
+    <section>
+      <PageHeading title="Dashboard Overview" />
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        <DashboardCard
+          title="Total Courses"
+          value={initialCourses.length}
+          icon={
+            <FontAwesomeIcon icon={faBook} className="w-8 h-8 text-blue-500" />
+          }
+        />
+        <DashboardCard
+          title="Active Devices"
+          value={initialDevices.filter((d) => d.status === "online").length}
+          icon={
+            <FontAwesomeIcon
+              icon={faPhone}
+              className="w-8 h-8 text-green-500"
+            />
+          }
+        />
+        <DashboardCard
+          title="Rooms Available"
+          value={initialRooms.length}
+          icon={
+            <FontAwesomeIcon
+              icon={faUsers}
+              className="w-8 h-8 text-purple-500"
+            />
+          }
+        />
+      </div>
+    </section>
   );
 }
