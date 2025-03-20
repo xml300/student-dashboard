@@ -1,21 +1,26 @@
 // Dummy data for demonstration
-interface Course {
+export interface Course {
     id: string;
     name: string;
     description: string;
     credits: number;
 }
 
-interface Device {
+export interface Device {
     id: string;
     name: string;
     location: string;
-    status: 'online' | 'offline';
+    type: string;
+    lastSeen: Date;
+    status: string;
 }
 
-interface Room {
+export interface Room {
     id: string;
     name: string;
     capacity: number;
-    type: 'classroom' | 'lab' | 'office';
+    availability: string;
+    features: string[];
+    building: string;
+    type: string;
 }

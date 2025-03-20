@@ -9,10 +9,11 @@
   --color-3: #f3b300;
 
   --border-color: #706767;
-  --font-family: 'Poppins';  
+  --font-family: 'Poppins'; 
 }
 
 @theme inline {
+  --color-foreground: var(--foreground);
   --color-background: var(--color-1);
   --color-primary-accent: var(--color-2);
   --color-secondary-accent: var(--color-3);
@@ -21,3 +22,26 @@
   --font-sans: var(--font-family);
   --font-mono: var(--font-geist-mono);
 }
+
+
+
+@layer base {
+    body {
+        @apply bg-background text-foreground font-sans; /* Apply background and text color from variables */
+    }
+
+    /* Improve default link styles */
+    a {
+        @apply transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-primary-accent; /* Focus ring styling */
+    }
+
+    /* Basic form element styling - you can extend this */
+    input,
+    textarea,
+    select,
+    button {
+        @apply rounded-md border border-border-color focus:ring-primary-accent focus:outline-none focus:ring-2 transition-shadow duration-200; /* Consistent form element styling */
+    }
+}
+
+

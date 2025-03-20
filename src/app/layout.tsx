@@ -1,121 +1,99 @@
 import type { Metadata } from "next";
 import { Poppins } from "next/font/google";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-    faHouse,
-    faBook,
-    faChartLine,
-    faPhone,
-    faGear,
-    faUsers,
-    faArrowRightArrowLeft,
-} from "@fortawesome/free-solid-svg-icons";
-import "./globals.css";
-import Link from "next/link"; // Import Link for navigation
+import "./globals.css"; // Assuming this still holds global styles
+import Link from "next/link";
+import Image from "next/image";
+import Logo from "/public/file.svg"; // Make sure this path is correct
 
+// Import the custom Sidebar component (adjust the path as necessary)
+import Sidebar from "./Sidebar";
 
 const poppins = Poppins({
-  weight: ["300", "400", "500", "600", "700"], // Use a smaller set of weights for performance
+  weight: ["300", "400", "500", "600", "700"],
   subsets: ["latin"],
 });
 
 export const metadata: Metadata = {
-    title: "Admin Dashboard",
-    description: "Generated admin dashboard",
+  title: "Attendance Management System", // More specific title
+  description: "Dashboard for managing attendance in rooms using devices.",
 };
 
 export default function RootLayout({
-    children,
+  children,
 }: Readonly<{
-    children: React.ReactNode;
+  children: React.ReactNode;
 }>) {
-    return (
-      <html lang="en">
-      <body className={`${poppins.className} bg-gray-100 antialiased`}>
-          <header className="bg-white flex justify-between shadow-md py-4 px-6 md:px-8">
-              <h1 className="text-2xl md:text-3xl font-bold text-gray-900">Admin Dashboard</h1>
-              <div className="flex items-center gap-4 md:gap-6">
-                  <Link href="/" className="text-gray-700 hover:text-blue-600 transition-colors">Home</Link>
-                  <Link href="/about" className="text-gray-700 hover:text-blue-600 transition-colors">About</Link>
-                  <Link href="/profile" className="text-gray-700 hover:text-blue-600 transition-colors">Profile</Link>
-              </div>
-          </header>
-          <div className="flex">
-              {/* Sidebar */}
-              <aside
-                  className={`
-                      bg-white border-r border-gray-200 pt-6
-                      transition-all duration-300 ease-in-out
-                      w-64 md:w-64
-                      overflow-hidden
-                  `}
-              >
-                  {/* Toggle button for the sidebar */}
-                  <button
-                      className="absolute top-2 -right-10 cursor-pointer p-2 bg-white rounded-full shadow-md hover:bg-gray-100"
-                      // onClick=""
-                      title={"Collapse Sidebar"}
-                  >
-                      <FontAwesomeIcon
-                          className="w-5 h-5 text-gray-600"
-                          icon={faArrowRightArrowLeft}
-                      />
-                  </button>
-      
-                  {/* Sidebar content */}
-                  <div className={`px-4 ${'block'}`}>
-                      <Link href="/" className="p-2 flex items-center rounded-md hover:bg-gray-100 text-gray-700">
-                          <FontAwesomeIcon
-                              className="w-5 h-5 mr-2"
-                              icon={faHouse}
-                          />
-                          Home
-                      </Link>
-                      <Link href="/courses" className="p-2 flex items-center rounded-md hover:bg-gray-100 text-gray-700">
-                          <FontAwesomeIcon
-                              className="w-5 h-5 mr-2"
-                              icon={faBook}
-                          />
-                          Courses
-                      </Link>
-                      <Link href="/attendance-reports" className="p-2 flex items-center rounded-md hover:bg-gray-100 text-gray-700">
-                          <FontAwesomeIcon
-                              className="w-5 h-5 mr-2"
-                              icon={faChartLine}
-                          />
-                          Attendance Reports
-                      </Link>
-                      <Link href="/devices" className="p-2 flex items-center rounded-md hover:bg-gray-100 text-gray-700">
-                          <FontAwesomeIcon
-                              className="w-5 h-5 mr-2"
-                              icon={faPhone}
-                          />
-                          Devices
-                      </Link>
-                      <Link href="/rooms" className="p-2 flex items-center rounded-md hover:bg-gray-100 text-gray-700">
-                          <FontAwesomeIcon
-                              className="w-5 h-5 mr-2"
-                              icon={faUsers}
-                          />
-                          Rooms
-                      </Link>
-                      <Link href="/settings" className="p-2 flex items-center rounded-md hover:bg-gray-100 text-gray-700">
-                          <FontAwesomeIcon
-                              className="w-5 h-5 mr-2"
-                              icon={faGear}
-                          />
-                          Settings
-                      </Link>
-                  </div>
-              </aside>
-      
-              {/* Main content area */}
-              <main className={`flex-1 p-4 md:p-6 lg:p-8 transition-all duration-300 ease-in-out ${''}`}>
-                  {children}
-              </main>
+  return (
+    <html lang="en">
+      <body
+        className={`${poppins.className} bg-background text-foreground antialiased min-h-screen min-w-fit`} // Applying custom colors
+      >
+        <header className="bg-white/90 backdrop-blur-md flex justify-between shadow-md py-3 px-4 md:px-6 lg:px-8 xl:px-10 border-b border-border-color">
+          {/* Logo Section */}
+          <div>
+            <Link
+              className="flex items-center"
+              href="/"
+              aria-label="Go to homepage"
+            >
+              <Image
+                src={Logo}
+                alt="Attendance System Logo"
+                width={32}
+                height={32}
+                className="mr-2 md:mr-3"
+                priority
+              />
+              <h1 className="text-xl md:text-2xl font-semibold text-gray-900 tracking-tight">
+                Attendance System
+              </h1>
+            </Link>
           </div>
-      </body>
-      </html>
-    );
-}
 
+          <div className="flex items-center">
+            <div className="mr-4 relative">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                className="h-6 w-6 text-gray-500"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth="2"
+                  d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"
+                />
+              </svg>
+              <span className="absolute top-0 right-0 block h-2 w-2 rounded-full bg-secondary"></span>
+            </div>
+            <div className="flex items-center">
+              <a href="/profile" className="flex items-center">
+              <Image
+                src="/api/placeholder/40/40"
+                width={40}
+                height={40}
+                alt="Profile"
+                className="w-8 h-8 rounded-full mr-2"
+              />
+              <span className="font-medium">Dr. Jane Smith</span>
+              </a>
+            </div>
+          </div>
+        </header>
+        <div className="flex min-h-[92vh]">
+          {/* Sidebar */}
+          <Sidebar />
+
+          {/* Main content area */}
+          <main
+            className={`p-4 md:p-6 lg:p-8 transition-all duration-300 ease-in-out flex-1 ml-0`}
+          >
+            {children}
+          </main>
+        </div>
+      </body>
+    </html>
+  );
+}

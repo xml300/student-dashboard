@@ -10,11 +10,11 @@ const InputField = ({
 }: {
     label: string;
     value: string;
-    onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+    onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
     placeholder?: string;
     type?: 'text' | 'number' | 'email';
     error?: string;
-    [key: string]: any; // Allow other props
+    [key: string]: number | string | object | CallableFunction | undefined;
 }) => (
     <div className="mb-4">
         <label className="block text-sm font-medium text-gray-700 mb-1">{label}</label>
