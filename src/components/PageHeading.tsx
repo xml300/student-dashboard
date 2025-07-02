@@ -1,7 +1,7 @@
 const PageHeading = ({ title, description }: { title: string; description?: string }) => (
-    <div className="mb-6"> {/* Increased margin-bottom */}
-        <h2 className="text-3xl font-bold text-gray-900 mb-2">{title}</h2> {/* Slightly reduced margin-bottom */}
-        {description && <p className="mt-2 text-gray-600 text-lg">{description}</p>} {/* Adjusted description typography */}
+    <div className="mb-6">
+        <h1 className="text-2xl font-bold text-gray-900 dark:text-gray-100 mb-2">{title}</h1>
+        {description && <p className="mt-2 text-gray-600 dark:text-gray-300 text-lg">{description}</p>}
     </div>
 );
 

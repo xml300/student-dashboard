@@ -71,44 +71,44 @@ const CoursesPage = () => {
   return ( 
       <div className="flex-1 flex flex-col overflow-hidden">
         {/* Header */}
-        <header className="bg-white border-b border-border-color p-4">
+        <header className="bg-white dark:bg-gray-900 border-b border-border-color dark:border-gray-700 p-4">
           <div className="flex justify-between items-center">
-            <div className="text-lg font-semibold">Courses</div>
+            <div className="text-lg font-semibold text-gray-900 dark:text-gray-100">Courses</div>
             <div className="relative">
               <input
                 type="text"
                 placeholder="Search courses..."
-                className="pl-9 pr-4 py-2 border border-border-color rounded-md focus:outline-none focus:ring-1 focus:ring-primary-accent w-64"
+                className="pl-9 pr-4 py-2 border border-border-color dark:border-gray-700 rounded-md focus:outline-none focus:ring-1 focus:ring-primary-accent w-64 bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100"
               />
-              <Search className="absolute left-3 top-2.5 text-gray-400" size={18} />
+              <Search className="absolute left-3 top-2.5 text-gray-400 dark:text-gray-300" size={18} />
             </div>
           </div>
         </header>
         
         {/* Content */}
-        <div className="flex-1 overflow-auto p-6">
+        <div className="flex-1 overflow-auto p-6 bg-gray-50 dark:bg-gray-950">
           {/* Actions bar */}
           <div className="flex justify-between items-center mb-6">
             <div className="flex space-x-2">
               <button 
                 onClick={() => setActiveTab('active')}
-                className={`px-4 py-2 rounded-md ${activeTab === 'active' ? 'bg-primary-accent text-white' : 'bg-white border border-border-color text-gray-600 hover:bg-gray-50'}`}>
+                className={`px-4 py-2 rounded-md ${activeTab === 'active' ? 'bg-primary-accent text-white' : 'bg-white dark:bg-gray-900 border border-border-color dark:border-gray-700 text-gray-600 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800'}`}>
                 Active
               </button>
               <button 
                 onClick={() => setActiveTab('archived')}
-                className={`px-4 py-2 rounded-md ${activeTab === 'archived' ? 'bg-primary-accent text-white' : 'bg-white border border-border-color text-gray-600 hover:bg-gray-50'}`}>
+                className={`px-4 py-2 rounded-md ${activeTab === 'archived' ? 'bg-primary-accent text-white' : 'bg-white dark:bg-gray-900 border border-border-color dark:border-gray-700 text-gray-600 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800'}`}>
                 Archived
               </button>
               <button 
                 onClick={() => setActiveTab('all')}
-                className={`px-4 py-2 rounded-md ${activeTab === 'all' ? 'bg-primary-accent text-white' : 'bg-white border border-border-color text-gray-600 hover:bg-gray-50'}`}>
+                className={`px-4 py-2 rounded-md ${activeTab === 'all' ? 'bg-primary-accent text-white' : 'bg-white dark:bg-gray-900 border border-border-color dark:border-gray-700 text-gray-600 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800'}`}>
                 All
               </button>
             </div>
             
             <div className="flex space-x-3">
-              <button className="flex items-center px-4 py-2 bg-white border border-border-color rounded-md text-gray-600 hover:bg-gray-50">
+              <button className="flex items-center px-4 py-2 bg-white dark:bg-gray-900 border border-border-color dark:border-gray-700 rounded-md text-gray-600 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800">
                 <Filter size={16} className="mr-2" />
                 Filter
               </button>
@@ -122,14 +122,14 @@ const CoursesPage = () => {
           {/* Course cards */}
           <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-6">
             {filteredCourses.map(course => (
-              <div key={course.id} className="bg-white rounded-lg border border-border-color overflow-hidden hover:border-primary-accent transition-colors">
+              <div key={course.id} className="bg-white dark:bg-gray-900 rounded-lg border border-border-color dark:border-gray-700 overflow-hidden hover:border-primary-accent transition-colors">
                 <div className="p-5">
                   <div className="flex justify-between items-start">
                     <div>
-                      <h2 className="font-bold text-lg mb-1">{course.title}</h2>
-                      <div className="text-sm text-gray-500">{course.id} • {course.semester}</div>
+                      <h2 className="font-bold text-lg text-gray-900 dark:text-gray-100 mb-1">{course.title}</h2>
+                      <div className="text-sm text-gray-500 dark:text-gray-400">{course.id} • {course.semester}</div>
                     </div>
-                    <button className="text-gray-400 hover:text-gray-600">
+                    <button className="text-gray-400 dark:text-gray-300 hover:text-gray-600 dark:hover:text-gray-100">
                       <MoreVertical size={16} />
                     </button>
                   </div>
@@ -137,7 +137,7 @@ const CoursesPage = () => {
                   <div className="mt-4 grid grid-cols-3 gap-2 text-sm">
                     <div>
                       <div className="text-gray-500">Students</div>
-                      <div className="font-medium">{course.students}</div>
+                      
                     </div>
                     <div>
                       <div className="text-gray-500">Rooms</div>

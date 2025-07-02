@@ -5,16 +5,15 @@ import { faUser, faClipboard, faBuilding } from "@fortawesome/free-regular-svg-i
 export default function HomePage() {
   return (
     <div className="flex-1 overflow-auto">
-      <header className="bg-white shadow-sm">
+      <header className="bg-white dark:bg-gray-900 shadow-sm">
         <div className="flex justify-between items-center p-4">
-          <h1 className="text-xl font-semibold">Dashboard Overview</h1>
-         
+          <h1 className="text-xl font-semibold text-gray-900 dark:text-gray-100">Dashboard Overview</h1>
         </div>
       </header>
 
       <div className="p-6">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-6">
-          <div className="bg-white rounded-lg shadow p-4 border-l-4 border-primary">
+          <div className="bg-white dark:bg-gray-900 rounded-lg shadow p-4 border-l-4 border-primary dark:border-blue-600">
             <div className="flex justify-between items-start">
               <div>
                 <p className="text-sm text-gray-500 mb-1">Total Students</p>
@@ -29,7 +28,7 @@ export default function HomePage() {
             </div>
           </div>
 
-          <div className="bg-white rounded-lg shadow p-4 border-l-4 border-secondary">
+          <div className="bg-white dark:bg-gray-900 rounded-lg shadow p-4 border-l-4 border-secondary dark:border-yellow-400">
             <div className="flex justify-between items-start">
               <div>
                 <p className="text-sm text-gray-500 mb-1">Average Attendance</p>
@@ -42,7 +41,7 @@ export default function HomePage() {
             </div>
           </div>
 
-          <div className="bg-white rounded-lg shadow p-4 border-l-4 border-green-500">
+          <div className="bg-white dark:bg-gray-900 rounded-lg shadow p-4 border-l-4 border-green-500">
             <div className="flex justify-between items-start">
               <div>
                 <p className="text-sm text-gray-500 mb-1">Active Rooms</p>
@@ -55,7 +54,7 @@ export default function HomePage() {
             </div>
           </div>
 
-          <div className="bg-white rounded-lg shadow p-4 border-l-4 border-purple-500">
+          <div className="bg-white dark:bg-gray-900 rounded-lg shadow p-4 border-l-4 border-purple-500">
             <div className="flex justify-between items-start">
               <div>
                 <p className="text-sm text-gray-500 mb-1">Connected Devices</p>
@@ -85,7 +84,7 @@ export default function HomePage() {
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
-          <div className="bg-white rounded-lg shadow p-4">
+          <div className="bg-white dark:bg-gray-900 rounded-lg shadow p-4">
             <div className="flex justify-between items-center mb-4">
               <h3 className="text-lg font-semibold">Attendance Trend</h3>
               <div className="flex items-center">
@@ -105,7 +104,7 @@ export default function HomePage() {
             </div>
           </div>
 
-          <div className="bg-white rounded-lg shadow p-4">
+          <div className="bg-white dark:bg-gray-900 rounded-lg shadow p-4">
             <div className="flex justify-between items-center mb-4">
               <h3 className="text-lg font-semibold">Room Utilization</h3>
               <div className="flex items-center">
@@ -126,7 +125,7 @@ export default function HomePage() {
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-          <div className="bg-white rounded-lg shadow">
+          <div className="bg-white dark:bg-gray-900 rounded-lg shadow">
             <div className="p-4 border-b border-custom">
               <h3 className="text-lg font-semibold">Recent Activities</h3>
             </div>
@@ -256,7 +255,7 @@ export default function HomePage() {
             </div>
           </div>
 
-          <div className="bg-white rounded-lg shadow">
+          <div className="bg-white dark:bg-gray-900 rounded-lg shadow">
             <div className="p-4 border-b border-custom">
               <h3 className="text-lg font-semibold">Upcoming Classes</h3>
             </div>

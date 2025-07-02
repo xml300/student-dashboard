@@ -192,29 +192,29 @@ const AttendanceReportsPage = () => {
       case "attendance-summary":
         return (
           <>
-            <div className="p-4 border-b border-border-color bg-gray-50 flex justify-between items-center">
-              <h2 className="font-medium">Attendance Summary Report</h2>
+            <div className="p-4 border-b border-border-color dark:border-gray-700 bg-gray-50 dark:bg-gray-950 flex justify-between items-center">
+              <h2 className="font-medium text-gray-900 dark:text-gray-100">Attendance Summary Report</h2>
               <div className="flex items-center space-x-3">
-                <button className="flex items-center text-sm text-gray-500 hover:text-primary-accent">
+                <button className="flex items-center text-sm text-gray-500 dark:text-gray-300 hover:text-primary-accent dark:hover:text-blue-400">
                   <ListFilter size={16} className="mr-1" />
                   Filter
                 </button>
-                <button className="flex items-center text-sm text-gray-500 hover:text-primary-accent">
+                <button className="flex items-center text-sm text-gray-500 dark:text-gray-300 hover:text-primary-accent dark:hover:text-blue-400">
                   <Download size={16} className="mr-1" />
                   Download
                 </button>
               </div>
             </div>
 
-            <div className="p-6">
+            <div className="p-6 bg-white dark:bg-gray-900">
               {/* Summary stats */}
               <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
-                <div className="bg-primary-accent/10 rounded-lg p-4">
-                  <div className="text-sm text-gray-500">
+                <div className="bg-primary-accent/10 dark:bg-primary-accent/20 rounded-lg p-4">
+                  <div className="text-sm text-gray-500 dark:text-gray-300">
                     Average Attendance Rate
                   </div>
-                  <div className="text-2xl font-bold text-primary-accent">84.6%</div>
-                  <div className="text-sm text-green-600 mt-1 flex items-center">
+                  <div className="text-2xl font-bold text-primary-accent dark:text-blue-400">84.6%</div>
+                  <div className="text-sm text-green-600 dark:text-green-400 mt-1 flex items-center">
                     <ArrowRight
                       className="mr-1 transform rotate-45"
                       size={14}
@@ -223,20 +223,20 @@ const AttendanceReportsPage = () => {
                   </div>
                 </div>
 
-                <div className="bg-gray-100 rounded-lg p-4">
-                  <div className="text-sm text-gray-500">Total Sessions</div>
-                  <div className="text-2xl font-bold">47</div>
-                  <div className="text-sm text-gray-500 mt-1">
+                <div className="bg-gray-100 dark:bg-gray-800 rounded-lg p-4">
+                  <div className="text-sm text-gray-500 dark:text-gray-300">Total Sessions</div>
+                  <div className="text-2xl font-bold text-gray-900 dark:text-gray-100">47</div>
+                  <div className="text-sm text-gray-500 dark:text-gray-400 mt-1">
                     Across all courses
                   </div>
                 </div>
 
-                <div className="bg-secondary-accent/10 rounded-lg p-4">
-                  <div className="text-sm text-gray-500">
+                <div className="bg-secondary-accent/10 dark:bg-secondary-accent/20 rounded-lg p-4">
+                  <div className="text-sm text-gray-500 dark:text-gray-300">
                     Highest Attendance
                   </div>
-                  <div className="text-2xl font-bold text-secondary-accent">ENG205</div>
-                  <div className="text-sm text-gray-600 mt-1">
+                  <div className="text-2xl font-bold text-secondary-accent dark:text-yellow-400">ENG205</div>
+                  <div className="text-sm text-gray-600 dark:text-gray-400 mt-1">
                     92% attendance rate
                   </div>
                 </div>
@@ -244,25 +244,25 @@ const AttendanceReportsPage = () => {
 
               {/* Course attendance table */}
               <div className="overflow-x-auto">
-                <table className="w-full">
+                <table className="w-full bg-white dark:bg-gray-900">
                   <thead>
-                    <tr className="border-b border-border-color">
-                      <th className="text-left py-3 px-4 font-medium text-gray-600">
+                    <tr className="border-b border-border-color dark:border-gray-700">
+                      <th className="text-left py-3 px-4 font-medium text-gray-600 dark:text-gray-300">
                         Course
                       </th>
-                      <th className="text-left py-3 px-4 font-medium text-gray-600">
+                      <th className="text-left py-3 px-4 font-medium text-gray-600 dark:text-gray-300">
                         Course Title
                       </th>
-                      <th className="text-center py-3 px-4 font-medium text-gray-600">
+                      <th className="text-center py-3 px-4 font-medium text-gray-600 dark:text-gray-300">
                         Attendance Rate
                       </th>
-                      <th className="text-center py-3 px-4 font-medium text-gray-600">
+                      <th className="text-center py-3 px-4 font-medium text-gray-600 dark:text-gray-300">
                         Students
                       </th>
-                      <th className="text-center py-3 px-4 font-medium text-gray-600">
+                      <th className="text-center py-3 px-4 font-medium text-gray-600 dark:text-gray-300">
                         Trend
                       </th>
-                      <th className="text-right py-3 px-4 font-medium text-gray-600">
+                      <th className="text-right py-3 px-4 font-medium text-gray-600 dark:text-gray-300">
                         Actions
                       </th>
                     </tr>

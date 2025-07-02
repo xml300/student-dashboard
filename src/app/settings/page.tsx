@@ -8,10 +8,10 @@ import Image from "next/image";
 
 // Mock components (assuming these are in your project)
 const PageHeading = ({ title, description }: { title: string; description: string }) => (
-    <div className="mb-6">
-        <h1 className="text-2xl font-semibold text-gray-900">{title}</h1>
-        <p className="text-gray-500">{description}</p>
-    </div>
+  <div className="mb-6">
+    <h1 className="text-2xl font-semibold text-gray-900 dark:text-gray-100">{title}</h1>
+    <p className="text-gray-500 dark:text-gray-300">{description}</p>
+  </div>
 );
 
 const ActionButton = ({
@@ -55,36 +55,36 @@ const ActionButton = ({
 };
 
 const InputField = ({
-    label,
-    value,
-    onChange,
-    placeholder,
-    type = "text",
-    className,
+  label,
+  value,
+  onChange,
+  placeholder,
+  type = "text",
+  className,
 }: {
-    label: string;
-    value: string;
-    onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
-    placeholder?: string;
-    type?: string;
-    className?: string;
+  label: string;
+  value: string;
+  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  placeholder?: string;
+  type?: string;
+  className?: string;
 }) => {
-    let baseClasses = "block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-primary-500 focus:border-primary-500 sm:text-sm";
-      if (className) {
-        baseClasses += " " + className;
-    }
-    return (
-        <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">{label}</label>
-            <input
-                type={type}
-                value={value}
-                onChange={onChange}
-                placeholder={placeholder}
-                className={baseClasses}
-            />
-        </div>
-    );
+  let baseClasses = "block w-full px-4 py-2 border border-gray-300 dark:border-gray-700 rounded-md shadow-sm focus:outline-none focus:ring-primary-500 focus:border-primary-500 sm:text-sm bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100";
+  if (className) {
+    baseClasses += " " + className;
+  }
+  return (
+    <div>
+      <label className="block text-sm font-medium text-gray-700 dark:text-gray-200 mb-2">{label}</label>
+      <input
+        type={type}
+        value={value}
+        onChange={onChange}
+        placeholder={placeholder}
+        className={baseClasses}
+      />
+    </div>
+  );
 };
 
 export default function SettingsPage() {
@@ -126,56 +126,55 @@ export default function SettingsPage() {
     };
 
     return (
-        <section className="space-y-6"> {/* Added vertical spacing for sections */}
-            <PageHeading title="Settings" description="Customize your dashboard settings" />
-            <div className="bg-white shadow-md rounded-md p-8 md:p-10"> {/* Increased padding for larger screens */}
-                <div className="space-y-8"> {/* Vertical spacing for setting groups */}
-                    <div>
-                        <InputField
-                            label="Site Name"
-                            value={siteName}
-                            onChange={handleSiteNameChange} // {(e) => setSiteName(e.target.value)}
-                            placeholder="Enter site name"
-                        />
-                    </div>
-                    <div>
-                        <label className="block text-sm font-medium text-gray-700 mb-2">Primary Color</label>
-                        <div className="flex items-center gap-4"> {/* Flex to align color picker and text */}
-                            <input
-                                type="color"
-                                value={primaryColor}
-                                onChange={handlePrimaryColorChange}
-                                className="w-12 h-12 rounded-full cursor-pointer border-none shadow-sm" // Increased size and removed border, added shadow
-                            />
-                            <span className='text-gray-700 font-medium'>Current Primary Color: <span className="font-bold" style={{color: primaryColor}}> {primaryColor}</span></span> {/* Using primary-accent variable */}
-                        </div>
-                    </div>
-                    <div>
-                        <label className="block text-sm font-medium text-gray-700 mb-2">Logo</label>
-                        <input
-                            type="file"
-                            accept="image/*"
-                            onChange={handleLogoChange}
-                            className="mb-2"
-                        />
-                        {logo && (
-                            <div className="mt-2">
-                                <Image src={logo} alt="Logo Preview" className="h-12" />
-                            </div>
-                        )}
-                        <p className="text-gray-500 text-sm mt-1">Upload a logo for your dashboard (Recommended size: 100x100 pixels).</p> {/* Added hint text */}
-                    </div>
+        <section className="space-y-6">
+          <PageHeading title="Settings" description="Customize your dashboard settings" />
+          <div className="bg-white dark:bg-gray-900 shadow-md rounded-md p-8 md:p-10">
+            <div className="space-y-8">
+              <div>
+                <InputField
+                  label="Site Name"
+                  value={siteName}
+                  onChange={handleSiteNameChange}
+                  placeholder="Enter site name"
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-gray-700 dark:text-gray-200 mb-2">Primary Color</label>
+                <div className="flex items-center gap-4">
+                  <input
+                    type="color"
+                    value={primaryColor}
+                    onChange={handlePrimaryColorChange}
+                    className="w-12 h-12 rounded-full cursor-pointer border-none shadow-sm bg-white dark:bg-gray-900"
+                  />
+                  <span className='text-gray-700 dark:text-gray-200 font-medium'>Current Primary Color: <span className="font-bold" style={{color: primaryColor}}> {primaryColor}</span></span>
                 </div>
-
-                <div className="mt-10 pt-6 border-t border-gray-200 flex justify-end"> {/* Separated buttons with border and spacing */}
-                    <ActionButton
-                        onClick={handleSaveSettings}
-                        label="Save Settings"
-                        icon={<FontAwesomeIcon icon={faGear} className="w-4 h-4" />}
-                        variant="primary"
-                    />
-                </div>
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-gray-700 dark:text-gray-200 mb-2">Logo</label>
+                <input
+                  type="file"
+                  accept="image/*"
+                  onChange={handleLogoChange}
+                  className="mb-2 bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100"
+                />
+                {logo && (
+                  <div className="mt-2">
+                    <Image src={logo} alt="Logo Preview" className="h-12" />
+                  </div>
+                )}
+                <p className="text-gray-500 dark:text-gray-300 text-sm mt-1">Upload a logo for your dashboard (Recommended size: 100x100 pixels).</p>
+              </div>
             </div>
+            <div className="mt-10 pt-6 border-t border-gray-200 dark:border-gray-700 flex justify-end">
+              <ActionButton
+                onClick={handleSaveSettings}
+                label="Save Settings"
+                icon={<FontAwesomeIcon icon={faGear} className="w-4 h-4" />}
+                variant="primary"
+              />
+            </div>
+          </div>
         </section>
     );
 }

@@ -26,20 +26,20 @@ const Sidebar = () => {
       <button
         className={`
           fixed top-16 left-4 z-50 md:hidden
-          cursor-pointer px-2 py-1.5 bg-white rounded-full shadow-md hover:bg-gray-100 focus:outline-none
+          cursor-pointer px-2 py-1.5 bg-white dark:bg-gray-900 rounded-full shadow-md hover:bg-gray-100 dark:hover:bg-gray-800 focus:outline-none
         `}
         onClick={toggleSidebar}
         aria-label={isSidebarOpen ? 'Close Sidebar' : 'Open Sidebar'}
       >
         <FontAwesomeIcon
-          className="w-5 h-5 text-gray-600"
+          className="w-5 h-5 text-gray-600 dark:text-gray-200"
           icon={isSidebarOpen ? faArrowLeft : faBars}
         />
       </button>
       
       <aside
         className={`
-          bg-white border-r border-gray-200 pt-6
+          bg-white dark:bg-gray-900 border-r border-gray-200 dark:border-gray-700 pt-6
           transition-transform duration-300 ease-in-out
           w-64
           z-20 md:z-10
@@ -58,55 +58,55 @@ const Sidebar = () => {
           <div className="mb-4 px-2 py-1 pt-8 md:pt-0">
             <Link
               href="/"
-              className="group flex items-center p-2 rounded-md text-gray-700 hover:bg-gray-100"
+              className="group flex items-center p-2 rounded-md text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-800"
             >
               <FontAwesomeIcon
                 icon={faHouse}
-                className="mr-2 h-5 w-5 text-gray-500 transition-colors group-hover:text-blue-600"
+                className="mr-2 h-5 w-5 text-gray-500 dark:text-gray-300 transition-colors group-hover:text-blue-600 dark:group-hover:text-blue-400"
               />
               <span className="block text-sm font-medium">Home</span>
             </Link>
             
             <Link
               href="/courses"
-              className="group flex items-center p-2 rounded-md text-gray-700 hover:bg-gray-100"
+              className="group flex items-center p-2 rounded-md text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-800"
             >
               <FontAwesomeIcon
                 icon={faBook}
-                className="mr-2 h-5 w-5 text-gray-500 transition-colors group-hover:text-blue-600"
+                className="mr-2 h-5 w-5 text-gray-500 dark:text-gray-300 transition-colors group-hover:text-blue-600 dark:group-hover:text-blue-400"
               />
               <span className="block text-sm font-medium">Courses</span>
             </Link>
             
             <Link
               href="/attendance-reports"
-              className="group flex items-center p-2 rounded-md text-gray-700 hover:bg-gray-100"
+              className="group flex items-center p-2 rounded-md text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-800"
             >
               <FontAwesomeIcon
                 icon={faChartLine}
-                className="mr-2 h-5 w-5 text-gray-500 transition-colors group-hover:text-blue-600"
+                className="mr-2 h-5 w-5 text-gray-500 dark:text-gray-300 transition-colors group-hover:text-blue-600 dark:group-hover:text-blue-400"
               />
               <span className="block text-sm font-medium">Attendance</span>
             </Link>
             
             <Link
               href="/devices"
-              className="group flex items-center p-2 rounded-md text-gray-700 hover:bg-gray-100"
+              className="group flex items-center p-2 rounded-md text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-800"
             >
               <FontAwesomeIcon
                 icon={faPhone}
-                className="mr-2 h-5 w-5 text-gray-500 transition-colors group-hover:text-blue-600"
+                className="mr-2 h-5 w-5 text-gray-500 dark:text-gray-300 transition-colors group-hover:text-blue-600 dark:group-hover:text-blue-400"
               />
               <span className="block text-sm font-medium">Devices</span>
             </Link>
             
             <Link
               href="/settings"
-              className="group flex items-center p-2 rounded-md text-gray-700 hover:bg-gray-100"
+              className="group flex items-center p-2 rounded-md text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-800"
             >
               <FontAwesomeIcon
                 icon={faGear}
-                className="mr-2 h-5 w-5 text-gray-500 transition-colors group-hover:text-blue-600"
+                className="mr-2 h-5 w-5 text-gray-500 dark:text-gray-300 transition-colors group-hover:text-blue-600 dark:group-hover:text-blue-400"
               />
               <span className="block text-sm font-medium">Settings</span>
             </Link>

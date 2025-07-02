@@ -148,49 +148,49 @@ const DevicesManagementPage = () => {
   return (
       <div className="flex-1 flex flex-col overflow-hidden">
         {/* Header */}
-        <header className="bg-white border-b border-border-color p-4">
+        <header className="bg-white dark:bg-gray-900 border-b border-border-color dark:border-gray-700 p-4">
           <div className="flex justify-between items-center">
-            <div className="text-lg font-semibold">Devices</div>
+            <div className="text-lg font-semibold text-gray-900 dark:text-gray-100">Devices</div>
             <div className="relative">
               <input
                 type="text"
                 placeholder="Search devices..."
-                className="pl-9 pr-4 py-2 border border-border-color rounded-md focus:outline-none focus:ring-1 focus:ring-primary-accent w-64"
+                className="pl-9 pr-4 py-2 border border-border-color dark:border-gray-700 rounded-md focus:outline-none focus:ring-1 focus:ring-primary-accent w-64 bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100"
               />
-              <Search className="absolute left-3 top-2.5 text-gray-400" size={18} />
+              <Search className="absolute left-3 top-2.5 text-gray-400 dark:text-gray-300" size={18} />
             </div>
           </div>
         </header>
         
         {/* Content */}
-        <div className="flex-1 overflow-auto p-6">
+        <div className="flex-1 overflow-auto p-6 bg-gray-50 dark:bg-gray-950">
           {/* Actions bar */}
           <div className="flex justify-between items-center mb-6">
             <div className="flex space-x-2">
               <button 
                 onClick={() => setActiveTab('all')}
-                className={`px-4 py-2 rounded-md ${activeTab === 'all' ? 'bg-primary-accent text-white' : 'bg-white border border-border-color text-gray-600 hover:bg-gray-50'}`}>
+                className={`px-4 py-2 rounded-md ${activeTab === 'all' ? 'bg-primary-accent text-white' : 'bg-white dark:bg-gray-900 border border-border-color dark:border-gray-700 text-gray-600 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800'}`}>
                 All
               </button>
               <button 
                 onClick={() => setActiveTab('active')}
-                className={`px-4 py-2 rounded-md ${activeTab === 'active' ? 'bg-primary-accent text-white' : 'bg-white border border-border-color text-gray-600 hover:bg-gray-50'}`}>
+                className={`px-4 py-2 rounded-md ${activeTab === 'active' ? 'bg-primary-accent text-white' : 'bg-white dark:bg-gray-900 border border-border-color dark:border-gray-700 text-gray-600 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800'}`}>
                 Active
               </button>
               <button 
                 onClick={() => setActiveTab('inactive')}
-                className={`px-4 py-2 rounded-md ${activeTab === 'inactive' ? 'bg-primary-accent text-white' : 'bg-white border border-border-color text-gray-600 hover:bg-gray-50'}`}>
+                className={`px-4 py-2 rounded-md ${activeTab === 'inactive' ? 'bg-primary-accent text-white' : 'bg-white dark:bg-gray-900 border border-border-color dark:border-gray-700 text-gray-600 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800'}`}>
                 Inactive
               </button>
               <button 
                 onClick={() => setActiveTab('maintenance')}
-                className={`px-4 py-2 rounded-md ${activeTab === 'maintenance' ? 'bg-primary-accent text-white' : 'bg-white border border-border-color text-gray-600 hover:bg-gray-50'}`}>
+                className={`px-4 py-2 rounded-md ${activeTab === 'maintenance' ? 'bg-primary-accent text-white' : 'bg-white dark:bg-gray-900 border border-border-color dark:border-gray-700 text-gray-600 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800'}`}>
                 Maintenance
               </button>
             </div>
             
             <div className="flex space-x-3">
-              <button className="flex items-center px-4 py-2 bg-white border border-border-color rounded-md text-gray-600 hover:bg-gray-50">
+              <button className="flex items-center px-4 py-2 bg-white dark:bg-gray-900 border border-border-color dark:border-gray-700 rounded-md text-gray-600 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800">
                 <RefreshCw size={16} className="mr-2" />
                 Refresh Status
               </button>
@@ -204,19 +204,19 @@ const DevicesManagementPage = () => {
           {/* Devices cards */}
           <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-6">
             {filteredDevices.map(device => (
-              <div key={device.id} className="bg-white rounded-lg border border-border-color overflow-hidden hover:border-primary-accent transition-colors">
+              <div key={device.id} className="bg-white dark:bg-gray-900 rounded-lg border border-border-color dark:border-gray-700 overflow-hidden hover:border-primary-accent transition-colors">
                 <div className="p-5">
                   <div className="flex justify-between items-start">
                     <div>
                       <div className="flex items-center">
-                        <h2 className="font-bold text-lg">{device.name}</h2>
+                        <h2 className="font-bold text-lg text-gray-900 dark:text-gray-100">{device.name}</h2>
                         <div className="ml-2">
                           {renderStatusBadge(device.status)}
                         </div>
                       </div>
-                      <div className="text-sm text-gray-500 mt-1">{device.id} • {device.type}</div>
+                      <div className="text-sm text-gray-500 dark:text-gray-400 mt-1">{device.id} • {device.type}</div>
                     </div>
-                    <button className="text-gray-400 hover:text-gray-600">
+                    <button className="text-gray-400 dark:text-gray-300 hover:text-gray-600 dark:hover:text-gray-100">
                       <MoreVertical size={16} />
                     </button>
                   </div>
@@ -265,11 +265,11 @@ const DevicesManagementPage = () => {
                   )}
                 </div>
                 
-                <div className="border-t border-border-color p-4 bg-gray-50 flex justify-between items-center">
-                  <a href={`/devices/${device.id}/status`} className="text-primary-accent hover:underline text-sm">
+                <div className="border-t border-border-color dark:border-gray-700 p-4 bg-gray-50 dark:bg-gray-950 flex justify-between items-center">
+                  <a href={`/devices/${device.id}/status`} className="text-primary-accent dark:text-blue-400 hover:underline text-sm">
                     Check Status
                   </a>
-                  <a href={`/devices/${device.id}`} className="flex items-center text-primary-accent hover:underline text-sm">
+                  <a href={`/devices/${device.id}`} className="flex items-center text-primary-accent dark:text-blue-400 hover:underline text-sm">
                     View Details
                     <ChevronRight size={16} className="ml-1" />
                   </a>
@@ -278,7 +278,7 @@ const DevicesManagementPage = () => {
             ))}
             
             {/* Add new device card */}
-            <div className="border-2 border-dashed border-border-color rounded-lg flex flex-col items-center justify-center p-10 text-gray-400 hover:border-primary-accent hover:text-primary-accent cursor-pointer">
+            <div className="border-2 border-dashed border-border-color dark:border-gray-700 rounded-lg flex flex-col items-center justify-center p-10 text-gray-400 dark:text-gray-500 hover:border-primary-accent hover:text-primary-accent cursor-pointer">
               <Plus size={32} className="mb-2" />
               <div className="font-medium">Add New Device</div>
             </div>

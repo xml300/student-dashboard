@@ -1,15 +1,23 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --background: #f8f9fa;
+  --foreground: #212529;
+  --card-background: #ffffff;
+  --primary-accent: #007bff;
+  --secondary-accent: #f3b300;
+  --border-color: #dee2e6;
+  --font-family: 'Poppins';
+}
 
-  --color-1: #d9d9d9;
-  --color-2: #1461ff;
-  --color-3: #f3b300;
-
-  --border-color: #706767;
-  --font-family: 'Poppins'; 
+[data-theme="dark"] {
+  --background: #121212;
+  --foreground: #e9ecef;
+  --card-background: #1e1e1e;
+  --primary-accent: #3b82f6;
+  --secondary-accent: #fbbf24;
+  --border-color: #495057;
+  --font-family: 'Poppins';
 }
 
 @theme inline {
@@ -43,5 +51,3 @@
         @apply rounded-md border border-border-color focus:ring-primary-accent focus:outline-none focus:ring-2 transition-shadow duration-200; /* Consistent form element styling */
     }
 }
-
-
