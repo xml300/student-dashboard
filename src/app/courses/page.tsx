@@ -1,6 +1,7 @@
 "use client";
 import React, { useState } from 'react';
 import { Search, ChevronRight, MoreVertical, Filter, Plus } from 'lucide-react';
+import Link from 'next/link';
 
 const CoursesPage = () => {
   const [activeTab, setActiveTab] = useState('active');
@@ -71,44 +72,44 @@ const CoursesPage = () => {
   return ( 
       <div className="flex-1 flex flex-col overflow-hidden">
         {/* Header */}
-        <header className="bg-white dark:bg-gray-900 border-b border-border-color dark:border-gray-700 p-4">
+        <header className="bg-card-background border-b border-border-color p-4">
           <div className="flex justify-between items-center">
-            <div className="text-lg font-semibold text-gray-900 dark:text-gray-100">Courses</div>
+            <div className="text-lg font-semibold text-foreground">Courses</div>
             <div className="relative">
               <input
                 type="text"
                 placeholder="Search courses..."
-                className="pl-9 pr-4 py-2 border border-border-color dark:border-gray-700 rounded-md focus:outline-none focus:ring-1 focus:ring-primary-accent w-64 bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100"
+                className="pl-9 pr-4 py-2 border border-border-color rounded-md focus:outline-none focus:ring-1 focus:ring-primary-accent w-64 bg-background text-foreground"
               />
-              <Search className="absolute left-3 top-2.5 text-gray-400 dark:text-gray-300" size={18} />
+              <Search className="absolute left-3 top-2.5 text-foreground/60" size={18} />
             </div>
           </div>
         </header>
         
         {/* Content */}
-        <div className="flex-1 overflow-auto p-6 bg-gray-50 dark:bg-gray-950">
+        <div className="flex-1 overflow-auto p-6 bg-background">
           {/* Actions bar */}
           <div className="flex justify-between items-center mb-6">
             <div className="flex space-x-2">
               <button 
                 onClick={() => setActiveTab('active')}
-                className={`px-4 py-2 rounded-md ${activeTab === 'active' ? 'bg-primary-accent text-white' : 'bg-white dark:bg-gray-900 border border-border-color dark:border-gray-700 text-gray-600 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800'}`}>
+                className={`px-4 py-2 rounded-md ${activeTab === 'active' ? 'bg-primary-accent text-white' : 'bg-card-background border border-border-color text-foreground/80 hover:bg-foreground/5'}`}>
                 Active
               </button>
               <button 
                 onClick={() => setActiveTab('archived')}
-                className={`px-4 py-2 rounded-md ${activeTab === 'archived' ? 'bg-primary-accent text-white' : 'bg-white dark:bg-gray-900 border border-border-color dark:border-gray-700 text-gray-600 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800'}`}>
+                className={`px-4 py-2 rounded-md ${activeTab === 'archived' ? 'bg-primary-accent text-white' : 'bg-card-background border border-border-color text-foreground/80 hover:bg-foreground/5'}`}>
                 Archived
               </button>
               <button 
                 onClick={() => setActiveTab('all')}
-                className={`px-4 py-2 rounded-md ${activeTab === 'all' ? 'bg-primary-accent text-white' : 'bg-white dark:bg-gray-900 border border-border-color dark:border-gray-700 text-gray-600 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800'}`}>
+                className={`px-4 py-2 rounded-md ${activeTab === 'all' ? 'bg-primary-accent text-white' : 'bg-card-background border border-border-color text-foreground/80 hover:bg-foreground/5'}`}>
                 All
               </button>
             </div>
             
             <div className="flex space-x-3">
-              <button className="flex items-center px-4 py-2 bg-white dark:bg-gray-900 border border-border-color dark:border-gray-700 rounded-md text-gray-600 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800">
+              <button className="flex items-center px-4 py-2 bg-card-background border border-border-color rounded-md text-foreground/80 hover:bg-foreground/5">
                 <Filter size={16} className="mr-2" />
                 Filter
               </button>
@@ -122,64 +123,64 @@ const CoursesPage = () => {
           {/* Course cards */}
           <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-6">
             {filteredCourses.map(course => (
-              <div key={course.id} className="bg-white dark:bg-gray-900 rounded-lg border border-border-color dark:border-gray-700 overflow-hidden hover:border-primary-accent transition-colors">
+              <div key={course.id} className="flex flex-col justify-between bg-card-background rounded-lg border border-border-color overflow-hidden hover:border-primary-accent transition-colors">
                 <div className="p-5">
-                  <div className="flex justify-between items-start">
+                  <div className="flex justify-between items-start space-x-2">
                     <div>
-                      <h2 className="font-bold text-lg text-gray-900 dark:text-gray-100 mb-1">{course.title}</h2>
-                      <div className="text-sm text-gray-500 dark:text-gray-400">{course.id} • {course.semester}</div>
+                      <h2 className="font-bold text-lg text-foreground mb-1">{course.title}</h2>
+                      <div className="text-sm text-foreground/80">{course.id} • {course.semester}</div>
                     </div>
-                    <button className="text-gray-400 dark:text-gray-300 hover:text-gray-600 dark:hover:text-gray-100">
-                      <MoreVertical size={16} />
+                    <button className="border-none text-foreground/60 hover:text-foreground">
+                      <MoreVertical size={20} />
                     </button>
                   </div>
                   
                   <div className="mt-4 grid grid-cols-3 gap-2 text-sm">
                     <div>
-                      <div className="text-gray-500">Students</div>
+                      <div className="text-foreground/80">Students</div>
                       
                     </div>
                     <div>
-                      <div className="text-gray-500">Rooms</div>
+                      <div className="text-foreground/80">Rooms</div>
                       <div className="font-medium">{course.rooms}</div>
                     </div>
                     <div>
-                      <div className="text-gray-500">Devices</div>
+                      <div className="text-foreground/80">Devices</div>
                       <div className="font-medium">{course.devices}</div>
                     </div>
                   </div>
                   
                   <div className="mt-4">
-                    <div className="text-sm text-gray-500">Next Session</div>
+                    <div className="text-sm text-foreground/80">Next Session</div>
                     <div className="font-medium">{course.nextSession}</div>
                   </div>
                   
                   <div className="mt-4 flex items-center">
                     <div className="font-medium mr-2">Attendance Rate:</div>
                     <span className={`px-2 py-1 rounded-full text-xs ${
-                      parseFloat(course.attendanceRate) >= 90 ? 'bg-green-100 text-green-800' : 
-                      parseFloat(course.attendanceRate) >= 80 ? 'bg-yellow-100 text-yellow-800' : 
-                      'bg-red-100 text-red-800'
+                      parseFloat(course.attendanceRate) >= 90 ? 'bg-green-500/10 text-green-500' : 
+                      parseFloat(course.attendanceRate) >= 80 ? 'bg-yellow-500/10 text-yellow-500' : 
+                      'bg-red-500/10 text-red-500'
                     }`}>
                       {course.attendanceRate}
                     </span>
                   </div>
                 </div>
                 
-                <div className="border-t border-border-color p-4 bg-gray-50 flex justify-between items-center">
-                  <a href={`/courses/${course.id}/attendance`} className="text-primary-accent hover:underline text-sm">
+                <div className="border-t border-border-color p-4 bg-foreground/5 flex justify-between items-center">
+                  <Link href={`/courses/${course.id}/attendance`} className="text-primary-accent hover:underline text-sm">
                     Take Attendance
-                  </a>
-                  <a href={`/courses/${course.id}`} className="flex items-center text-primary-accent hover:underline text-sm">
+                  </Link>
+                  <Link href={`/courses/${course.id}`} className="flex items-center text-primary-accent hover:underline text-sm">
                     View Details
                     <ChevronRight size={16} className="ml-1" />
-                  </a>
+                  </Link>
                 </div>
               </div>
             ))}
             
             {/* Add new course card */}
-            <div className="border-2 border-dashed border-border-color rounded-lg flex flex-col items-center justify-center p-10 text-gray-400 hover:border-primary-accent hover:text-primary-accent cursor-pointer">
+            <div className="border-2 border-dashed border-border-color rounded-lg flex flex-col items-center justify-center p-10 text-foreground/60 hover:border-primary-accent hover:text-primary-accent cursor-pointer">
               <Plus size={32} className="mb-2" />
               <div className="font-medium">Add New Course</div>
             </div>

@@ -1,6 +1,7 @@
 "use client";
 import React, { useState } from 'react';
 import { Search, Wifi, Battery, ChevronRight, MoreVertical,  Plus, RefreshCw, CheckCircle, XCircle, AlertTriangle } from 'lucide-react';
+import Link from 'next/link';
 
 const DevicesManagementPage = () => {
   const [activeTab, setActiveTab] = useState('all');
@@ -88,28 +89,28 @@ const DevicesManagementPage = () => {
     switch(status) {
       case 'active':
         return (
-          <span className="flex items-center text-xs px-2 py-1 rounded-full bg-green-100 text-green-800">
+          <span className="flex items-center text-xs px-2 py-1 rounded-full bg-green-500/10 text-green-500">
             <CheckCircle size={12} className="mr-1" />
             Active
           </span>
         );
       case 'inactive':
         return (
-          <span className="flex items-center text-xs px-2 py-1 rounded-full bg-gray-100 text-gray-800">
+          <span className="flex items-center text-xs px-2 py-1 rounded-full bg-foreground/10 text-foreground/80">
             <XCircle size={12} className="mr-1" />
             Inactive
           </span>
         );
       case 'maintenance':
         return (
-          <span className="flex items-center text-xs px-2 py-1 rounded-full bg-yellow-100 text-yellow-800">
+          <span className="flex items-center text-xs px-2 py-1 rounded-full bg-yellow-500/10 text-yellow-500">
             <AlertTriangle size={12} className="mr-1" />
             Maintenance
           </span>
         );
       default:
         return (
-          <span className="flex items-center text-xs px-2 py-1 rounded-full bg-gray-100 text-gray-800">
+          <span className="flex items-center text-xs px-2 py-1 rounded-full bg-foreground/10 text-foreground/80">
             {status}
           </span>
         );
@@ -120,22 +121,22 @@ const DevicesManagementPage = () => {
   const renderWifiStrength = (strength: string) => {
     switch(strength) {
       case 'strong':
-        return <Wifi size={16} className="text-green-600" />;
+        return <Wifi size={16} className="text-green-500" />;
       case 'medium':
-        return <Wifi size={16} className="text-yellow-600" />;
+        return <Wifi size={16} className="text-yellow-500" />;
       case 'weak':
-        return <Wifi size={16} className="text-red-600" />;
+        return <Wifi size={16} className="text-red-500" />;
       default:
-        return <Wifi size={16} className="text-gray-400" />;
+        return <Wifi size={16} className="text-foreground/60" />;
     }
   };
 
   // Helper function to render battery level
   const renderBatteryLevel = (level: number) => {
-    let color = "text-gray-400";
-    if (level >= 70) color = "text-green-600";
-    else if (level >= 30) color = "text-yellow-600";
-    else color = "text-red-600";
+    let color = "text-foreground/60";
+    if (level >= 70) color = "text-green-500";
+    else if (level >= 30) color = "text-yellow-500";
+    else color = "text-red-500";
 
     return (
       <div className="flex items-center">
@@ -148,49 +149,49 @@ const DevicesManagementPage = () => {
   return (
       <div className="flex-1 flex flex-col overflow-hidden">
         {/* Header */}
-        <header className="bg-white dark:bg-gray-900 border-b border-border-color dark:border-gray-700 p-4">
+        <header className="bg-card-background border-b border-border-color p-4">
           <div className="flex justify-between items-center">
-            <div className="text-lg font-semibold text-gray-900 dark:text-gray-100">Devices</div>
+            <div className="text-lg font-semibold text-foreground">Devices</div>
             <div className="relative">
               <input
                 type="text"
                 placeholder="Search devices..."
-                className="pl-9 pr-4 py-2 border border-border-color dark:border-gray-700 rounded-md focus:outline-none focus:ring-1 focus:ring-primary-accent w-64 bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100"
+                className="pl-9 pr-4 py-2 border border-border-color rounded-md focus:outline-none focus:ring-1 focus:ring-primary-accent w-64 bg-background text-foreground"
               />
-              <Search className="absolute left-3 top-2.5 text-gray-400 dark:text-gray-300" size={18} />
+              <Search className="absolute left-3 top-2.5 text-foreground/60" size={18} />
             </div>
           </div>
         </header>
         
         {/* Content */}
-        <div className="flex-1 overflow-auto p-6 bg-gray-50 dark:bg-gray-950">
+        <div className="flex-1 overflow-auto p-6 bg-background">
           {/* Actions bar */}
           <div className="flex justify-between items-center mb-6">
             <div className="flex space-x-2">
               <button 
                 onClick={() => setActiveTab('all')}
-                className={`px-4 py-2 rounded-md ${activeTab === 'all' ? 'bg-primary-accent text-white' : 'bg-white dark:bg-gray-900 border border-border-color dark:border-gray-700 text-gray-600 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800'}`}>
+                className={`px-4 py-2 rounded-md ${activeTab === 'all' ? 'bg-primary-accent text-white' : 'bg-card-background border border-border-color text-foreground/80 hover:bg-foreground/5'}`}>
                 All
               </button>
               <button 
                 onClick={() => setActiveTab('active')}
-                className={`px-4 py-2 rounded-md ${activeTab === 'active' ? 'bg-primary-accent text-white' : 'bg-white dark:bg-gray-900 border border-border-color dark:border-gray-700 text-gray-600 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800'}`}>
+                className={`px-4 py-2 rounded-md ${activeTab === 'active' ? 'bg-primary-accent text-white' : 'bg-card-background border border-border-color text-foreground/80 hover:bg-foreground/5'}`}>
                 Active
               </button>
               <button 
                 onClick={() => setActiveTab('inactive')}
-                className={`px-4 py-2 rounded-md ${activeTab === 'inactive' ? 'bg-primary-accent text-white' : 'bg-white dark:bg-gray-900 border border-border-color dark:border-gray-700 text-gray-600 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800'}`}>
+                className={`px-4 py-2 rounded-md ${activeTab === 'inactive' ? 'bg-primary-accent text-white' : 'bg-card-background border border-border-color text-foreground/80 hover:bg-foreground/5'}`}>
                 Inactive
               </button>
               <button 
                 onClick={() => setActiveTab('maintenance')}
-                className={`px-4 py-2 rounded-md ${activeTab === 'maintenance' ? 'bg-primary-accent text-white' : 'bg-white dark:bg-gray-900 border border-border-color dark:border-gray-700 text-gray-600 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800'}`}>
+                className={`px-4 py-2 rounded-md ${activeTab === 'maintenance' ? 'bg-primary-accent text-white' : 'bg-card-background border border-border-color text-foreground/80 hover:bg-foreground/5'}`}>
                 Maintenance
               </button>
             </div>
             
             <div className="flex space-x-3">
-              <button className="flex items-center px-4 py-2 bg-white dark:bg-gray-900 border border-border-color dark:border-gray-700 rounded-md text-gray-600 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800">
+              <button className="flex items-center px-4 py-2 bg-card-background border border-border-color rounded-md text-foreground/80 hover:bg-foreground/5">
                 <RefreshCw size={16} className="mr-2" />
                 Refresh Status
               </button>
@@ -204,42 +205,42 @@ const DevicesManagementPage = () => {
           {/* Devices cards */}
           <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-6">
             {filteredDevices.map(device => (
-              <div key={device.id} className="bg-white dark:bg-gray-900 rounded-lg border border-border-color dark:border-gray-700 overflow-hidden hover:border-primary-accent transition-colors">
+              <div key={device.id} className="bg-card-background rounded-lg border border-border-color overflow-hidden hover:border-primary-accent transition-colors">
                 <div className="p-5">
                   <div className="flex justify-between items-start">
                     <div>
                       <div className="flex items-center">
-                        <h2 className="font-bold text-lg text-gray-900 dark:text-gray-100">{device.name}</h2>
+                        <h2 className="font-bold text-lg text-foreground">{device.name}</h2>
                         <div className="ml-2">
                           {renderStatusBadge(device.status)}
                         </div>
                       </div>
-                      <div className="text-sm text-gray-500 dark:text-gray-400 mt-1">{device.id} • {device.type}</div>
+                      <div className="text-sm text-foreground/80 mt-1">{device.id} • {device.type}</div>
                     </div>
-                    <button className="text-gray-400 dark:text-gray-300 hover:text-gray-600 dark:hover:text-gray-100">
-                      <MoreVertical size={16} />
+                    <button className="text-foreground/60 hover:text-foreground">
+                      <MoreVertical size={20} />
                     </button>
                   </div>
                   
                   <div className="mt-4 flex items-center">
-                    <div className="text-sm text-gray-500 mr-4">Room:</div>
+                    <div className="text-sm text-foreground/80 mr-4">Room:</div>
                     <div className="font-medium">{device.room || 'Unassigned'}</div>
                   </div>
                   
                   <div className="mt-3 flex items-center">
-                    <div className="text-sm text-gray-500 mr-4">Model:</div>
+                    <div className="text-sm text-foreground/80 mr-4">Model:</div>
                     <div>{device.model}</div>
                   </div>
                   
                   <div className="mt-4 grid grid-cols-2 gap-4">
                     <div>
-                      <div className="text-sm text-gray-500">Battery</div>
+                      <div className="text-sm text-foreground/80">Battery</div>
                       <div className="font-medium flex items-center mt-1">
                         {renderBatteryLevel(device.battery)}
                       </div>
                     </div>
                     <div>
-                      <div className="text-sm text-gray-500">WiFi</div>
+                      <div className="text-sm text-foreground/80">WiFi</div>
                       <div className="font-medium flex items-center mt-1">
                         {renderWifiStrength(device.wifiStrength)}
                       </div>
@@ -247,13 +248,13 @@ const DevicesManagementPage = () => {
                   </div>
                   
                   <div className="mt-4">
-                    <div className="text-sm text-gray-500">Last Sync</div>
+                    <div className="text-sm text-foreground/80">Last Sync</div>
                     <div className="font-medium">{device.lastSync}</div>
                   </div>
                   
                   {device.assignedCourses.length > 0 && (
                     <div className="mt-4">
-                      <div className="text-sm text-gray-500 mb-1">Assigned Courses</div>
+                      <div className="text-sm text-foreground/80 mb-1">Assigned Courses</div>
                       <div className="flex flex-wrap gap-1">
                         {device.assignedCourses.map(course => (
                           <span key={course} className="px-2 py-1 bg-primary-accent/10 text-primary-accent rounded text-xs">
@@ -265,20 +266,20 @@ const DevicesManagementPage = () => {
                   )}
                 </div>
                 
-                <div className="border-t border-border-color dark:border-gray-700 p-4 bg-gray-50 dark:bg-gray-950 flex justify-between items-center">
-                  <a href={`/devices/${device.id}/status`} className="text-primary-accent dark:text-blue-400 hover:underline text-sm">
+                <div className="border-t border-border-color p-4 bg-foreground/5 flex justify-between items-center">
+                  <Link href={`/devices/${device.id}/status`} className="text-primary-accent hover:underline text-sm">
                     Check Status
-                  </a>
-                  <a href={`/devices/${device.id}`} className="flex items-center text-primary-accent dark:text-blue-400 hover:underline text-sm">
+                  </Link>
+                  <Link href={`/devices/${device.id}`} className="flex items-center text-primary-accent hover:underline text-sm">
                     View Details
                     <ChevronRight size={16} className="ml-1" />
-                  </a>
+                  </Link>
                 </div>
               </div>
             ))}
             
             {/* Add new device card */}
-            <div className="border-2 border-dashed border-border-color dark:border-gray-700 rounded-lg flex flex-col items-center justify-center p-10 text-gray-400 dark:text-gray-500 hover:border-primary-accent hover:text-primary-accent cursor-pointer">
+            <div className="border-2 border-dashed border-border-color rounded-lg flex flex-col items-center justify-center p-10 text-foreground/60 hover:border-primary-accent hover:text-primary-accent cursor-pointer">
               <Plus size={32} className="mb-2" />
               <div className="font-medium">Add New Device</div>
             </div>

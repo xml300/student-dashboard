@@ -73,7 +73,7 @@ export default function RootLayout({
                 <span className="absolute top-0 right-0 block h-2 w-2 rounded-full bg-secondary-accent dark:bg-yellow-400"></span>
               </div>
               <div className="flex items-center">
-                <a href="/profile" className="flex items-center">
+                <Link href="/profile" className="flex items-center">
                   <Image
                     src="/api/placeholder/40/40"
                     width={40}
@@ -82,7 +82,7 @@ export default function RootLayout({
                     className="w-8 h-8 rounded-full mr-2 border border-border-color dark:border-gray-700"
                   />
                   <span className="font-medium text-gray-900 dark:text-gray-100">Dr. Jane Smith</span>
-                </a>
+                </Link>
               </div>
             </div>
           </header>

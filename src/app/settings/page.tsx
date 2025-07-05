@@ -9,8 +9,8 @@ import Image from "next/image";
 // Mock components (assuming these are in your project)
 const PageHeading = ({ title, description }: { title: string; description: string }) => (
   <div className="mb-6">
-    <h1 className="text-2xl font-semibold text-gray-900 dark:text-gray-100">{title}</h1>
-    <p className="text-gray-500 dark:text-gray-300">{description}</p>
+    <h1 className="text-2xl font-semibold text-foreground">{title}</h1>
+    <p className="text-foreground/80">{description}</p>
   </div>
 );
 
@@ -36,9 +36,9 @@ const ActionButton = ({
     const sizeClasses = size === 'small' ? 'px-3 py-1.5 text-xs' : 'px-4 py-2 text-sm';
     let variantClasses = '';
     if (variant === "primary") {
-        variantClasses = "text-white shadow-sm";
+        variantClasses = "text-white shadow-sm bg-primary-accent hover:bg-primary-accent/90";
     } else if (variant === "secondary") {
-        variantClasses = "text-gray-700 shadow-sm";
+        variantClasses = "text-foreground bg-card-background border border-border-color shadow-sm hover:bg-foreground/5";
     } else if (variant === "danger") {
         variantClasses = "text-white bg-red-500 hover:bg-red-600 focus:ring-red-500";
     }
@@ -69,13 +69,13 @@ const InputField = ({
   type?: string;
   className?: string;
 }) => {
-  let baseClasses = "block w-full px-4 py-2 border border-gray-300 dark:border-gray-700 rounded-md shadow-sm focus:outline-none focus:ring-primary-500 focus:border-primary-500 sm:text-sm bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100";
+  let baseClasses = "block w-full px-4 py-2 border border-border-color rounded-md shadow-sm focus:outline-none focus:ring-primary-500 focus:border-primary-500 sm:text-sm bg-background text-foreground";
   if (className) {
     baseClasses += " " + className;
   }
   return (
     <div>
-      <label className="block text-sm font-medium text-gray-700 dark:text-gray-200 mb-2">{label}</label>
+      <label className="block text-sm font-medium text-foreground/80 mb-2">{label}</label>
       <input
         type={type}
         value={value}
@@ -128,7 +128,7 @@ export default function SettingsPage() {
     return (
         <section className="space-y-6">
           <PageHeading title="Settings" description="Customize your dashboard settings" />
-          <div className="bg-white dark:bg-gray-900 shadow-md rounded-md p-8 md:p-10">
+          <div className="bg-card-background shadow-md rounded-md p-8 md:p-10">
             <div className="space-y-8">
               <div>
                 <InputField
@@ -139,34 +139,34 @@ export default function SettingsPage() {
                 />
               </div>
               <div>
-                <label className="block text-sm font-medium text-gray-700 dark:text-gray-200 mb-2">Primary Color</label>
+                <label className="block text-sm font-medium text-foreground/80 mb-2">Primary Color</label>
                 <div className="flex items-center gap-4">
                   <input
                     type="color"
                     value={primaryColor}
                     onChange={handlePrimaryColorChange}
-                    className="w-12 h-12 rounded-full cursor-pointer border-none shadow-sm bg-white dark:bg-gray-900"
+                    className="w-12 h-12 rounded-full cursor-pointer border-none shadow-sm bg-background"
                   />
-                  <span className='text-gray-700 dark:text-gray-200 font-medium'>Current Primary Color: <span className="font-bold" style={{color: primaryColor}}> {primaryColor}</span></span>
+                  <span className='text-foreground/80 font-medium'>Current Primary Color: <span className="font-bold" style={{color: primaryColor}}> {primaryColor}</span></span>
                 </div>
               </div>
               <div>
-                <label className="block text-sm font-medium text-gray-700 dark:text-gray-200 mb-2">Logo</label>
+                <label className="block text-sm font-medium text-foreground/80 mb-2">Logo</label>
                 <input
                   type="file"
                   accept="image/*"
                   onChange={handleLogoChange}
-                  className="mb-2 bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100"
+                  className="mb-2 bg-background text-foreground"
                 />
                 {logo && (
                   <div className="mt-2">
                     <Image src={logo} alt="Logo Preview" className="h-12" />
                   </div>
                 )}
-                <p className="text-gray-500 dark:text-gray-300 text-sm mt-1">Upload a logo for your dashboard (Recommended size: 100x100 pixels).</p>
+                <p className="text-foreground/80 text-sm mt-1">Upload a logo for your dashboard (Recommended size: 100x100 pixels).</p>
               </div>
             </div>
-            <div className="mt-10 pt-6 border-t border-gray-200 dark:border-gray-700 flex justify-end">
+            <div className="mt-10 pt-6 border-t border-border-color flex justify-end">
               <ActionButton
                 onClick={handleSaveSettings}
                 label="Save Settings"

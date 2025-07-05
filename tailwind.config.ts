@@ -10,10 +10,11 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        background: 'var(--color-1)',
+        background: 'var(--background)',
         foreground: 'var(--foreground)',
-        'primary-accent': 'var(--color-2)',
-        'secondary-accent': 'var(--color-3)',
+        'card-background': 'var(--card-background)',
+        'primary-accent': 'var(--primary-accent)',
+        'secondary-accent': 'var(--secondary-accent)',
         'border-color': 'var(--border-color)',
       },
     },

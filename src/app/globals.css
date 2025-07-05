@@ -22,9 +22,9 @@
 
 @theme inline {
   --color-foreground: var(--foreground);
-  --color-background: var(--color-1);
-  --color-primary-accent: var(--color-2);
-  --color-secondary-accent: var(--color-3);
+  --color-background: var(--background);
+  --color-primary-accent: var(--primary-accent);
+  --color-secondary-accent: var(--secondary-accent);
   --color-border-color: var(--border-color);
   
   --font-sans: var(--font-family);
@@ -46,8 +46,7 @@
     /* Basic form element styling - you can extend this */
     input,
     textarea,
-    select,
-    button {
+    select {
         @apply rounded-md border border-border-color focus:ring-primary-accent focus:outline-none focus:ring-2 transition-shadow duration-200; /* Consistent form element styling */
     }
 }

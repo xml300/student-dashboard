@@ -103,19 +103,19 @@ export default function RoomsPage() {
             />
 
             {/* Filters Section - Expanded */}
-            <div className="bg-white p-6 rounded-xl shadow-md mb-8">
+            <div className="bg-card-background p-6 rounded-xl shadow-md mb-8">
                 <div className="grid grid-cols-1 md:grid-cols-4 lg:grid-cols-5 gap-6"> {/* 1. Increased Grid Columns */}
                     <div>
-                        <label htmlFor="room-search" className="block text-sm font-medium text-gray-700 mb-2">Search Rooms</label>
+                        <label htmlFor="room-search" className="block text-sm font-medium text-foreground/80 mb-2">Search Rooms</label>
                         <div className="relative rounded-md shadow-sm">
                             <div className="pointer-events-none absolute inset-y-0 left-0 pl-3 flex items-center">
-                                <FontAwesomeIcon icon={faSearch} className="h-5 w-5 text-gray-400" />
+                                <FontAwesomeIcon icon={faSearch} className="h-5 w-5 text-foreground/60" />
                             </div>
                             <input
                                 type="text"
                                 name="room-search"
                                 id="room-search"
-                                className="block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-md focus:ring-primary-500 focus:border-primary-500 sm:text-sm"
+                                className="block w-full pl-10 pr-3 py-2 border border-border-color rounded-md focus:ring-primary-500 focus:border-primary-500 sm:text-sm bg-background"
                                 placeholder="Search room name..."
                                 value={searchQuery}
                                 onChange={(e) => debouncedSearch(e.target.value)}
@@ -124,15 +124,15 @@ export default function RoomsPage() {
                     </div>
 
                     <div>
-                        <label htmlFor="type-filter" className="block text-sm font-medium text-gray-700 mb-2">Filter by Type</label>
+                        <label htmlFor="type-filter" className="block text-sm font-medium text-foreground/80 mb-2">Filter by Type</label>
                         <div className="relative rounded-md shadow-sm">
                             <div className="pointer-events-none absolute inset-y-0 left-0 pl-3 flex items-center">
-                                <FontAwesomeIcon icon={faFilter} className="h-5 w-5 text-gray-400" />
+                                <FontAwesomeIcon icon={faFilter} className="h-5 w-5 text-foreground/60" />
                             </div>
                             <select
                                 id="type-filter"
                                 name="type-filter"
-                                className="block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-md focus:ring-primary-500 focus:border-primary-500 sm:text-sm appearance-none"
+                                className="block w-full pl-10 pr-3 py-2 border border-border-color rounded-md focus:ring-primary-500 focus:border-primary-500 sm:text-sm appearance-none bg-background"
                                 value={roomTypeFilter}
                                 onChange={handleRoomTypeFilterChange}
                             >
@@ -141,22 +141,22 @@ export default function RoomsPage() {
                                     <option key={type} value={type}>{type}</option>
                                 ))}
                             </select>
-                            <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
+                            <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-foreground/80">
                                 <svg className="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clipRule="evenodd" fillRule="evenodd"></path></svg>
                             </div>
                         </div>
                     </div>
 
                     <div>
-                        <label htmlFor="capacity-filter" className="block text-sm font-medium text-gray-700 mb-2">Max Capacity</label> {/* Changed label */}
+                        <label htmlFor="capacity-filter" className="block text-sm font-medium text-foreground/80 mb-2">Max Capacity</label> {/* Changed label */}
                         <div className="relative rounded-md shadow-sm">
                             <div className="pointer-events-none absolute inset-y-0 left-0 pl-3 flex items-center">
-                                <FontAwesomeIcon icon={faUsers} className="h-5 w-5 text-gray-400" /> {/* Capacity Icon */}
+                                <FontAwesomeIcon icon={faUsers} className="h-5 w-5 text-foreground/60" /> {/* Capacity Icon */}
                             </div>
                             <select
                                 id="capacity-filter"
                                 name="capacity-filter"
-                                className="block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-md focus:ring-primary-500 focus:border-primary-500 sm:text-sm appearance-none"
+                                className="block w-full pl-10 pr-3 py-2 border border-border-color rounded-md focus:ring-primary-500 focus:border-primary-500 sm:text-sm appearance-none bg-background"
                                 value={capacityFilter}
                                 onChange={handleCapacityFilterChange}
                             >
@@ -168,22 +168,22 @@ export default function RoomsPage() {
                                 <option value="200">Up to 200 Seats</option>
                                 {/* Add more capacity ranges as needed */}
                             </select>
-                            <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
+                            <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-foreground/80">
                                 <svg className="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clipRule="evenodd" fillRule="evenodd"></path></svg>
                             </div>
                         </div>
                     </div>
 
                     <div>
-                        <label htmlFor="availability-filter" className="block text-sm font-medium text-gray-700 mb-2">Availability</label>
+                        <label htmlFor="availability-filter" className="block text-sm font-medium text-foreground/80 mb-2">Availability</label>
                         <div className="relative rounded-md shadow-sm">
                             <div className="pointer-events-none absolute inset-y-0 left-0 pl-3 flex items-center">
-                                <FontAwesomeIcon icon={faFilter} className="h-5 w-5 text-gray-400" />
+                                <FontAwesomeIcon icon={faFilter} className="h-5 w-5 text-foreground/60" />
                             </div>
                             <select
                                 id="availability-filter"
                                 name="availability-filter"
-                                className="block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-md focus:ring-primary-500 focus:border-primary-500 sm:text-sm appearance-none"
+                                className="block w-full pl-10 pr-3 py-2 border border-border-color rounded-md focus:ring-primary-500 focus:border-primary-500 sm:text-sm appearance-none bg-background"
                                 value={availabilityFilter}
                                 onChange={handleAvailabilityFilterChange}
                             >
@@ -192,40 +192,40 @@ export default function RoomsPage() {
                                     <option key={status} value={status}>{status}</option>
                                 ))}
                             </select>
-                            <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
+                            <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-foreground/80">
                                 <svg className="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clipRule="evenodd" fillRule="evenodd"></path></svg>
                             </div>
                         </div>
                     </div>
 
                     <div>
-                        <label className="block text-sm font-medium text-gray-700 mb-2">Features</label>
+                        <label className="block text-sm font-medium text-foreground/80 mb-2">Features</label>
                         <div className="space-y-1"> {/* Vertical spacing for checkboxes */}
                             {uniqueFeatures.map((feature) => (
                                 <div key={feature} className="flex items-center">
                                     <input
                                         id={`feature-${feature}`}
                                         type="checkbox"
-                                        className="form-checkbox h-4 w-4 text-primary-500 focus:ring-primary-500 border-gray-300 rounded"
+                                        className="form-checkbox h-4 w-4 text-primary-500 focus:ring-primary-500 border-border-color rounded"
                                         checked={featuresFilter.includes(feature)}
                                         onChange={(e) => handleFeaturesFilterChange(feature, e.target.checked)}
                                     />
-                                    <label htmlFor={`feature-${feature}`} className="ml-2 text-sm text-gray-700">{feature}</label>
+                                    <label htmlFor={`feature-${feature}`} className="ml-2 text-sm text-foreground/80">{feature}</label>
                                 </div>
                             ))}
                         </div>
                     </div>
 
                     <div>
-                        <label htmlFor="building-filter" className="block text-sm font-medium text-gray-700 mb-2">Building</label>
+                        <label htmlFor="building-filter" className="block text-sm font-medium text-foreground/80 mb-2">Building</label>
                         <div className="relative rounded-md shadow-sm">
                             <div className="pointer-events-none absolute inset-y-0 left-0 pl-3 flex items-center">
-                                <FontAwesomeIcon icon={faBuilding} className="h-5 w-5 text-gray-400" />
+                                <FontAwesomeIcon icon={faBuilding} className="h-5 w-5 text-foreground/60" />
                             </div>
                             <select
                                 id="building-filter"
                                 name="building-filter"
-                                className="block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-md focus:ring-primary-500 focus:border-primary-500 sm:text-sm appearance-none"
+                                className="block w-full pl-10 pr-3 py-2 border border-border-color rounded-md focus:ring-primary-500 focus:border-primary-500 sm:text-sm appearance-none bg-background"
                                 value={buildingFilter}
                                 onChange={handleBuildingFilterChange}
                             >
@@ -234,7 +234,7 @@ export default function RoomsPage() {
                                     <option key={building} value={building}>{building}</option>
                                 ))}
                             </select>
-                            <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
+                            <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-foreground/80">
                                 <svg className="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clipRule="evenodd" fillRule="evenodd"></path></svg>
                             </div>
                         </div>
@@ -255,7 +255,7 @@ export default function RoomsPage() {
                 />
             </div>
 
-            <div className="bg-white rounded-xl shadow-lg overflow-hidden border border-gray-100">
+            <div className="bg-card-background rounded-xl shadow-lg overflow-hidden border border-border-color">
                 <Table
                     headers={['No.', 'Name', 'Type', 'Capacity', 'Availability', 'Features', 'Building', 'Actions']} // 2. Added more headers
                     rows={rooms.map((room, index) => ({
@@ -264,7 +264,7 @@ export default function RoomsPage() {
                         type: room.type, // 3. Display Room Type
                         capacity: room.capacity,
                         availability: ( // 4. Availability with visual indicator
-                            <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${room.availability === 'Available' ? 'bg-green-100 text-green-800' : room.availability === 'Occupied' ? 'bg-red-100 text-red-800' : 'bg-yellow-100 text-yellow-800'}`}>
+                            <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${room.availability === 'Available' ? 'bg-green-500/10 text-green-500' : room.availability === 'Occupied' ? 'bg-red-500/10 text-red-500' : 'bg-yellow-500/10 text-yellow-500'}`}>
                                 <span className={`w-2.5 h-2.5 mr-1 rounded-full ${room.availability === 'Available' ? 'bg-green-500' : room.availability === 'Occupied' ? 'bg-red-500' : 'bg-yellow-500'}`}></span>
                                 {room.availability}
                             </span>

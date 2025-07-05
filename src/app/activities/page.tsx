@@ -107,18 +107,18 @@ const LecturerAdminActivitiesPage = () => {
     return (
         <div className="flex-1 flex flex-col overflow-hidden">
             {/* Header */}
-            <header className="bg-white border-b border-border-color p-4">
+            <header className="bg-card-background border-b border-border-color p-4">
                 <div className="flex justify-between items-center">
                     <div className="text-lg font-semibold">Lecturer Admin Activities</div>
                     <div className="relative">
                         <input
                             type="text"
                             placeholder="Search activities..."
-                            className="pl-9 pr-4 py-2 border border-border-color rounded-md focus:outline-none focus:ring-1 focus:ring-primary-accent w-64"
+                            className="pl-9 pr-4 py-2 border border-border-color rounded-md focus:outline-none focus:ring-1 focus:ring-primary-accent w-64 bg-background"
                             value={searchQuery}
                             onChange={(e) => setSearchQuery(e.target.value)}
                         />
-                        <Search className="absolute left-3 top-2.5 text-gray-400" size={18} />
+                        <Search className="absolute left-3 top-2.5 text-foreground/60" size={18} />
                     </div>
                 </div>
             </header>
@@ -131,7 +131,7 @@ const LecturerAdminActivitiesPage = () => {
                         {/* Category Filter */}
                         <div className="relative">
                             <select
-                                className="block appearance-none w-full bg-white border border-border-color hover:border-gray-500 px-4 py-2 pr-8 rounded shadow leading-tight focus:outline-none focus:ring-1 focus:ring-primary-accent"
+                                className="block appearance-none w-full bg-background border border-border-color hover:border-foreground/30 px-4 py-2 pr-8 rounded shadow leading-tight focus:outline-none focus:ring-1 focus:ring-primary-accent"
                                 value={filterCategory}
                                 onChange={(e) => setFilterCategory(e.target.value)}
                             >
@@ -139,7 +139,7 @@ const LecturerAdminActivitiesPage = () => {
                                     <option key={cat} value={cat}>{cat === 'all' ? 'All Categories' : cat}</option>
                                 ))}
                             </select>
-                            <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
+                            <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-foreground/80">
                                 <ChevronDown className="h-4 w-4" />
                             </div>
                         </div>
@@ -147,7 +147,7 @@ const LecturerAdminActivitiesPage = () => {
                         {/* Sort By Dropdown */}
                         <div className="relative">
                             <select
-                                className="block appearance-none w-full bg-white border border-border-color hover:border-gray-500 px-4 py-2 pr-8 rounded shadow leading-tight focus:outline-none focus:ring-1 focus:ring-primary-accent"
+                                className="block appearance-none w-full bg-background border border-border-color hover:border-foreground/30 px-4 py-2 pr-8 rounded shadow leading-tight focus:outline-none focus:ring-1 focus:ring-primary-accent"
                                 value={sortBy}
                                 onChange={(e) => setSortBy(e.target.value)}
                             >
@@ -156,7 +156,7 @@ const LecturerAdminActivitiesPage = () => {
                                 <option value="user-asc">User (A-Z)</option>
                                 <option value="user-desc">User (Z-A)</option>
                             </select>
-                            <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
+                            <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-foreground/80">
                                 <ChevronDown className="h-4 w-4" />
                             </div>
                         </div>
@@ -164,8 +164,8 @@ const LecturerAdminActivitiesPage = () => {
 
                     {/* Refresh Button (Optional) */}
                     <div>
-                        <button className="flex items-center px-4 py-2 bg-white border border-border-color rounded-md text-gray-600 hover:bg-gray-50">
-                            <RefreshCw size={16} className="mr-2" />
+                        <button className="flex items-center px-4 py-2 bg-card-background border border-border-color rounded-md text-foreground/80 hover:bg-foreground/5">
+                            <RefreshCw size={16} className="mr-2" stroke="currentColor" />
                             Refresh Activities
                         </button>
                     </div>
@@ -173,48 +173,48 @@ const LecturerAdminActivitiesPage = () => {
 
                 {/* Activity Log Table */}
                 <div className="overflow-x-auto">
-                    <table className="min-w-full bg-white border border-border-color rounded-md">
-                        <thead className="bg-gray-50">
+                    <table className="min-w-full bg-card-background border border-border-color rounded-md">
+                        <thead className="bg-foreground/5">
                             <tr>
-                                <th className="py-2 px-3 border-b text-left text-gray-700">User</th>
-                                <th className="py-2 px-3 border-b text-left text-gray-700">Action</th>
-                                <th className="py-2 px-3 border-b text-left text-gray-700">Details</th>
-                                <th className="py-2 px-3 border-b text-left text-gray-700">Category</th>
-                                <th className="py-2 px-3 border-b text-left text-gray-700">Timestamp</th>
-                                <th className="py-2 px-3 border-b text-right text-gray-700"></th> {/* Actions */}
+                                <th className="py-2 px-3 border-b text-left text-foreground/80">User</th>
+                                <th className="py-2 px-3 border-b text-left text-foreground/80">Action</th>
+                                <th className="py-2 px-3 border-b text-left text-foreground/80">Details</th>
+                                <th className="py-2 px-3 border-b text-left text-foreground/80">Category</th>
+                                <th className="py-2 px-3 border-b text-left text-foreground/80">Timestamp</th>
+                                <th className="py-2 px-3 border-b text-right text-foreground/80"></th> {/* Actions */}
                             </tr>
                         </thead>
                         <tbody>
                             {sortedActivities.length > 0 ? (
                                 sortedActivities.map(activity => (
-                                    <tr key={activity.id} className="hover:bg-gray-50 transition-colors">
-                                        <td className="py-2 px-3 border-b text-gray-800 font-medium flex items-center">
-                                            <User className="mr-2 text-gray-500" size={16} />
-                                            {activity.userName} <span className="text-gray-500 ml-1 text-sm">({activity.user})</span>
+                                    <tr key={activity.id} className="hover:bg-foreground/5 transition-colors">
+                                        <td className="py-2 px-3 border-b text-foreground font-medium flex items-center">
+                                            <User className="mr-2 text-foreground/60" size={16} />
+                                            {activity.userName} <span className="text-foreground/60 ml-1 text-sm">({activity.user})</span>
                                         </td>
-                                        <td className="py-2 px-3 border-b text-gray-700">{activity.action}</td>
-                                        <td className="py-2 px-3 border-b text-gray-700">{activity.details}</td>
-                                        <td className="py-2 px-3 border-b text-gray-700">{activity.category}</td>
-                                        <td className="py-2 px-3 border-b text-gray-700">
+                                        <td className="py-2 px-3 border-b text-foreground/80">{activity.action}</td>
+                                        <td className="py-2 px-3 border-b text-foreground/80">{activity.details}</td>
+                                        <td className="py-2 px-3 border-b text-foreground/80">{activity.category}</td>
+                                        <td className="py-2 px-3 border-b text-foreground/80">
                                             <div className="flex items-center">
-                                                <Calendar className="mr-1 text-gray-500" size={14} />
+                                                <Calendar className="mr-1 text-foreground/60" size={14} />
                                                 {activity.timestamp.toLocaleDateString()}
                                             </div>
                                             <div className="flex items-center">
-                                                <Clock className="mr-1 text-gray-500" size={14} />
+                                                <Clock className="mr-1 text-foreground/60" size={14} />
                                                 {activity.timestamp.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
                                             </div>
                                         </td>
                                         <td className="py-2 px-3 border-b text-right">
-                                            <button className="text-gray-400 hover:text-gray-600">
-                                                <MoreVertical size={16} />
+                                            <button className="text-foreground/50 hover:text-foreground/80">
+                                                <MoreVertical size={20} />
                                             </button>
                                         </td>
                                     </tr>
                                 ))
                             ) : (
                                 <tr>
-                                    <td colSpan={6} className="py-4 px-3 text-center text-gray-500">
+                                    <td colSpan={6} className="py-4 px-3 text-center text-foreground/60">
                                         No activities found matching your criteria.
                                     </td>
                                 </tr>
@@ -227,8 +227,8 @@ const LecturerAdminActivitiesPage = () => {
     );
 };
 
-const RefreshCw = () => { // Using RefreshCw from lucide-react caused a naming conflict, so created a local alias.
-    return <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-refresh-cw"><path d="M21 12a9 9 0 0 0-9-9 9 9 0 0 0-9 9"/><path d="M16 12h5l-3 3"/></svg>;
+const RefreshCw = ({ size, className, stroke }: { size?: number, className?: string, stroke?: string }) => { // Using RefreshCw from lucide-react caused a naming conflict, so created a local alias.
+    return <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24" fill="none" stroke={stroke} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}><path d="M21 12a9 9 0 0 0-9-9 9 9 0 0 0-9 9"/><path d="M16 12h5l-3 3"/></svg>;
 };
 
 

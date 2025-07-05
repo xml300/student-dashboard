@@ -38,16 +38,16 @@ const LecturerProfilePage = () => {
 
   // Stats cards for overview tab
   const statsCards = [
-    { label: 'Courses', value: lecturer.courses.length, icon: '📚', color: 'bg-blue-100 text-blue-800' },
-    { label: 'Students', value: lecturer.courses.reduce((sum, course) => sum + course.students, 0), icon: '👥', color: 'bg-green-100 text-green-800' },
-    { label: 'Sessions', value: lecturer.courses.reduce((sum, course) => sum + course.sessions, 0), icon: '🗓️', color: 'bg-purple-100 text-purple-800' },
-    { label: 'Avg. Attendance', value: `${Math.round(lecturer.courses.reduce((sum, course) => sum + course.attendanceRate, 0) / lecturer.courses.length)}%`, icon: '📊', color: 'bg-yellow-100 text-yellow-800' }
+    { label: 'Courses', value: lecturer.courses.length, icon: '📚', color: 'bg-primary-accent/10 text-primary-accent' },
+    { label: 'Students', value: lecturer.courses.reduce((sum, course) => sum + course.students, 0), icon: '👥', color: 'bg-green-500/10 text-green-500' },
+    { label: 'Sessions', value: lecturer.courses.reduce((sum, course) => sum + course.sessions, 0), icon: '🗓️', color: 'bg-purple-500/10 text-purple-500' },
+    { label: 'Avg. Attendance', value: `${Math.round(lecturer.courses.reduce((sum, course) => sum + course.attendanceRate, 0) / lecturer.courses.length)}%`, icon: '📊', color: 'bg-yellow-500/10 text-yellow-500' }
   ];
 
   return (
-    <div className="bg-gray-50 dark:bg-gray-900 min-h-screen pb-8">
+    <div className="bg-background min-h-screen pb-8">
       {/* Header section */}
-      <div className="bg-white dark:bg-gray-900 shadow">
+      <div className="bg-card-background shadow">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
           <div className="flex flex-col md:flex-row md:items-center md:justify-between">
             <div className="flex items-center">
@@ -55,19 +55,19 @@ const LecturerProfilePage = () => {
                 <Image className="h-16 w-16 rounded-full object-cover" src={lecturer.profileImage} width={40} height={40} alt={lecturer.name} />
               </div>
               <div className="ml-4">
-                <h1 className="text-2xl font-bold text-gray-900 dark:text-gray-100">{lecturer.name}</h1>
+                <h1 className="text-2xl font-bold text-foreground">{lecturer.name}</h1>
                 <div className="flex flex-col sm:flex-row sm:items-center mt-1">
-                  <p className="text-sm text-gray-600 dark:text-gray-300">{lecturer.department}</p>
-                  <span className="hidden sm:block sm:mx-2 text-gray-400">•</span>
-                  <p className="text-sm text-gray-600 dark:text-gray-300">ID: {lecturer.id}</p>
+                  <p className="text-sm text-foreground/80">{lecturer.department}</p>
+                  <span className="hidden sm:block sm:mx-2 text-foreground/60">•</span>
+                  <p className="text-sm text-foreground/80">ID: {lecturer.id}</p>
                 </div>
               </div>
             </div>
             <div className="mt-4 md:mt-0 flex space-x-3">
-              <button className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-blue-600 hover:bg-blue-700 dark:bg-blue-800 dark:hover:bg-blue-900">
+              <button className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-primary-accent hover:bg-primary-accent/90">
                 Edit Profile
               </button>
-              <button className="inline-flex items-center px-4 py-2 border border-gray-300 dark:border-gray-700 text-sm font-medium rounded-md shadow-sm text-gray-700 dark:text-gray-200 bg-white dark:bg-gray-800 hover:bg-gray-50 dark:hover:bg-gray-700">
+              <button className="inline-flex items-center px-4 py-2 border border-border-color text-sm font-medium rounded-md shadow-sm text-foreground bg-card-background hover:bg-foreground/5">
                 Set Preferences
               </button>
             </div>
@@ -77,14 +77,14 @@ const LecturerProfilePage = () => {
 
       {/* Tabs */}
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 mt-6">
-        <div className="border-b border-gray-200">
+        <div className="border-b border-border-color">
           <nav className="-mb-px flex space-x-6">
             <button
               onClick={() => setActiveTab('overview')}
               className={`py-4 px-1 border-b-2 font-medium text-sm ${
                 activeTab === 'overview'
-                  ? 'border-blue-500 text-blue-600'
-                  : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
+                  ? 'border-primary-accent text-primary-accent'
+                  : 'border-transparent text-foreground/80 hover:text-foreground hover:border-foreground/30'
               }`}
             >
               Overview
@@ -93,8 +93,8 @@ const LecturerProfilePage = () => {
               onClick={() => setActiveTab('courses')}
               className={`py-4 px-1 border-b-2 font-medium text-sm ${
                 activeTab === 'courses'
-                  ? 'border-blue-500 text-blue-600'
-                  : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
+                  ? 'border-primary-accent text-primary-accent'
+                  : 'border-transparent text-foreground/80 hover:text-foreground hover:border-foreground/30'
               }`}
             >
               Courses
@@ -103,8 +103,8 @@ const LecturerProfilePage = () => {
               onClick={() => setActiveTab('attendance')}
               className={`py-4 px-1 border-b-2 font-medium text-sm ${
                 activeTab === 'attendance'
-                  ? 'border-blue-500 text-blue-600'
-                  : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
+                  ? 'border-primary-accent text-primary-accent'
+                  : 'border-transparent text-foreground/80 hover:text-foreground hover:border-foreground/30'
               }`}
             >
               Attendance
@@ -113,8 +113,8 @@ const LecturerProfilePage = () => {
               onClick={() => setActiveTab('devices')}
               className={`py-4 px-1 border-b-2 font-medium text-sm ${
                 activeTab === 'devices'
-                  ? 'border-blue-500 text-blue-600'
-                  : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
+                  ? 'border-primary-accent text-primary-accent'
+                  : 'border-transparent text-foreground/80 hover:text-foreground hover:border-foreground/30'
               }`}
             >
               Devices & Rooms
@@ -130,14 +130,14 @@ const LecturerProfilePage = () => {
           <div>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-6">
               {statsCards.map((stat, index) => (
-                <div key={index} className="bg-white dark:bg-gray-900 rounded-lg shadow p-6">
+                <div key={index} className="bg-card-background rounded-lg shadow p-6">
                   <div className="flex items-center">
                     <div className={`w-12 h-12 rounded-full ${stat.color} flex items-center justify-center text-xl`}>
                       {stat.icon}
                     </div>
                     <div className="ml-4">
-                      <p className="text-sm font-medium text-gray-500 dark:text-gray-400">{stat.label}</p>
-                      <p className="text-2xl font-semibold text-gray-900 dark:text-gray-100">{stat.value}</p>
+                      <p className="text-sm font-medium text-foreground/80">{stat.label}</p>
+                      <p className="text-2xl font-semibold text-foreground">{stat.value}</p>
                     </div>
                   </div>
                 </div>
@@ -146,48 +146,48 @@ const LecturerProfilePage = () => {
 
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
               {/* Contact Information */}
-              <div className="bg-white dark:bg-gray-900 rounded-lg shadow p-6">
-                <h2 className="text-lg font-medium text-gray-900 dark:text-gray-100 mb-4">Contact Information</h2>
+              <div className="bg-card-background rounded-lg shadow p-6">
+                <h2 className="text-lg font-medium text-foreground mb-4">Contact Information</h2>
                 <div className="space-y-4">
                   <div>
-                    <p className="text-sm font-medium text-gray-500 dark:text-gray-400">Email</p>
-                    <p className="mt-1 text-sm text-gray-900 dark:text-gray-100">{lecturer.email}</p>
+                    <p className="text-sm font-medium text-foreground/80">Email</p>
+                    <p className="mt-1 text-sm text-foreground">{lecturer.email}</p>
                   </div>
                   <div>
-                    <p className="text-sm font-medium text-gray-500 dark:text-gray-400">Phone</p>
-                    <p className="mt-1 text-sm text-gray-900 dark:text-gray-100">{lecturer.phone}</p>
+                    <p className="text-sm font-medium text-foreground/80">Phone</p>
+                    <p className="mt-1 text-sm text-foreground">{lecturer.phone}</p>
                   </div>
                   <div>
-                    <p className="text-sm font-medium text-gray-500 dark:text-gray-400">Department</p>
-                    <p className="mt-1 text-sm text-gray-900 dark:text-gray-100">{lecturer.department}</p>
+                    <p className="text-sm font-medium text-foreground/80">Department</p>
+                    <p className="mt-1 text-sm text-foreground">{lecturer.department}</p>
                   </div>
                   <div>
-                    <p className="text-sm font-medium text-gray-500 dark:text-gray-400">Joined</p>
-                    <p className="mt-1 text-sm text-gray-900 dark:text-gray-100">{lecturer.joinDate}</p>
+                    <p className="text-sm font-medium text-foreground/80">Joined</p>
+                    <p className="mt-1 text-sm text-foreground">{lecturer.joinDate}</p>
                   </div>
                 </div>
               </div>
 
               {/* Recent Sessions */}
-              <div className="bg-white dark:bg-gray-900 rounded-lg shadow p-6 lg:col-span-2">
+              <div className="bg-card-background rounded-lg shadow p-6 lg:col-span-2">
                 <div className="flex items-center justify-between mb-4">
-                  <h2 className="text-lg font-medium text-gray-900 dark:text-gray-100">Recent Sessions</h2>
-                  <button className="text-sm text-blue-600 hover:text-blue-500">View All</button>
+                  <h2 className="text-lg font-medium text-foreground">Recent Sessions</h2>
+                  <button className="text-sm text-primary-accent hover:text-primary-accent/80">View All</button>
                 </div>
                 <div className="space-y-4">
                   {lecturer.recentSessions.map((session) => (
-                    <div key={session.id} className="bg-gray-50 dark:bg-gray-800 rounded-lg p-4">
+                    <div key={session.id} className="bg-foreground/5 rounded-lg p-4">
                       <div className="flex justify-between">
                         <div>
-                          <h3 className="text-sm font-medium text-gray-900 dark:text-gray-100">{session.course}</h3>
-                          <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">{session.date} • {session.time}</p>
-                          <p className="text-xs text-gray-500 dark:text-gray-400">{session.room}</p>
+                          <h3 className="text-sm font-medium text-foreground">{session.course}</h3>
+                          <p className="text-xs text-foreground/80 mt-1">{session.date} • {session.time}</p>
+                          <p className="text-xs text-foreground/80">{session.room}</p>
                         </div>
                         <div className="text-right">
-                          <div className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200">
+                          <div className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-500/10 text-green-500">
                             {session.rate}% Attendance
                           </div>
-                          <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">{session.attendance} Students</p>
+                          <p className="text-xs text-foreground/80 mt-1">{session.attendance} Students</p>
                         </div>
                       </div>
                     </div>
@@ -202,19 +202,19 @@ const LecturerProfilePage = () => {
         {activeTab === 'courses' && (
           <div>
             <div className="flex items-center justify-between mb-4">
-              <h2 className="text-lg font-medium text-gray-900 dark:text-gray-100">Your Courses</h2>
-              <button className="inline-flex items-center px-3 py-1.5 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-blue-600 hover:bg-blue-700 dark:bg-blue-800 dark:hover:bg-blue-900">
+              <h2 className="text-lg font-medium text-foreground">Your Courses</h2>
+              <button className="inline-flex items-center px-3 py-1.5 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-primary-accent hover:bg-primary-accent/90">
                 Add New Course
               </button>
             </div>
-            <div className="bg-white dark:bg-gray-900 shadow overflow-hidden rounded-lg">
-              <ul className="divide-y divide-gray-200">
+            <div className="bg-card-background shadow overflow-hidden rounded-lg">
+              <ul className="divide-y divide-border-color">
                 {lecturer.courses.map((course) => (
                   <li key={course.id} className="p-6">
                     <div className="flex items-center justify-between">
                       <div>
-                        <h3 className="text-lg font-medium text-gray-900 dark:text-gray-100">{course.name}</h3>
-                        <div className="flex items-center text-sm text-gray-500 dark:text-gray-400 mt-1">
+                        <h3 className="text-lg font-medium text-foreground">{course.name}</h3>
+                        <div className="flex items-center text-sm text-foreground/80 mt-1">
                           <span>{course.id}</span>
                           <span className="mx-2">•</span>
                           <span>{course.students} Students</span>
@@ -224,11 +224,11 @@ const LecturerProfilePage = () => {
                       </div>
                       <div className="flex items-center">
                         <div className="mr-4 text-right">
-                          <div className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200">
+                          <div className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-500/10 text-green-500">
                             {course.attendanceRate}% Attendance
                           </div>
                         </div>
-                        <button className="inline-flex items-center px-3 py-1.5 border border-gray-300 dark:border-gray-700 text-sm font-medium rounded-md text-gray-700 dark:text-gray-200 bg-white dark:bg-gray-800 hover:bg-gray-50 dark:hover:bg-gray-700">
+                        <button className="inline-flex items-center px-3 py-1.5 border border-border-color text-sm font-medium rounded-md text-foreground bg-card-background hover:bg-foreground/5">
                           Manage
                         </button>
                       </div>
@@ -244,37 +244,37 @@ const LecturerProfilePage = () => {
         {activeTab === 'attendance' && (
           <div>
             <div className="flex flex-col md:flex-row md:items-center md:justify-between mb-6">
-              <h2 className="text-lg font-medium text-gray-900 dark:text-gray-100 mb-2 md:mb-0">Attendance Management</h2>
+              <h2 className="text-lg font-medium text-foreground mb-2 md:mb-0">Attendance Management</h2>
               <div className="flex space-x-3">
-                <button className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-blue-600 hover:bg-blue-700 dark:bg-blue-800 dark:hover:bg-blue-900">
+                <button className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-primary-accent hover:bg-primary-accent/90">
                   Take Attendance
                 </button>
-                <button className="inline-flex items-center px-4 py-2 border border-gray-300 dark:border-gray-700 text-sm font-medium rounded-md shadow-sm text-gray-700 dark:text-gray-200 bg-white dark:bg-gray-800 hover:bg-gray-50 dark:hover:bg-gray-700">
+                <button className="inline-flex items-center px-4 py-2 border border-border-color text-sm font-medium rounded-md shadow-sm text-foreground bg-card-background hover:bg-foreground/5">
                   Export Report
                 </button>
               </div>
             </div>
             
-            <div className="bg-white dark:bg-gray-900 rounded-lg shadow overflow-hidden">
+            <div className="bg-card-background rounded-lg shadow overflow-hidden">
               <div className="px-4 py-5 sm:p-6">
-                <h3 className="text-lg leading-6 font-medium text-gray-900 dark:text-gray-100 mb-4">Attendance Summary</h3>
+                <h3 className="text-lg leading-6 font-medium text-foreground mb-4">Attendance Summary</h3>
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                   {lecturer.courses.map((course) => (
-                    <div key={course.id} className="bg-gray-50 dark:bg-gray-800 rounded-lg p-4">
-                      <h4 className="text-sm font-medium text-gray-900 dark:text-gray-100">{course.name}</h4>
+                    <div key={course.id} className="bg-foreground/5 rounded-lg p-4">
+                      <h4 className="text-sm font-medium text-foreground">{course.name}</h4>
                       <div className="mt-2 relative pt-1">
                         <div className="flex items-center justify-between text-xs mb-1">
                           <span>Attendance Rate</span>
                           <span>{course.attendanceRate}%</span>
                         </div>
-                        <div className="overflow-hidden h-2 text-xs flex rounded bg-gray-200">
+                        <div className="overflow-hidden h-2 text-xs flex rounded bg-foreground/10">
                           <div 
                             style={{ width: `${course.attendanceRate}%` }} 
-                            className="shadow-none flex flex-col text-center whitespace-nowrap text-white justify-center bg-blue-500"
+                            className="shadow-none flex flex-col text-center whitespace-nowrap text-white justify-center bg-primary-accent"
                           />
                         </div>
                       </div>
-                      <div className="mt-3 flex justify-between text-xs text-gray-500">
+                      <div className="mt-3 flex justify-between text-xs text-foreground/80">
                         <span>{course.students} Students</span>
                         <span>{course.sessions} Sessions</span>
                       </div>
@@ -283,32 +283,32 @@ const LecturerProfilePage = () => {
                 </div>
                 
                 <div className="mt-6">
-                  <h3 className="text-lg leading-6 font-medium text-gray-900 dark:text-gray-100 mb-4">Recent Attendance Records</h3>
+                  <h3 className="text-lg leading-6 font-medium text-foreground mb-4">Recent Attendance Records</h3>
                   <div className="overflow-x-auto">
-                    <table className="min-w-full divide-y divide-gray-200">
-                      <thead className="bg-gray-50">
+                    <table className="min-w-full divide-y divide-border-color">
+                      <thead className="bg-foreground/5">
                         <tr>
-                          <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Session</th>
-                          <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Date & Time</th>
-                          <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Location</th>
-                          <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Attendance</th>
-                          <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
+                          <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-foreground/80 uppercase tracking-wider">Session</th>
+                          <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-foreground/80 uppercase tracking-wider">Date & Time</th>
+                          <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-foreground/80 uppercase tracking-wider">Location</th>
+                          <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-foreground/80 uppercase tracking-wider">Attendance</th>
+                          <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-foreground/80 uppercase tracking-wider">Actions</th>
                         </tr>
                       </thead>
-                      <tbody className="bg-white divide-y divide-gray-200">
+                      <tbody className="bg-card-background divide-y divide-border-color">
                         {lecturer.recentSessions.map((session) => (
                           <tr key={session.id}>
-                            <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 dark:text-gray-100">{session.course}</td>
-                            <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">{session.date}<br/>{session.time}</td>
-                            <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">{session.room}</td>
+                            <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-foreground">{session.course}</td>
+                            <td className="px-6 py-4 whitespace-nowrap text-sm text-foreground/80">{session.date}<br/>{session.time}</td>
+                            <td className="px-6 py-4 whitespace-nowrap text-sm text-foreground/80">{session.room}</td>
                             <td className="px-6 py-4 whitespace-nowrap">
-                              <div className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200">
+                              <div className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-500/10 text-green-500">
                                 {session.rate}% ({session.attendance})
                               </div>
                             </td>
-                            <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">
-                              <button className="text-blue-600 dark:text-blue-400 hover:text-blue-900 dark:hover:text-blue-200 mr-3">View</button>
-                              <button className="text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-gray-100">Edit</button>
+                            <td className="px-6 py-4 whitespace-nowrap text-sm text-foreground/80">
+                              <button className="text-primary-accent hover:text-primary-accent/80 mr-3">View</button>
+                              <button className="text-foreground/80 hover:text-foreground">Edit</button>
                             </td>
                           </tr>
                         ))}
@@ -327,39 +327,39 @@ const LecturerProfilePage = () => {
             {/* Devices Section */}
             <div>
               <div className="flex items-center justify-between mb-4">
-                <h2 className="text-lg font-medium text-gray-900 dark:text-gray-100">Your Devices</h2>
-                <button className="inline-flex items-center px-3 py-1.5 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-blue-600 hover:bg-blue-700 dark:bg-blue-800 dark:hover:bg-blue-900">
+                <h2 className="text-lg font-medium text-foreground">Your Devices</h2>
+                <button className="inline-flex items-center px-3 py-1.5 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-primary-accent hover:bg-primary-accent/90">
                   Add Device
                 </button>
               </div>
-              <div className="bg-white dark:bg-gray-900 shadow overflow-hidden rounded-lg">
-                <ul className="divide-y divide-gray-200">
+              <div className="bg-card-background shadow overflow-hidden rounded-lg">
+                <ul className="divide-y divide-border-color">
                   {lecturer.devices.map((device) => (
                     <li key={device.id} className="p-4">
                       <div className="flex items-start justify-between">
                         <div className="flex items-center">
-                          <div className="p-2 bg-blue-100 rounded-full">
-                            <svg className="h-5 w-5 text-blue-600" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                          <div className="p-2 bg-primary-accent/10 rounded-full">
+                            <svg className="h-5 w-5 text-primary-accent" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
                               <path d="M5 3a2 2 0 00-2 2v2a2 2 0 002 2h2a2 2 0 002-2V5a2 2 0 00-2-2H5zM5 11a2 2 0 00-2 2v2a2 2 0 002 2h2a2 2 0 002-2v-2a2 2 0 00-2-2H5zM11 5a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V5zM14 11a1 1 0 011 1v1h1a1 1 0 110 2h-1v1a1 1 0 11-2 0v-1h-1a1 1 0 110-2h1v-1a1 1 0 011-1z" />
                             </svg>
                           </div>
                           <div className="ml-3">
-                            <h3 className="text-sm font-medium text-gray-900 dark:text-gray-100">{device.name}</h3>
-                            <div className="flex items-center text-xs text-gray-500 dark:text-gray-400 mt-1">
+                            <h3 className="text-sm font-medium text-foreground">{device.name}</h3>
+                            <div className="flex items-center text-xs text-foreground/80 mt-1">
                               <span>{device.id}</span>
                               <span className="mx-1">•</span>
                               <span>{device.type}</span>
                               <span className="mx-1">•</span>
                               <span>Last used: {device.lastUsed}</span>
                             </div>
-                            <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">Location: {device.location}</p>
+                            <p className="text-xs text-foreground/80 mt-1">Location: {device.location}</p>
                           </div>
                         </div>
                         <div className="flex items-center">
-                          <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${device.status === 'active' ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'}`}>
+                          <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${device.status === 'active' ? 'bg-green-500/10 text-green-500' : 'bg-red-500/10 text-red-500'}`}>
                             {device.status === 'active' ? 'Active' : 'Inactive'}
                           </span>
-                          <button className="ml-4 text-gray-400 hover:text-gray-500">
+                          <button className="ml-4 text-foreground/60 hover:text-foreground">
                             <svg className="h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
                               <path d="M10 6a2 2 0 110-4 2 2 0 010 4zM10 12a2 2 0 110-4 2 2 0 010 4zM10 18a2 2 0 110-4 2 2 0 010 4z" />
                             </svg>
@@ -375,36 +375,36 @@ const LecturerProfilePage = () => {
             {/* Rooms Section */}
             <div>
               <div className="flex items-center justify-between mb-4">
-                <h2 className="text-lg font-medium text-gray-900 dark:text-gray-100">Assigned Rooms</h2>
-                <button className="inline-flex items-center px-3 py-1.5 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-blue-600 hover:bg-blue-700 dark:bg-blue-800 dark:hover:bg-blue-900">
+                <h2 className="text-lg font-medium text-foreground">Assigned Rooms</h2>
+                <button className="inline-flex items-center px-3 py-1.5 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-primary-accent hover:bg-primary-accent/90">
                   Request Room
                 </button>
               </div>
-              <div className="bg-white dark:bg-gray-900 shadow overflow-hidden rounded-lg">
-                <ul className="divide-y divide-gray-200">
+              <div className="bg-card-background shadow overflow-hidden rounded-lg">
+                <ul className="divide-y divide-border-color">
                   {lecturer.rooms.map((room) => (
                     <li key={room.id} className="p-4">
                       <div className="flex items-start justify-between">
                         <div className="flex items-center">
-                          <div className="p-2 bg-yellow-100 dark:bg-yellow-900 rounded-full">
-                            <svg className="h-5 w-5 text-yellow-600 dark:text-yellow-300" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                          <div className="p-2 bg-yellow-500/10 rounded-full">
+                            <svg className="h-5 w-5 text-yellow-500" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
                               <path fillRule="evenodd" d="M4 4a2 2 0 012-2h8a2 2 0 012 2v12a1 1 0 110 2h-3a1 1 0 01-1-1v-2a1 1 0 00-1-1H9a1 1 0 00-1 1v2a1 1 0 01-1 1H4a1 1 0 110-2V4zm3 1h2v2H7V5zm2 4H7v2h2V9zm2-4h2v2h-2V5zm2 4h-2v2h2V9z" clipRule="evenodd" />
                             </svg>
                           </div>
                           <div className="ml-3">
-                            <h3 className="text-sm font-medium text-gray-900 dark:text-gray-100">{room.name}</h3>
-                            <div className="flex items-center text-xs text-gray-500 dark:text-gray-400 mt-1">
+                            <h3 className="text-sm font-medium text-foreground">{room.name}</h3>
+                            <div className="flex items-center text-xs text-foreground/80 mt-1">
                               <span>{room.id}</span>
                               <span className="mx-1">•</span>
                               <span>Capacity: {room.capacity}</span>
                               <span className="mx-1">•</span>
                               <span>Last used: {room.lastUsed}</span>
                             </div>
-                            <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">{room.location}</p>
+                            <p className="text-xs text-foreground/80 mt-1">{room.location}</p>
                           </div>
                         </div>
                         <div>
-                          <button className="text-sm text-blue-600 dark:text-blue-400 hover:text-blue-500 dark:hover:text-blue-300">Schedule</button>
+                          <button className="text-sm text-primary-accent hover:text-primary-accent/80">Schedule</button>
                         </div>
                       </div>
                     </li>

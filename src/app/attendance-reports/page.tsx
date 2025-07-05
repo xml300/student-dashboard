@@ -19,6 +19,7 @@ import {
   faArrowTrendDown,
   faArrowDown,
 } from "@fortawesome/free-solid-svg-icons";
+import Link from "next/link";
 
 const AttendanceReportsPage = () => {
   const [dateRange, setDateRange] = useState("This Month");
@@ -192,29 +193,29 @@ const AttendanceReportsPage = () => {
       case "attendance-summary":
         return (
           <>
-            <div className="p-4 border-b border-border-color dark:border-gray-700 bg-gray-50 dark:bg-gray-950 flex justify-between items-center">
-              <h2 className="font-medium text-gray-900 dark:text-gray-100">Attendance Summary Report</h2>
+            <div className="p-4 border-b border-border-color bg-foreground/5 flex justify-between items-center">
+              <h2 className="font-medium text-foreground">Attendance Summary Report</h2>
               <div className="flex items-center space-x-3">
-                <button className="flex items-center text-sm text-gray-500 dark:text-gray-300 hover:text-primary-accent dark:hover:text-blue-400">
+                <button className="flex items-center text-sm text-foreground/60 hover:text-primary-accent">
                   <ListFilter size={16} className="mr-1" />
                   Filter
                 </button>
-                <button className="flex items-center text-sm text-gray-500 dark:text-gray-300 hover:text-primary-accent dark:hover:text-blue-400">
+                <button className="flex items-center text-sm text-foreground/60 hover:text-primary-accent">
                   <Download size={16} className="mr-1" />
                   Download
                 </button>
               </div>
             </div>
 
-            <div className="p-6 bg-white dark:bg-gray-900">
+            <div className="p-6 bg-card-background">
               {/* Summary stats */}
               <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
-                <div className="bg-primary-accent/10 dark:bg-primary-accent/20 rounded-lg p-4">
-                  <div className="text-sm text-gray-500 dark:text-gray-300">
+                <div className="bg-primary-accent/10 rounded-lg p-4">
+                  <div className="text-sm text-foreground/80">
                     Average Attendance Rate
                   </div>
-                  <div className="text-2xl font-bold text-primary-accent dark:text-blue-400">84.6%</div>
-                  <div className="text-sm text-green-600 dark:text-green-400 mt-1 flex items-center">
+                  <div className="text-2xl font-bold text-primary-accent">84.6%</div>
+                  <div className="text-sm text-green-500 mt-1 flex items-center">
                     <ArrowRight
                       className="mr-1 transform rotate-45"
                       size={14}
@@ -223,20 +224,20 @@ const AttendanceReportsPage = () => {
                   </div>
                 </div>
 
-                <div className="bg-gray-100 dark:bg-gray-800 rounded-lg p-4">
-                  <div className="text-sm text-gray-500 dark:text-gray-300">Total Sessions</div>
-                  <div className="text-2xl font-bold text-gray-900 dark:text-gray-100">47</div>
-                  <div className="text-sm text-gray-500 dark:text-gray-400 mt-1">
+                <div className="bg-foreground/5 rounded-lg p-4">
+                  <div className="text-sm text-foreground/80">Total Sessions</div>
+                  <div className="text-2xl font-bold text-foreground">47</div>
+                  <div className="text-sm text-foreground/60 mt-1">
                     Across all courses
                   </div>
                 </div>
 
-                <div className="bg-secondary-accent/10 dark:bg-secondary-accent/20 rounded-lg p-4">
-                  <div className="text-sm text-gray-500 dark:text-gray-300">
+                <div className="bg-secondary-accent/10 rounded-lg p-4">
+                  <div className="text-sm text-foreground/80">
                     Highest Attendance
                   </div>
-                  <div className="text-2xl font-bold text-secondary-accent dark:text-yellow-400">ENG205</div>
-                  <div className="text-sm text-gray-600 dark:text-gray-400 mt-1">
+                  <div className="text-2xl font-bold text-secondary-accent">ENG205</div>
+                  <div className="text-sm text-foreground/80 mt-1">
                     92% attendance rate
                   </div>
                 </div>
@@ -244,25 +245,25 @@ const AttendanceReportsPage = () => {
 
               {/* Course attendance table */}
               <div className="overflow-x-auto">
-                <table className="w-full bg-white dark:bg-gray-900">
+                <table className="w-full bg-card-background">
                   <thead>
-                    <tr className="border-b border-border-color dark:border-gray-700">
-                      <th className="text-left py-3 px-4 font-medium text-gray-600 dark:text-gray-300">
+                    <tr className="border-b border-border-color">
+                      <th className="text-left py-3 px-4 font-medium text-foreground/80">
                         Course
                       </th>
-                      <th className="text-left py-3 px-4 font-medium text-gray-600 dark:text-gray-300">
+                      <th className="text-left py-3 px-4 font-medium text-foreground/80">
                         Course Title
                       </th>
-                      <th className="text-center py-3 px-4 font-medium text-gray-600 dark:text-gray-300">
+                      <th className="text-center py-3 px-4 font-medium text-foreground/80">
                         Attendance Rate
                       </th>
-                      <th className="text-center py-3 px-4 font-medium text-gray-600 dark:text-gray-300">
+                      <th className="text-center py-3 px-4 font-medium text-foreground/80">
                         Students
                       </th>
-                      <th className="text-center py-3 px-4 font-medium text-gray-600 dark:text-gray-300">
+                      <th className="text-center py-3 px-4 font-medium text-foreground/80">
                         Trend
                       </th>
-                      <th className="text-right py-3 px-4 font-medium text-gray-600 dark:text-gray-300">
+                      <th className="text-right py-3 px-4 font-medium text-foreground/80">
                         Actions
                       </th>
                     </tr>
@@ -279,7 +280,7 @@ const AttendanceReportsPage = () => {
                         <td className="py-3 px-4">{course.title}</td>
                         <td className="py-3 px-4 text-center">
                           <div className="inline-flex items-center">
-                            <div className="w-12 bg-gray-200 rounded-full h-2 mr-2">
+                            <div className="w-12 bg-foreground/10 rounded-full h-2 mr-2">
                               <div
                                 className={`h-2 rounded-full ${
                                   course.attendance >= 90
@@ -299,7 +300,7 @@ const AttendanceReportsPage = () => {
                         </td>
                         <td className="py-3 px-4 text-center">
                           {course.trend === "up" && (
-                            <span className="text-green-600">
+                            <span className="text-green-500">
                               <FontAwesomeIcon
                                 icon={faArrowTrendUp}
                                 className="inline"
@@ -308,7 +309,7 @@ const AttendanceReportsPage = () => {
                             </span>
                           )}
                           {course.trend === "down" && (
-                            <span className="text-red-600">
+                            <span className="text-red-500">
                               <FontAwesomeIcon
                                 icon={faArrowTrendDown}
                                 className="inline"
@@ -317,7 +318,7 @@ const AttendanceReportsPage = () => {
                             </span>
                           )}
                           {course.trend === "stable" && (
-                            <span className="text-gray-600">
+                            <span className="text-foreground/60">
                               <FontAwesomeIcon
                                 icon={faArrowDown}
                                 className="inline"
@@ -327,12 +328,12 @@ const AttendanceReportsPage = () => {
                           )}
                         </td>
                         <td className="py-3 px-4 text-right">
-                          <a
+                          <Link
                             href={`/reports/courses/${course.course}`}
                             className="text-primary-accent hover:underline text-sm"
                           >
                             View details
-                          </a>
+                          </Link>
                         </td>
                       </tr>
                     ))}
@@ -346,14 +347,14 @@ const AttendanceReportsPage = () => {
       case "course-comparison":
         return (
           <>
-            <div className="p-4 border-b border-border-color bg-gray-50 flex justify-between items-center">
+            <div className="p-4 border-b border-border-color bg-foreground/5 flex justify-between items-center">
               <h2 className="font-medium">Course Comparison Report</h2>
               <div className="flex items-center space-x-3">
-                <button className="flex items-center text-sm text-gray-500 hover:text-primary-accent">
+                <button className="flex items-center text-sm text-foreground/60 hover:text-primary-accent">
                   <Filter size={16} className="mr-1" />
                   Filter Courses
                 </button>
-                <button className="flex items-center text-sm text-gray-500 hover:text-primary-accent">
+                <button className="flex items-center text-sm text-foreground/60 hover:text-primary-accent">
                   <Download size={16} className="mr-1" />
                   Download
                 </button>
@@ -363,11 +364,11 @@ const AttendanceReportsPage = () => {
               {/* Summary */}
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mb-6">
                 <div className="bg-secondary-accent/10 rounded-lg p-4">
-                  <div className="text-sm text-gray-500">
+                  <div className="text-sm text-foreground/80">
                     Highest Attendance Course
                   </div>
                   <div className="text-2xl font-bold text-secondary-accent">ENG205</div>
-                  <div className="text-sm text-green-600 mt-1 flex items-center">
+                  <div className="text-sm text-green-500 mt-1 flex items-center">
                     <ArrowRight
                       className="mr-1 transform rotate-45"
                       size={14}
@@ -376,12 +377,12 @@ const AttendanceReportsPage = () => {
                   </div>
                 </div>
 
-                <div className="bg-gray-100 rounded-lg p-4">
-                  <div className="text-sm text-gray-500">
+                <div className="bg-foreground/5 rounded-lg p-4">
+                  <div className="text-sm text-foreground/80">
                     Lowest Attendance Course
                   </div>
                   <div className="text-2xl font-bold">MATH401</div>
-                  <div className="text-sm text-red-600 mt-1 flex items-center">
+                  <div className="text-sm text-red-500 mt-1 flex items-center">
                     <ArrowRight
                       className="mr-1 transform rotate-45"
                       size={14}
@@ -391,11 +392,11 @@ const AttendanceReportsPage = () => {
                 </div>
 
                 <div className="bg-primary-accent/10 rounded-lg p-4">
-                  <div className="text-sm text-gray-500">
+                  <div className="text-sm text-foreground/80">
                     Average Change in Attendance
                   </div>
                   <div className="text-2xl font-bold text-primary-accent">-0.3%</div>
-                  <div className="text-sm text-gray-500 mt-1">
+                  <div className="text-sm text-foreground/60 mt-1">
                     Compared to last month
                   </div>
                 </div>
@@ -406,19 +407,19 @@ const AttendanceReportsPage = () => {
                 <table className="w-full">
                   <thead>
                     <tr className="border-b border-border-color">
-                      <th className="text-left py-3 px-4 font-medium text-gray-600">
+                      <th className="text-left py-3 px-4 font-medium text-foreground/80">
                         Rank
                       </th>
-                      <th className="text-left py-3 px-4 font-medium text-gray-600">
+                      <th className="text-left py-3 px-4 font-medium text-foreground/80">
                         Course
                       </th>
-                      <th className="text-left py-3 px-4 font-medium text-gray-600">
+                      <th className="text-left py-3 px-4 font-medium text-foreground/80">
                         Course Title
                       </th>
-                      <th className="text-center py-3 px-4 font-medium text-gray-600">
+                      <th className="text-center py-3 px-4 font-medium text-foreground/80">
                         Attendance Rate
                       </th>
-                      <th className="text-center py-3 px-4 font-medium text-gray-600">
+                      <th className="text-center py-3 px-4 font-medium text-foreground/80">
                         Change from Last Month
                       </th>
                     </tr>
@@ -444,10 +445,10 @@ const AttendanceReportsPage = () => {
                           <span
                             className={
                               course.change > 0
-                                ? "text-green-600"
+                                ? "text-green-500"
                                 : course.change < 0
-                                ? "text-red-600"
-                                : "text-gray-600"
+                                ? "text-red-500"
+                                : "text-foreground/60"
                             }
                           >
                             {course.change > 0 && (
@@ -486,14 +487,14 @@ const AttendanceReportsPage = () => {
       case "student-insights":
         return (
           <>
-            <div className="p-4 border-b border-border-color bg-gray-50 flex justify-between items-center">
+            <div className="p-4 border-b border-border-color bg-foreground/5 flex justify-between items-center">
               <h2 className="font-medium">Student Insights Report</h2>
               <div className="flex items-center space-x-3">
-                <button className="flex items-center text-sm text-gray-500 hover:text-primary-accent">
+                <button className="flex items-center text-sm text-foreground/60 hover:text-primary-accent">
                   <Filter size={16} className="mr-1" />
                   Filter Students
                 </button>
-                <button className="flex items-center text-sm text-gray-500 hover:text-primary-accent">
+                <button className="flex items-center text-sm text-foreground/60 hover:text-primary-accent">
                   <Download size={16} className="mr-1" />
                   Download
                 </button>
@@ -503,21 +504,21 @@ const AttendanceReportsPage = () => {
               {/* Summary */}
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mb-6">
                 <div className="bg-primary-accent/10 rounded-lg p-4">
-                  <div className="text-sm text-gray-500">
+                  <div className="text-sm text-foreground/80">
                     Average Student Attendance
                   </div>
                   <div className="text-2xl font-bold text-primary-accent">82%</div>
-                  <div className="text-sm text-gray-500 mt-1">
+                  <div className="text-sm text-foreground/60 mt-1">
                     Across all students
                   </div>
                 </div>
 
-                <div className="bg-gray-100 rounded-lg p-4">
-                  <div className="text-sm text-gray-500">
+                <div className="bg-foreground/5 rounded-lg p-4">
+                  <div className="text-sm text-foreground/80">
                     Students with &gt; 90% Attendance
                   </div>
                   <div className="text-2xl font-bold">28</div>
-                  <div className="text-sm text-green-600 mt-1 flex items-center">
+                  <div className="text-sm text-green-500 mt-1 flex items-center">
                     <ArrowRight
                       className="mr-1 transform rotate-45"
                       size={14}
@@ -527,11 +528,11 @@ const AttendanceReportsPage = () => {
                 </div>
 
                 <div className="bg-secondary-accent/10 rounded-lg p-4">
-                  <div className="text-sm text-gray-500">
+                  <div className="text-sm text-foreground/80">
                     Students Needing Attention (&lt; 75%)
                   </div>
                   <div className="text-2xl font-bold text-secondary-accent">15</div>
-                  <div className="text-sm text-red-600 mt-1 flex items-center">
+                  <div className="text-sm text-red-500 mt-1 flex items-center">
                     <ArrowRight
                       className="mr-1 transform rotate-45"
                       size={14}
@@ -546,22 +547,22 @@ const AttendanceReportsPage = () => {
                 <table className="w-full">
                   <thead>
                     <tr className="border-b border-border-color">
-                      <th className="text-left py-3 px-4 font-medium text-gray-600">
+                      <th className="text-left py-3 px-4 font-medium text-foreground/80">
                         Student Name
                       </th>
-                      <th className="text-left py-3 px-4 font-medium text-gray-600">
+                      <th className="text-left py-3 px-4 font-medium text-foreground/80">
                         Student ID
                       </th>
-                      <th className="text-left py-3 px-4 font-medium text-gray-600">
+                      <th className="text-left py-3 px-4 font-medium text-foreground/80">
                         Course
                       </th>
-                      <th className="text-center py-3 px-4 font-medium text-gray-600">
+                      <th className="text-center py-3 px-4 font-medium text-foreground/80">
                         Attendance Rate
                       </th>
-                      <th className="text-center py-3 px-4 font-medium text-gray-600">
+                      <th className="text-center py-3 px-4 font-medium text-foreground/80">
                         Trend
                       </th>
-                      <th className="text-center py-3 px-4 font-medium text-gray-600">
+                      <th className="text-center py-3 px-4 font-medium text-foreground/80">
                         Last Session
                       </th>
                     </tr>
@@ -579,7 +580,7 @@ const AttendanceReportsPage = () => {
                         <td className="py-3 px-4">{student.course}</td>
                         <td className="py-3 px-4 text-center">
                           <div className="inline-flex items-center">
-                            <div className="w-12 bg-gray-200 rounded-full h-2 mr-2">
+                            <div className="w-12 bg-foreground/10 rounded-full h-2 mr-2">
                               <div
                                 className={`h-2 rounded-full ${
                                   student.attendanceRate >= 90
@@ -596,7 +597,7 @@ const AttendanceReportsPage = () => {
                         </td>
                         <td className="py-3 px-4 text-center">
                           {student.trend === "up" && (
-                            <span className="text-green-600">
+                            <span className="text-green-500">
                               <FontAwesomeIcon
                                 icon={faArrowTrendUp}
                                 className="inline"
@@ -605,7 +606,7 @@ const AttendanceReportsPage = () => {
                             </span>
                           )}
                           {student.trend === "down" && (
-                            <span className="text-red-600">
+                            <span className="text-red-500">
                               <FontAwesomeIcon
                                 icon={faArrowTrendDown}
                                 className="inline"
@@ -614,7 +615,7 @@ const AttendanceReportsPage = () => {
                             </span>
                           )}
                           {student.trend === "stable" && (
-                            <span className="text-gray-600">
+                            <span className="text-foreground/60">
                               <FontAwesomeIcon
                                 icon={faArrowDown}
                                 className="inline"
@@ -638,14 +639,14 @@ const AttendanceReportsPage = () => {
       case "room-utilization":
         return (
           <>
-            <div className="p-4 border-b border-border-color bg-gray-50 flex justify-between items-center">
+            <div className="p-4 border-b border-border-color bg-foreground/5 flex justify-between items-center">
               <h2 className="font-medium">Room Utilization Report</h2>
               <div className="flex items-center space-x-3">
-                <button className="flex items-center text-sm text-gray-500 hover:text-primary-accent">
+                <button className="flex items-center text-sm text-foreground/60 hover:text-primary-accent">
                   <Filter size={16} className="mr-1" />
                   Filter Rooms
                 </button>
-                <button className="flex items-center text-sm text-gray-500 hover:text-primary-accent">
+                <button className="flex items-center text-sm text-foreground/60 hover:text-primary-accent">
                   <Download size={16} className="mr-1" />
                   Download
                 </button>
@@ -655,13 +656,13 @@ const AttendanceReportsPage = () => {
               {/* Summary */}
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mb-6">
                 <div className="bg-secondary-accent/10 rounded-lg p-4">
-                  <div className="text-sm text-gray-500">
+                  <div className="text-sm text-foreground/80">
                     Highest Utilized Room
                   </div>
                   <div className="text-2xl font-bold text-secondary-accent">
                     Room 201
                   </div>
-                  <div className="text-sm text-green-600 mt-1 flex items-center">
+                  <div className="text-sm text-green-500 mt-1 flex items-center">
                     <ArrowRight
                       className="mr-1 transform rotate-45"
                       size={14}
@@ -670,12 +671,12 @@ const AttendanceReportsPage = () => {
                   </div>
                 </div>
 
-                <div className="bg-gray-100 rounded-lg p-4">
-                  <div className="text-sm text-gray-500">
+                <div className="bg-foreground/5 rounded-lg p-4">
+                  <div className="text-sm text-foreground/80">
                     Lowest Utilized Room
                   </div>
                   <div className="text-2xl font-bold">Room 102</div>
-                  <div className="text-sm text-red-600 mt-1 flex items-center">
+                  <div className="text-sm text-red-500 mt-1 flex items-center">
                     <ArrowRight
                       className="mr-1 transform rotate-45"
                       size={14}
@@ -685,11 +686,11 @@ const AttendanceReportsPage = () => {
                 </div>
 
                 <div className="bg-primary-accent/10 rounded-lg p-4">
-                  <div className="text-sm text-gray-500">
+                  <div className="text-sm text-foreground/80">
                     Average Room Utilization
                   </div>
                   <div className="text-2xl font-bold text-primary-accent">72.5%</div>
-                  <div className="text-sm text-gray-500 mt-1">
+                  <div className="text-sm text-foreground/60 mt-1">
                     Across all rooms
                   </div>
                 </div>
@@ -700,19 +701,19 @@ const AttendanceReportsPage = () => {
                 <table className="w-full">
                   <thead>
                     <tr className="border-b border-border-color">
-                      <th className="text-left py-3 px-4 font-medium text-gray-600">
+                      <th className="text-left py-3 px-4 font-medium text-foreground/80">
                         Room
                       </th>
-                      <th className="text-center py-3 px-4 font-medium text-gray-600">
+                      <th className="text-center py-3 px-4 font-medium text-foreground/80">
                         Capacity
                       </th>
-                      <th className="text-center py-3 px-4 font-medium text-gray-600">
+                      <th className="text-center py-3 px-4 font-medium text-foreground/80">
                         Utilization Rate
                       </th>
-                      <th className="text-center py-3 px-4 font-medium text-gray-600">
+                      <th className="text-center py-3 px-4 font-medium text-foreground/80">
                         Device Efficiency
                       </th>
-                      <th className="text-right py-3 px-4 font-medium text-gray-600">
+                      <th className="text-right py-3 px-4 font-medium text-foreground/80">
                         Actions
                       </th>
                     </tr>
@@ -729,7 +730,7 @@ const AttendanceReportsPage = () => {
                         </td>
                         <td className="py-3 px-4 text-center">
                           <div className="inline-flex items-center">
-                            <div className="w-12 bg-gray-200 rounded-full h-2 mr-2">
+                            <div className="w-12 bg-foreground/10 rounded-full h-2 mr-2">
                               <div
                                 className={`h-2 rounded-full ${
                                   room.utilizationRate >= 80
@@ -769,17 +770,17 @@ const AttendanceReportsPage = () => {
   return (
     <div className="flex-1 flex flex-col overflow-hidden">
       {/* Header */}
-      <header className="bg-white border-b border-border-color p-4">
+      <header className="bg-card-background border-b border-border-color p-4">
         <div className="flex justify-between items-center">
           <div className="text-lg font-semibold">Attendance Reports</div>
           <div className="relative">
             <input
               type="text"
               placeholder="Search reports..."
-              className="pl-9 pr-4 py-2 border border-border-color rounded-md focus:outline-none focus:ring-1 focus:ring-primary-accent w-64"
+              className="pl-9 pr-4 py-2 border border-border-color rounded-md focus:outline-none focus:ring-1 focus:ring-primary-accent w-64 bg-background"
             />
             <Search
-              className="absolute left-3 top-2.5 text-gray-400"
+              className="absolute left-3 top-2.5 text-foreground/60"
               size={18}
             />
           </div>
@@ -797,7 +798,7 @@ const AttendanceReportsPage = () => {
               <select
                 value={dateRange}
                 onChange={(e) => setDateRange(e.target.value)}
-                className="appearance-none bg-white border border-border-color rounded-md px-4 py-2 pr-8 focus:outline-none focus:ring-1 focus:ring-primary-accent"
+                className="appearance-none bg-background border border-border-color rounded-md px-4 py-2 pr-8 focus:outline-none focus:ring-1 focus:ring-primary-accent"
               >
                 {dateRanges.map((range) => (
                   <option key={range} value={range}>
@@ -806,7 +807,7 @@ const AttendanceReportsPage = () => {
                 ))}
               </select>
               <ChevronRight
-                className="absolute right-3 top-2.5 text-gray-400 transform rotate-90"
+                className="absolute right-3 top-2.5 text-foreground/60 transform rotate-90"
                 size={16}
               />
             </div>
@@ -824,7 +825,7 @@ const AttendanceReportsPage = () => {
             <div
               key={report.id}
               onClick={() => setSelectedReport(report.id)}
-              className={`bg-white rounded-lg border p-4 cursor-pointer transition-all ${
+              className={`bg-card-background rounded-lg border p-4 cursor-pointer transition-all ${
                 selectedReport === report.id
                   ? "border-primary-accent shadow-sm"
                   : "border-border-color hover:border-primary-accent"
@@ -834,10 +835,10 @@ const AttendanceReportsPage = () => {
                 <div className="mr-3 mt-1">{report.icon}</div>
                 <div>
                   <h3 className="font-medium">{report.name}</h3>
-                  <p className="text-sm text-gray-500 mt-1">
+                  <p className="text-sm text-foreground/80 mt-1">
                     {report.description}
                   </p>
-                  <div className="text-xs text-gray-400 mt-2">
+                  <div className="text-xs text-foreground/60 mt-2">
                     Last generated: {report.lastGenerated}
                   </div>
                 </div>
@@ -847,7 +848,7 @@ const AttendanceReportsPage = () => {
         </div>
 
         {/* Report content */}
-        <div className="bg-white rounded-lg border border-border-color overflow-hidden mb-6">
+        <div className="bg-card-background rounded-lg border border-border-color overflow-hidden mb-6">
           {renderReportContent()}
         </div>
 
@@ -855,28 +856,28 @@ const AttendanceReportsPage = () => {
         <div>
           <div className="flex justify-between items-center mb-4">
             <h2 className="font-medium">Recently Generated Reports</h2>
-            <a
+            <Link
               href="/reports/history"
               className="text-sm text-primary-accent hover:underline"
             >
               View all
-            </a>
+            </Link>
           </div>
 
-          <div className="bg-white rounded-lg border border-border-color overflow-hidden">
+          <div className="bg-card-background rounded-lg border border-border-color overflow-hidden">
             <table className="w-full">
               <thead>
-                <tr className="border-b border-border-color bg-gray-50">
-                  <th className="text-left py-3 px-4 font-medium text-gray-600">
+                <tr className="border-b border-border-color bg-foreground/5">
+                  <th className="text-left py-3 px-4 font-medium text-foreground/80">
                     Report Name
                   </th>
-                  <th className="text-left py-3 px-4 font-medium text-gray-600">
+                  <th className="text-left py-3 px-4 font-medium text-foreground/80">
                     Date Generated
                   </th>
-                  <th className="text-left py-3 px-4 font-medium text-gray-600">
+                  <th className="text-left py-3 px-4 font-medium text-foreground/80">
                     Generated By
                   </th>
-                  <th className="text-right py-3 px-4 font-medium text-gray-600">
+                  <th className="text-right py-3 px-4 font-medium text-foreground/80">
                     Actions
                   </th>
                 </tr>
@@ -886,13 +887,13 @@ const AttendanceReportsPage = () => {
                   <td className="py-3 px-4 font-medium">
                     Weekly Attendance Summary
                   </td>
-                  <td className="py-3 px-4 text-gray-600">Mar 18, 2025</td>
+                  <td className="py-3 px-4 text-foreground/80">Mar 18, 2025</td>
                   <td className="py-3 px-4">Dr. Sarah Chen</td>
                   <td className="py-3 px-4 text-right">
                     <button className="text-primary-accent hover:underline text-sm mr-3">
                       View
                     </button>
-                    <button className="text-gray-500 hover:underline text-sm">
+                    <button className="text-foreground/60 hover:underline text-sm">
                       Download
                     </button>
                   </td>
@@ -901,13 +902,13 @@ const AttendanceReportsPage = () => {
                   <td className="py-3 px-4 font-medium">
                     CSC301 Student Attendance
                   </td>
-                  <td className="py-3 px-4 text-gray-600">Mar 15, 2025</td>
+                  <td className="py-3 px-4 text-foreground/80">Mar 15, 2025</td>
                   <td className="py-3 px-4">Dr. Sarah Chen</td>
                   <td className="py-3 px-4 text-right">
                     <button className="text-primary-accent hover:underline text-sm mr-3">
                       View
                     </button>
-                    <button className="text-gray-500 hover:underline text-sm">
+                    <button className="text-foreground/60 hover:underline text-sm">
                       Download
                     </button>
                   </td>
@@ -916,13 +917,13 @@ const AttendanceReportsPage = () => {
                   <td className="py-3 px-4 font-medium">
                     Room Utilization Analysis
                   </td>
-                  <td className="py-3 px-4 text-gray-600">Mar 12, 2025</td>
+                  <td className="py-3 px-4 text-foreground/80">Mar 12, 2025</td>
                   <td className="py-3 px-4">System (Automated)</td>
                   <td className="py-3 px-4 text-right">
                     <button className="text-primary-accent hover:underline text-sm mr-3">
                       View
                     </button>
-                    <button className="text-gray-500 hover:underline text-sm">
+                    <button className="text-foreground/60 hover:underline text-sm">
                       Download
                     </button>
                   </td>
