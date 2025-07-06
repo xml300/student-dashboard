@@ -1,56 +1,42 @@
 "use client";
 
-import React, { useState } from 'react';
-import Link from 'next/link';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import React from "react";
+import Link from "next/link";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
-  faArrowLeft,
-  faBars,
   faHouse,
   faBook,
   faChartLine,
   faPhone,
-  faGear
-} from '@fortawesome/free-solid-svg-icons';
+  faGear,
+} from "@fortawesome/free-solid-svg-icons";
 
-const Sidebar = () => {
-  const [isSidebarOpen, setIsSidebarOpen] = useState(true);
-  
-  const toggleSidebar = () => {
-    setIsSidebarOpen(!isSidebarOpen);
-  };
-  
+interface SidebarProps {
+  isOpen: boolean;
+  onClose: () => void;
+}
+
+const Sidebar: React.FC<SidebarProps> = ({ isOpen, onClose }) => {
   return (
     <>
-      {/* Separate toggle button that's always visible on mobile */}
-      <button
-        className={`
-          fixed top-16 left-4 z-50 md:hidden
-          cursor-pointer px-2 py-1.5 bg-white dark:bg-gray-900 rounded-full shadow-md hover:bg-gray-100 dark:hover:bg-gray-800 focus:outline-none
-        `}
-        onClick={toggleSidebar}
-        aria-label={isSidebarOpen ? 'Close Sidebar' : 'Open Sidebar'}
-      >
-        <FontAwesomeIcon
-          className="w-5 h-5 text-gray-600 dark:text-gray-200"
-          icon={isSidebarOpen ? faArrowLeft : faBars}
-        />
-      </button>
-      
+      {/* Overlay for mobile */}
+      {isOpen && (
+        <div
+          className="fixed inset-0 bg-black/30 z-30 md:hidden"
+          onClick={onClose}
+        ></div>
+      )}
       <aside
         className={`
           bg-white dark:bg-gray-900 border-r border-gray-200 dark:border-gray-700 pt-6
           transition-transform duration-300 ease-in-out
           w-64
-          z-20 md:z-10
+          z-40 
           fixed md:relative
-          min-h-screen
+          h-full
           overflow-y-auto
-          ${
-            isSidebarOpen
-              ? 'translate-x-0'
-              : '-translate-x-full md:translate-x-0'
-          }
+          ${isOpen ? "translate-x-0" : "-translate-x-full"}
+          md:translate-x-0
         `}
       >
         {/* Sidebar content */}
@@ -59,6 +45,7 @@ const Sidebar = () => {
             <Link
               href="/"
               className="group flex items-center p-2 rounded-md text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-800"
+              onClick={onClose}
             >
               <FontAwesomeIcon
                 icon={faHouse}
@@ -66,10 +53,11 @@ const Sidebar = () => {
               />
               <span className="block text-sm font-medium">Home</span>
             </Link>
-            
+
             <Link
               href="/courses"
               className="group flex items-center p-2 rounded-md text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-800"
+              onClick={onClose}
             >
               <FontAwesomeIcon
                 icon={faBook}
@@ -77,10 +65,11 @@ const Sidebar = () => {
               />
               <span className="block text-sm font-medium">Courses</span>
             </Link>
-            
+
             <Link
               href="/attendance-reports"
               className="group flex items-center p-2 rounded-md text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-800"
+              onClick={onClose}
             >
               <FontAwesomeIcon
                 icon={faChartLine}
@@ -88,10 +77,11 @@ const Sidebar = () => {
               />
               <span className="block text-sm font-medium">Attendance</span>
             </Link>
-            
+
             <Link
               href="/devices"
               className="group flex items-center p-2 rounded-md text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-800"
+              onClick={onClose}
             >
               <FontAwesomeIcon
                 icon={faPhone}
@@ -99,10 +89,11 @@ const Sidebar = () => {
               />
               <span className="block text-sm font-medium">Devices</span>
             </Link>
-            
+
             <Link
               href="/settings"
               className="group flex items-center p-2 rounded-md text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-800"
+              onClick={onClose}
             >
               <FontAwesomeIcon
                 icon={faGear}

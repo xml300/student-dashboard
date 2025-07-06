@@ -1,18 +1,18 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faUser, faClipboard, faBuilding } from "@fortawesome/free-regular-svg-icons";
+import { faUser, faClipboard } from "@fortawesome/free-regular-svg-icons";
 import Link from "next/link";
 
 
 export default function HomePage() {
   return (
     <div className="flex-1 overflow-auto">
-      <header className="bg-card-background shadow-sm">
+      <header className="bg-card-background shadow-sm sticky top-0 z-10">
         <div className="flex justify-between items-center p-4">
           <h1 className="text-xl font-semibold text-foreground">Dashboard Overview</h1>
         </div>
       </header>
 
-      <div className="p-6">
+      <div className="p-4 sm:p-6">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-6">
           <div className="bg-card-background rounded-lg shadow p-4 border-l-4 border-primary-accent">
             <div className="flex justify-between items-start">
@@ -42,18 +42,6 @@ export default function HomePage() {
             </div>
           </div>
 
-          <div className="bg-card-background rounded-lg shadow p-4 border-l-4 border-green-500">
-            <div className="flex justify-between items-start">
-              <div>
-                <p className="text-sm text-foreground/80 mb-1">Active Rooms</p>
-                <h3 className="text-2xl font-bold">12</h3>
-                <p className="text-xs text-green-500 mt-1">+2 from last week</p>
-              </div>
-              <div className="p-2 bg-green-500/10 rounded-lg">
-                <FontAwesomeIcon size="lg" icon={faBuilding} />
-              </div>
-            </div>
-          </div>
 
           <div className="bg-card-background rounded-lg shadow p-4 border-l-4 border-purple-500">
             <div className="flex justify-between items-start">
@@ -86,16 +74,18 @@ export default function HomePage() {
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
           <div className="bg-card-background rounded-lg shadow p-4">
-            <div className="flex justify-between items-center mb-4">
-              <h3 className="text-lg font-semibold">Attendance Trend</h3>
-              <div className="flex items-center">
-                <button className="text-sm text-primary-accent hover:underline border-0 bg-primary-accent/20 px-2 py-1">
+            <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-4">
+              <h3 className="text-lg font-semibold mb-2 sm:mb-0">
+                Attendance Trend
+              </h3>
+              <div className="flex items-center space-x-2">
+                <button className="text-xs sm:text-sm text-primary-accent hover:underline border-0 bg-primary-accent/20 px-2 py-1 rounded">
                   Weekly
                 </button>
-                <button className="text-sm text-primary-accent hover:underline border-0 bg-primary-accent/20 px-2 py-1 ml-3">
+                <button className="text-xs sm:text-sm text-primary-accent hover:underline border-0 bg-primary-accent/20 px-2 py-1 rounded">
                   Monthly
                 </button>
-                <button className="text-sm text-primary-accent hover:underline border-0 bg-primary-accent/20 px-2 py-1 ml-3">
+                <button className="text-xs sm:text-sm text-primary-accent hover:underline border-0 bg-primary-accent/20 px-2 py-1 rounded">
                   Semester
                 </button>
               </div>
@@ -105,24 +95,6 @@ export default function HomePage() {
             </div>
           </div>
 
-          <div className="bg-card-background rounded-lg shadow p-4">
-            <div className="flex justify-between items-center mb-4">
-              <h3 className="text-lg font-semibold">Room Utilization</h3>
-              <div className="flex items-center">
-                <button className="text-sm text-primary-accent hover:underline border-0 bg-primary-accent/20 px-2 py-1">
-                  By Floor
-                </button>
-                <button className="text-sm text-primary-accent hover:underline border-0 bg-primary-accent/20 px-2 py-1 ml-3">
-                  By Department
-                </button>
-              </div>
-            </div>
-            <div className="h-64 bg-background rounded flex items-center justify-center">
-              <p className="text-foreground/60">
-                Room utilization chart visualization
-              </p>
-            </div>
-          </div>
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
@@ -271,7 +243,7 @@ export default function HomePage() {
                       <div>
                         <p className="font-medium">Computer Science 202</p>
                         <p className="text-sm text-foreground/80">
-                          Room 301 • 10:00 AM - 11:30 AM
+                          10:00 AM - 11:30 AM
                         </p>
                       </div>
                     </div>
@@ -291,7 +263,7 @@ export default function HomePage() {
                       <div>
                         <p className="font-medium">Database Systems</p>
                         <p className="text-sm text-foreground/80">
-                          Room 205 • 1:00 PM - 2:30 PM
+                          1:00 PM - 2:30 PM
                         </p>
                       </div>
                     </div>
@@ -311,7 +283,7 @@ export default function HomePage() {
                       <div>
                         <p className="font-medium">Artificial Intelligence</p>
                         <p className="text-sm text-foreground/80">
-                          Room 408 • 3:00 PM - 4:30 PM
+                          3:00 PM - 4:30 PM
                         </p>
                       </div>
                     </div>
@@ -331,7 +303,7 @@ export default function HomePage() {
                       <div>
                         <p className="font-medium">Software Engineering</p>
                         <p className="text-sm text-foreground/80">
-                          Room 102 • Tomorrow, 9:00 AM
+                          Tomorrow, 9:00 AM
                         </p>
                       </div>
                     </div>

@@ -13,7 +13,6 @@ const DevicesManagementPage = () => {
       name: 'Main Hall Scanner',
       type: 'Tablet',
       model: 'iPad Air (2022)',
-      room: 'Main Lecture Hall',
       roomId: 'R101',
       status: 'active',
       battery: 87,
@@ -27,7 +26,6 @@ const DevicesManagementPage = () => {
       name: 'Lab A Scanner',
       type: 'Tablet',
       model: 'Samsung Galaxy Tab S7',
-      room: 'Lab Room A',
       roomId: 'R102',
       status: 'active',
       battery: 64,
@@ -41,7 +39,6 @@ const DevicesManagementPage = () => {
       name: 'Science Hall Scanner',
       type: 'Fixed Terminal',
       model: 'AttendancePoint Pro',
-      room: 'Science Lecture Hall',
       roomId: 'R103',
       status: 'active',
       battery: 100,
@@ -55,7 +52,6 @@ const DevicesManagementPage = () => {
       name: 'Portable Scanner 1',
       type: 'Mobile',
       model: 'HandyScan 200',
-      room: 'Unassigned',
       roomId: null,
       status: 'inactive',
       battery: 23,
@@ -69,7 +65,6 @@ const DevicesManagementPage = () => {
       name: 'Engineering Lab Scanner',
       type: 'Tablet',
       model: 'iPad Pro (2023)',
-      room: 'Engineering Lab',
       roomId: 'R105',
       status: 'maintenance',
       battery: 42,
@@ -150,13 +145,13 @@ const DevicesManagementPage = () => {
       <div className="flex-1 flex flex-col overflow-hidden">
         {/* Header */}
         <header className="bg-card-background border-b border-border-color p-4">
-          <div className="flex justify-between items-center">
-            <div className="text-lg font-semibold text-foreground">Devices</div>
-            <div className="relative">
+          <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center">
+            <div className="text-lg font-semibold text-foreground mb-2 sm:mb-0">Devices</div>
+            <div className="relative w-full sm:w-64">
               <input
                 type="text"
                 placeholder="Search devices..."
-                className="pl-9 pr-4 py-2 border border-border-color rounded-md focus:outline-none focus:ring-1 focus:ring-primary-accent w-64 bg-background text-foreground"
+                className="pl-9 pr-4 py-2 border border-border-color rounded-md focus:outline-none focus:ring-1 focus:ring-primary-accent w-full bg-background text-foreground"
               />
               <Search className="absolute left-3 top-2.5 text-foreground/60" size={18} />
             </div>
@@ -164,40 +159,40 @@ const DevicesManagementPage = () => {
         </header>
         
         {/* Content */}
-        <div className="flex-1 overflow-auto p-6 bg-background">
+        <div className="flex-1 overflow-auto p-4 sm:p-6 bg-background">
           {/* Actions bar */}
-          <div className="flex justify-between items-center mb-6">
-            <div className="flex space-x-2">
+          <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6 space-y-4 sm:space-y-0">
+            <div className="flex flex-wrap gap-2">
               <button 
                 onClick={() => setActiveTab('all')}
-                className={`px-4 py-2 rounded-md ${activeTab === 'all' ? 'bg-primary-accent text-white' : 'bg-card-background border border-border-color text-foreground/80 hover:bg-foreground/5'}`}>
+                className={`px-3 py-1.5 sm:px-4 sm:py-2 text-sm rounded-md ${activeTab === 'all' ? 'bg-primary-accent text-white' : 'bg-card-background border border-border-color text-foreground/80 hover:bg-foreground/5'}`}>
                 All
               </button>
               <button 
                 onClick={() => setActiveTab('active')}
-                className={`px-4 py-2 rounded-md ${activeTab === 'active' ? 'bg-primary-accent text-white' : 'bg-card-background border border-border-color text-foreground/80 hover:bg-foreground/5'}`}>
+                className={`px-3 py-1.5 sm:px-4 sm:py-2 text-sm rounded-md ${activeTab === 'active' ? 'bg-primary-accent text-white' : 'bg-card-background border border-border-color text-foreground/80 hover:bg-foreground/5'}`}>
                 Active
               </button>
               <button 
                 onClick={() => setActiveTab('inactive')}
-                className={`px-4 py-2 rounded-md ${activeTab === 'inactive' ? 'bg-primary-accent text-white' : 'bg-card-background border border-border-color text-foreground/80 hover:bg-foreground/5'}`}>
+                className={`px-3 py-1.5 sm:px-4 sm:py-2 text-sm rounded-md ${activeTab === 'inactive' ? 'bg-primary-accent text-white' : 'bg-card-background border border-border-color text-foreground/80 hover:bg-foreground/5'}`}>
                 Inactive
               </button>
               <button 
                 onClick={() => setActiveTab('maintenance')}
-                className={`px-4 py-2 rounded-md ${activeTab === 'maintenance' ? 'bg-primary-accent text-white' : 'bg-card-background border border-border-color text-foreground/80 hover:bg-foreground/5'}`}>
+                className={`px-3 py-1.5 sm:px-4 sm:py-2 text-sm rounded-md ${activeTab === 'maintenance' ? 'bg-primary-accent text-white' : 'bg-card-background border border-border-color text-foreground/80 hover:bg-foreground/5'}`}>
                 Maintenance
               </button>
             </div>
             
-            <div className="flex space-x-3">
-              <button className="flex items-center px-4 py-2 bg-card-background border border-border-color rounded-md text-foreground/80 hover:bg-foreground/5">
+            <div className="flex space-x-3 w-full sm:w-auto">
+              <button className="flex items-center justify-center w-full sm:w-auto px-3 py-1.5 sm:px-4 sm:py-2 text-sm bg-card-background border border-border-color rounded-md text-foreground/80 hover:bg-foreground/5">
                 <RefreshCw size={16} className="mr-2" />
-                Refresh Status
+                Refresh
               </button>
-              <button className="flex items-center px-4 py-2 bg-primary-accent text-white rounded-md hover:bg-primary-accent/90">
+              <button className="flex items-center justify-center w-full sm:w-auto px-3 py-1.5 sm:px-4 sm:py-2 text-sm bg-primary-accent text-white rounded-md hover:bg-primary-accent/90">
                 <Plus size={16} className="mr-2" />
-                Add New Device
+                Add Device
               </button>
             </div>
           </div>
@@ -205,7 +200,7 @@ const DevicesManagementPage = () => {
           {/* Devices cards */}
           <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-6">
             {filteredDevices.map(device => (
-              <div key={device.id} className="bg-card-background rounded-lg border border-border-color overflow-hidden hover:border-primary-accent transition-colors">
+              <div key={device.id} className="bg-card-background rounded-lg border border-border-color overflow-hidden hover:border-primary-accent transition-colors justify-between flex flex-col">
                 <div className="p-5">
                   <div className="flex justify-between items-start">
                     <div>
@@ -222,10 +217,6 @@ const DevicesManagementPage = () => {
                     </button>
                   </div>
                   
-                  <div className="mt-4 flex items-center">
-                    <div className="text-sm text-foreground/80 mr-4">Room:</div>
-                    <div className="font-medium">{device.room || 'Unassigned'}</div>
-                  </div>
                   
                   <div className="mt-3 flex items-center">
                     <div className="text-sm text-foreground/80 mr-4">Model:</div>

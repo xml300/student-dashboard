@@ -126,9 +126,9 @@ export default function SettingsPage() {
     };
 
     return (
-        <section className="space-y-6">
+        <section className="max-w-4xl mx-auto py-8 px-4 sm:px-6 lg:px-8 space-y-6">
           <PageHeading title="Settings" description="Customize your dashboard settings" />
-          <div className="bg-card-background shadow-md rounded-md p-8 md:p-10">
+          <div className="bg-card-background shadow-md rounded-md p-6 sm:p-8 md:p-10">
             <div className="space-y-8">
               <div>
                 <InputField
@@ -160,7 +160,7 @@ export default function SettingsPage() {
                 />
                 {logo && (
                   <div className="mt-2">
-                    <Image src={logo} alt="Logo Preview" className="h-12" />
+                    <Image src={logo} alt="Logo Preview" width={48} height={48} className="h-12 w-auto" />
                   </div>
                 )}
                 <p className="text-foreground/80 text-sm mt-1">Upload a logo for your dashboard (Recommended size: 100x100 pixels).</p>
@@ -172,6 +172,7 @@ export default function SettingsPage() {
                 label="Save Settings"
                 icon={<FontAwesomeIcon icon={faGear} className="w-4 h-4" />}
                 variant="primary"
+                className="w-full sm:w-auto"
               />
             </div>
           </div>

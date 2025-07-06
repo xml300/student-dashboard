@@ -1,6 +1,6 @@
 "use client";
 import React, { useState } from 'react';
-import { Calendar, List, ChevronLeft, ChevronRight, Filter, Search, Plus, MapPin } from 'lucide-react';
+import { Calendar, List, ChevronLeft, ChevronRight, Filter, Search, Plus } from 'lucide-react';
 import Link from 'next/link';
 
 const LecturerSchedulePage = () => {
@@ -144,48 +144,48 @@ const LecturerSchedulePage = () => {
         <div className="flex-1 flex flex-col overflow-hidden">
             {/* Header */}
             <header className="bg-card-background border-b border-border-color p-4">
-                <div className="flex justify-between items-center">
-                    <div className="text-lg font-semibold">Lecturer Schedule</div>
-                    <div className="flex space-x-4 items-center">
-                        <div className="relative">
+                <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center">
+                    <div className="text-lg font-semibold mb-2 sm:mb-0">Lecturer Schedule</div>
+                    <div className="flex flex-col sm:flex-row space-y-2 sm:space-y-0 sm:space-x-4 items-start sm:items-center w-full sm:w-auto">
+                        <div className="relative w-full sm:w-64">
                             <input
                                 type="text"
                                 placeholder="Search schedule..."
-                                className="pl-9 pr-4 py-2 border border-border-color rounded-md focus:outline-none focus:ring-1 focus:ring-primary-accent w-64 bg-background"
+                                className="pl-9 pr-4 py-2 border border-border-color rounded-md focus:outline-none focus:ring-1 focus:ring-primary-accent w-full bg-background"
                                 value={searchQuery}
                                 onChange={(e) => setSearchQuery(e.target.value)}
                             />
                             <Search className="absolute left-3 top-2.5 text-foreground/60" size={18} />
                         </div>
-                        <button className="flex items-center px-3 py-2 bg-card-background border border-border-color rounded-md text-foreground/80 hover:bg-foreground/5">
+                        <button className="flex items-center justify-center w-full sm:w-auto px-3 py-2 bg-card-background border border-border-color rounded-md text-foreground/80 hover:bg-foreground/5">
                             <Filter size={16} className="mr-2" />
                             Filter
-                        </button> {/* Add dropdown/modal for filter options later */}
+                        </button>
                     </div>
                 </div>
             </header>
 
             {/* Content */}
-            <div className="flex-1 overflow-auto p-6 bg-background">
+            <div className="flex-1 overflow-auto p-4 sm:p-6 bg-background">
                 {/* View Mode Toggle & Actions */}
-                <div className="flex justify-between items-center mb-4">
+                <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-4 space-y-4 sm:space-y-0">
                     <div className="flex space-x-2">
                         <button
                             onClick={() => setViewMode('calendar')}
-                            className={`px-3 py-2 rounded-md flex items-center ${viewMode === 'calendar' ? 'bg-primary-accent text-white' : 'bg-card-background border border-border-color text-foreground/80 hover:bg-foreground/5'}`}
+                            className={`px-3 py-2 rounded-md flex items-center text-sm ${viewMode === 'calendar' ? 'bg-primary-accent text-white' : 'bg-card-background border border-border-color text-foreground/80 hover:bg-foreground/5'}`}
                         >
                             <Calendar size={16} className="mr-2" />
                             Calendar
                         </button>
                         <button
                             onClick={() => setViewMode('list')}
-                            className={`px-3 py-2 rounded-md flex items-center ${viewMode === 'list' ? 'bg-primary-accent text-white' : 'bg-card-background border border-border-color text-foreground/80 hover:bg-foreground/5'}`}
+                            className={`px-3 py-2 rounded-md flex items-center text-sm ${viewMode === 'list' ? 'bg-primary-accent text-white' : 'bg-card-background border border-border-color text-foreground/80 hover:bg-foreground/5'}`}
                         >
                             <List size={16} className="mr-2" />
                             List
                         </button>
                     </div>
-                    <button className="flex items-center px-4 py-2 bg-primary-accent text-white rounded-md hover:bg-primary-accent/90">
+                    <button className="flex items-center justify-center w-full sm:w-auto px-4 py-2 bg-primary-accent text-white rounded-md hover:bg-primary-accent/90">
                         <Plus size={16} className="mr-2" />
                         Add Event
                     </button>
@@ -232,58 +232,42 @@ const LecturerSchedulePage = () => {
 
                 {/* List View */}
                 {viewMode === 'list' && (
-                    <div className="bg-card-background rounded-lg border border-border-color overflow-x-auto">
-                        <table className="min-w-full divide-y divide-border-color">
-                            <thead className="bg-foreground/5">
-                                <tr>
-                                    <th scope="col" className="px-4 py-3 text-left text-xs font-medium text-foreground/80 uppercase tracking-wider">
-                                        Date
-                                    </th>
-                                    <th scope="col" className="px-4 py-3 text-left text-xs font-medium text-foreground/80 uppercase tracking-wider">
-                                        Time
-                                    </th>
-                                    <th scope="col" className="px-4 py-3 text-left text-xs font-medium text-foreground/80 uppercase tracking-wider">
-                                        Event
-                                    </th>
-                                    <th scope="col" className="px-4 py-3 text-left text-xs font-medium text-foreground/80 uppercase tracking-wider">
-                                        Location
-                                    </th>
-                                    <th scope="col" className="px-4 py-3 text-left text-xs font-medium text-foreground/80 uppercase tracking-wider">
-                                        Course
-                                    </th>
-                                    <th scope="col" className="relative px-4 py-3">
-                                        <span className="sr-only">Actions</span>
-                                    </th>
-                                </tr>
-                            </thead>
-                            <tbody className="bg-card-background divide-y divide-border-color">
-                                {sortedEventsForList.map((event) => (
-                                    <tr key={event.id}>
-                                        <td className="px-4 py-2 whitespace-nowrap text-sm text-foreground">{new Date(event.date).toLocaleDateString()}</td>
-                                        <td className="px-4 py-2 whitespace-nowrap text-sm text-foreground">{event.startTime} - {event.endTime}</td>
-                                        <td className="px-4 py-2 text-sm text-foreground">
-                                            <div className="font-medium">{event.title}</div>
-                                            <div className="text-foreground/80 text-xs">{event.type}</div>
-                                        </td>
-                                        <td className="px-4 py-2 whitespace-nowrap text-sm text-foreground">
-                                            <div className="flex items-center">
-                                                <MapPin size={14} className="text-foreground/60 mr-1" />
-                                                {event.location || 'N/A'}
-                                            </div>
-                                        </td>
-                                        <td className="px-4 py-2 whitespace-nowrap text-sm text-foreground">{event.courseCode || 'N/A'}</td>
-                                        <td className="px-4 py-2 whitespace-nowrap text-right text-sm font-medium">
-                                            <Link href="#" className="text-primary-accent hover:text-primary-accent/80">View Details</Link>
-                                        </td>
-                                    </tr>
-                                ))}
-                                {sortedEventsForList.length === 0 && (
-                                    <tr>
-                                        <td className="px-4 py-4 text-center text-foreground/60" colSpan={6}>No events found for current filter and search.</td>
-                                    </tr>
-                                )}
-                            </tbody>
-                        </table>
+                    <div className="space-y-4">
+                        {sortedEventsForList.length > 0 ? (
+                            sortedEventsForList.map((event) => (
+                                <div key={event.id} className="bg-card-background rounded-lg border border-border-color p-4">
+                                    <div className="flex justify-between items-start">
+                                        <div>
+                                            <p className="font-bold">{event.title}</p>
+                                            <p className="text-sm text-foreground/80">{event.type}</p>
+                                        </div>
+                                        <Link href="#" className="text-primary-accent hover:text-primary-accent/80 text-sm">View</Link>
+                                    </div>
+                                    <div className="mt-4 pt-4 border-t border-border-color space-y-2 text-sm">
+                                        <div className="flex justify-between">
+                                            <span className="text-foreground/80">Date:</span>
+                                            <span>{new Date(event.date).toLocaleDateString()}</span>
+                                        </div>
+                                        <div className="flex justify-between">
+                                            <span className="text-foreground/80">Time:</span>
+                                            <span>{event.startTime} - {event.endTime}</span>
+                                        </div>
+                                        <div className="flex justify-between">
+                                            <span className="text-foreground/80">Location:</span>
+                                            <span>{event.location || 'N/A'}</span>
+                                        </div>
+                                        <div className="flex justify-between">
+                                            <span className="text-foreground/80">Course:</span>
+                                            <span>{event.courseCode || 'N/A'}</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            ))
+                        ) : (
+                            <div className="text-center text-foreground/60 py-8">
+                                No events found for current filter and search.
+                            </div>
+                        )}
                     </div>
                 )}
             </div>

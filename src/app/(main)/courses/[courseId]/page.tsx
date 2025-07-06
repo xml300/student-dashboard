@@ -1,6 +1,6 @@
 "use client";
 import React, { useState } from 'react';
-import { Search, Users, ChevronRight, ArrowRight, MoreVertical, BarChart } from 'lucide-react';
+import { Search, Users, ChevronRight, ArrowRight, BarChart } from 'lucide-react';
 import Link from 'next/link';
 
 const CourseManagementPage = () => {
@@ -15,10 +15,6 @@ const CourseManagementPage = () => {
     lastAttendance: 'Mar 17, 2025',
     nextSession: 'Mar 21, 2025 - 10:00 AM',
     attendanceRate: '87%',
-    rooms: [
-      { id: 'R101', name: 'Main Lecture Hall', capacity: 150, devices: 2 },
-      { id: 'R102', name: 'Lab Room A', capacity: 40, devices: 1 },
-    ],
     recentSessions: [
       { date: 'Mar 17, 2025', attendees: 124, totalStudents: 142, rate: '87%' },
       { date: 'Mar 14, 2025', attendees: 131, totalStudents: 142, rate: '92%' },
@@ -158,41 +154,7 @@ const CourseManagementPage = () => {
                 </div>
               </div>
               
-              {/* Rooms section */}
               <div>
-                <div className="flex justify-between items-center mb-4">
-                  <h2 className="text-lg font-medium">Assigned Rooms</h2>
-                  <button className="text-sm text-primary-accent hover:underline">Manage</button>
-                </div>
-                
-                <div className="space-y-3">
-                  {course.rooms.map(room => (
-                    <div key={room.id} className="bg-card-background p-4 rounded-lg border border-border-color">
-                      <div className="flex justify-between">
-                        <div className="font-medium">{room.name}</div>
-                        <button className="text-foreground/60 hover:text-foreground">
-                          <MoreVertical size={20} />
-                        </button>
-                      </div>
-                      <div className="text-sm text-foreground/80 mt-1">Room {room.id}</div>
-                      <div className="mt-3 grid grid-cols-2 gap-2 text-sm">
-                        <div>
-                          <div className="text-foreground/80">Capacity</div>
-                          <div>{room.capacity} students</div>
-                        </div>
-                        <div>
-                          <div className="text-foreground/80">Devices</div>
-                          <div>{room.devices} active</div>
-                        </div>
-                      </div>
-                    </div>
-                  ))}
-                  
-                  <button className="w-full border border-dashed border-border-color rounded-lg py-3 text-foreground/80 hover:border-primary-accent hover:text-primary-accent text-sm">
-                    + Add another room
-                  </button>
-                </div>
-                
                 <div className="mt-6 bg-primary-accent/10 rounded-lg p-4">
                   <h3 className="font-medium text-primary-accent mb-2">Quick Actions</h3>
                   <div className="space-y-2">

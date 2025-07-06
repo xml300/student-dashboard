@@ -1,11 +1,23 @@
 {
-  "id": "e713e439-fa69-4e90-9a78-b92fc207cb6a",
-  "prevId": "00000000-0000-0000-0000-000000000000",
+  "id": "00000000-0000-0000-0000-000000000000",
+  "prevId": "",
   "version": "7",
   "dialect": "postgresql",
   "tables": {
-    "public.users_table": {
-      "name": "users_table",
+    "public.lecturers": {
+      "name": "lecturers",
+      "schema": "",
+      "columns": {},
+      "indexes": {},
+      "foreignKeys": {},
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "checkConstraints": {},
+      "policies": {},
+      "isRLSEnabled": false
+    },
+    "public.users": {
+      "name": "users",
       "schema": "",
       "columns": {
         "id": {
@@ -14,39 +26,54 @@
           "primaryKey": true,
           "notNull": true
         },
-        "name": {
-          "name": "name",
+        "username": {
+          "name": "username",
           "type": "text",
           "primaryKey": false,
           "notNull": true
         },
-        "age": {
-          "name": "age",
+        "password": {
+          "name": "password",
           "type": "text",
           "primaryKey": false,
           "notNull": true
         },
-        "email": {
-          "name": "email",
-          "type": "text",
+        "user_type": {
+          "name": "user_type",
+          "type": "integer",
           "primaryKey": false,
-          "notNull": true
+          "notNull": true,
+          "default": 0
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": false,
+          "default": "now()"
+        },
+        "updated_at": {
+          "name": "updated_at",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": false,
+          "default": "now()"
         }
       },
       "indexes": {},
       "foreignKeys": {},
       "compositePrimaryKeys": {},
       "uniqueConstraints": {
-        "users_table_email_unique": {
-          "name": "users_table_email_unique",
-          "nullsNotDistinct": false,
+        "users_username_unique": {
           "columns": [
-            "email"
-          ]
+            "username"
+          ],
+          "nullsNotDistinct": false,
+          "name": "users_username_unique"
         }
       },
-      "policies": {},
       "checkConstraints": {},
+      "policies": {},
       "isRLSEnabled": false
     }
   },
@@ -57,8 +84,11 @@
   "policies": {},
   "views": {},
   "_meta": {
-    "columns": {},
     "schemas": {},
+    "tables": {},
+    "columns": {}
+  },
+  "internal": {
     "tables": {}
   }
 }

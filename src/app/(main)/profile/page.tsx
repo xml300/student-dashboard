@@ -24,15 +24,10 @@ const LecturerProfilePage = () => {
       { id: 'D2045', name: 'Samsung Galaxy Tab S7', type: 'tablet', lastUsed: '2 hours ago', status: 'active', location: 'Science Building' },
       { id: 'D1078', name: 'iPad Pro 12.9"', type: 'tablet', lastUsed: 'Yesterday', status: 'active', location: 'Main Library' }
     ],
-    rooms: [
-      { id: 'R201', name: 'Science Building 201', capacity: 150, location: 'Science Building, Floor 2', lastUsed: 'Today' },
-      { id: 'R102', name: 'Computer Lab A', capacity: 80, location: 'Technology Center, Floor 1', lastUsed: '2 days ago' },
-      { id: 'R305', name: 'Lecture Hall 305', capacity: 200, location: 'Arts Building, Floor 3', lastUsed: 'Last week' }
-    ],
     recentSessions: [
-      { id: 'S5023', course: 'CS101', date: 'March 18, 2025', time: '10:00 AM - 11:30 AM', room: 'Science Building 201', attendance: '112/120', rate: 93 },
-      { id: 'S5022', course: 'CS302', date: 'March 17, 2025', time: '2:00 PM - 3:30 PM', room: 'Computer Lab A', attendance: '72/75', rate: 96 },
-      { id: 'S5019', course: 'CS450', date: 'March 15, 2025', time: '9:00 AM - 11:00 AM', room: 'Lecture Hall 305', attendance: '42/45', rate: 93 }
+      { id: 'S5023', course: 'CS101', date: 'March 18, 2025', time: '10:00 AM - 11:30 AM', attendance: '112/120', rate: 93 },
+      { id: 'S5022', course: 'CS302', date: 'March 17, 2025', time: '2:00 PM - 3:30 PM', attendance: '72/75', rate: 96 },
+      { id: 'S5019', course: 'CS450', date: 'March 15, 2025', time: '9:00 AM - 11:00 AM', attendance: '42/45', rate: 93 }
     ]
   };
 
@@ -52,7 +47,7 @@ const LecturerProfilePage = () => {
           <div className="flex flex-col md:flex-row md:items-center md:justify-between">
             <div className="flex items-center">
               <div className="flex-shrink-0">
-                <Image className="h-16 w-16 rounded-full object-cover" src={lecturer.profileImage} width={40} height={40} alt={lecturer.name} />
+                <Image className="h-16 w-16 rounded-full object-cover" src={lecturer.profileImage} width={64} height={64} alt={lecturer.name} />
               </div>
               <div className="ml-4">
                 <h1 className="text-2xl font-bold text-foreground">{lecturer.name}</h1>
@@ -64,10 +59,10 @@ const LecturerProfilePage = () => {
               </div>
             </div>
             <div className="mt-4 md:mt-0 flex space-x-3">
-              <button className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-primary-accent hover:bg-primary-accent/90">
+              <button className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-primary-accent hover:bg-primary-accent/90 w-full justify-center md:w-auto">
                 Edit Profile
               </button>
-              <button className="inline-flex items-center px-4 py-2 border border-border-color text-sm font-medium rounded-md shadow-sm text-foreground bg-card-background hover:bg-foreground/5">
+              <button className="inline-flex items-center px-4 py-2 border border-border-color text-sm font-medium rounded-md shadow-sm text-foreground bg-card-background hover:bg-foreground/5 w-full justify-center md:w-auto">
                 Set Preferences
               </button>
             </div>
@@ -78,10 +73,10 @@ const LecturerProfilePage = () => {
       {/* Tabs */}
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 mt-6">
         <div className="border-b border-border-color">
-          <nav className="-mb-px flex space-x-6">
+          <nav className="-mb-px flex space-x-4 sm:space-x-6 overflow-x-auto">
             <button
               onClick={() => setActiveTab('overview')}
-              className={`py-4 px-1 border-b-2 font-medium text-sm ${
+              className={`py-4 px-1 border-b-2 font-medium text-sm whitespace-nowrap ${
                 activeTab === 'overview'
                   ? 'border-primary-accent text-primary-accent'
                   : 'border-transparent text-foreground/80 hover:text-foreground hover:border-foreground/30'
@@ -91,7 +86,7 @@ const LecturerProfilePage = () => {
             </button>
             <button
               onClick={() => setActiveTab('courses')}
-              className={`py-4 px-1 border-b-2 font-medium text-sm ${
+              className={`py-4 px-1 border-b-2 font-medium text-sm whitespace-nowrap ${
                 activeTab === 'courses'
                   ? 'border-primary-accent text-primary-accent'
                   : 'border-transparent text-foreground/80 hover:text-foreground hover:border-foreground/30'
@@ -101,7 +96,7 @@ const LecturerProfilePage = () => {
             </button>
             <button
               onClick={() => setActiveTab('attendance')}
-              className={`py-4 px-1 border-b-2 font-medium text-sm ${
+              className={`py-4 px-1 border-b-2 font-medium text-sm whitespace-nowrap ${
                 activeTab === 'attendance'
                   ? 'border-primary-accent text-primary-accent'
                   : 'border-transparent text-foreground/80 hover:text-foreground hover:border-foreground/30'
@@ -111,13 +106,13 @@ const LecturerProfilePage = () => {
             </button>
             <button
               onClick={() => setActiveTab('devices')}
-              className={`py-4 px-1 border-b-2 font-medium text-sm ${
+              className={`py-4 px-1 border-b-2 font-medium text-sm whitespace-nowrap ${
                 activeTab === 'devices'
                   ? 'border-primary-accent text-primary-accent'
                   : 'border-transparent text-foreground/80 hover:text-foreground hover:border-foreground/30'
               }`}
             >
-              Devices & Rooms
+              Devices
             </button>
           </nav>
         </div>
@@ -181,7 +176,6 @@ const LecturerProfilePage = () => {
                         <div>
                           <h3 className="text-sm font-medium text-foreground">{session.course}</h3>
                           <p className="text-xs text-foreground/80 mt-1">{session.date} • {session.time}</p>
-                          <p className="text-xs text-foreground/80">{session.room}</p>
                         </div>
                         <div className="text-right">
                           <div className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-500/10 text-green-500">
@@ -290,7 +284,6 @@ const LecturerProfilePage = () => {
                         <tr>
                           <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-foreground/80 uppercase tracking-wider">Session</th>
                           <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-foreground/80 uppercase tracking-wider">Date & Time</th>
-                          <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-foreground/80 uppercase tracking-wider">Location</th>
                           <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-foreground/80 uppercase tracking-wider">Attendance</th>
                           <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-foreground/80 uppercase tracking-wider">Actions</th>
                         </tr>
@@ -300,7 +293,6 @@ const LecturerProfilePage = () => {
                           <tr key={session.id}>
                             <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-foreground">{session.course}</td>
                             <td className="px-6 py-4 whitespace-nowrap text-sm text-foreground/80">{session.date}<br/>{session.time}</td>
-                            <td className="px-6 py-4 whitespace-nowrap text-sm text-foreground/80">{session.room}</td>
                             <td className="px-6 py-4 whitespace-nowrap">
                               <div className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-500/10 text-green-500">
                                 {session.rate}% ({session.attendance})
@@ -321,9 +313,9 @@ const LecturerProfilePage = () => {
           </div>
         )}
 
-        {/* Devices & Rooms Tab */}
+        {/* Devices Tab */}
         {activeTab === 'devices' && (
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+          <div>
             {/* Devices Section */}
             <div>
               <div className="flex items-center justify-between mb-4">
@@ -364,47 +356,6 @@ const LecturerProfilePage = () => {
                               <path d="M10 6a2 2 0 110-4 2 2 0 010 4zM10 12a2 2 0 110-4 2 2 0 010 4zM10 18a2 2 0 110-4 2 2 0 010 4z" />
                             </svg>
                           </button>
-                        </div>
-                      </div>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            </div>
-
-            {/* Rooms Section */}
-            <div>
-              <div className="flex items-center justify-between mb-4">
-                <h2 className="text-lg font-medium text-foreground">Assigned Rooms</h2>
-                <button className="inline-flex items-center px-3 py-1.5 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-primary-accent hover:bg-primary-accent/90">
-                  Request Room
-                </button>
-              </div>
-              <div className="bg-card-background shadow overflow-hidden rounded-lg">
-                <ul className="divide-y divide-border-color">
-                  {lecturer.rooms.map((room) => (
-                    <li key={room.id} className="p-4">
-                      <div className="flex items-start justify-between">
-                        <div className="flex items-center">
-                          <div className="p-2 bg-yellow-500/10 rounded-full">
-                            <svg className="h-5 w-5 text-yellow-500" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
-                              <path fillRule="evenodd" d="M4 4a2 2 0 012-2h8a2 2 0 012 2v12a1 1 0 110 2h-3a1 1 0 01-1-1v-2a1 1 0 00-1-1H9a1 1 0 00-1 1v2a1 1 0 01-1 1H4a1 1 0 110-2V4zm3 1h2v2H7V5zm2 4H7v2h2V9zm2-4h2v2h-2V5zm2 4h-2v2h2V9z" clipRule="evenodd" />
-                            </svg>
-                          </div>
-                          <div className="ml-3">
-                            <h3 className="text-sm font-medium text-foreground">{room.name}</h3>
-                            <div className="flex items-center text-xs text-foreground/80 mt-1">
-                              <span>{room.id}</span>
-                              <span className="mx-1">•</span>
-                              <span>Capacity: {room.capacity}</span>
-                              <span className="mx-1">•</span>
-                              <span>Last used: {room.lastUsed}</span>
-                            </div>
-                            <p className="text-xs text-foreground/80 mt-1">{room.location}</p>
-                          </div>
-                        </div>
-                        <div>
-                          <button className="text-sm text-primary-accent hover:text-primary-accent/80">Schedule</button>
                         </div>
                       </div>
                     </li>

@@ -13,7 +13,6 @@ const CoursesPage = () => {
       title: 'Introduction to Database Systems',
       semester: 'Spring 2025',
       students: 142,
-      rooms: 2,
       devices: 3,
       nextSession: 'Mar 21, 2025 - 10:00 AM',
       attendanceRate: '87%',
@@ -24,7 +23,6 @@ const CoursesPage = () => {
       title: 'Technical Writing and Communication',
       semester: 'Spring 2025',
       students: 98,
-      rooms: 1,
       devices: 2,
       nextSession: 'Mar 20, 2025 - 2:00 PM',
       attendanceRate: '92%',
@@ -35,7 +33,6 @@ const CoursesPage = () => {
       title: 'Advanced Calculus',
       semester: 'Spring 2025',
       students: 64,
-      rooms: 1,
       devices: 1,
       nextSession: 'Mar 19, 2025 - 11:30 AM',
       attendanceRate: '79%',
@@ -46,7 +43,6 @@ const CoursesPage = () => {
       title: 'Quantum Mechanics',
       semester: 'Spring 2025',
       students: 53,
-      rooms: 1,
       devices: 1,
       nextSession: 'Mar 23, 2025 - 9:00 AM',
       attendanceRate: '84%',
@@ -57,7 +53,6 @@ const CoursesPage = () => {
       title: 'Introduction to Biology',
       semester: 'Fall 2024',
       students: 156,
-      rooms: 2,
       devices: 3,
       nextSession: 'N/A',
       attendanceRate: '83%',
@@ -73,13 +68,13 @@ const CoursesPage = () => {
       <div className="flex-1 flex flex-col overflow-hidden">
         {/* Header */}
         <header className="bg-card-background border-b border-border-color p-4">
-          <div className="flex justify-between items-center">
-            <div className="text-lg font-semibold text-foreground">Courses</div>
-            <div className="relative">
+          <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center">
+            <div className="text-lg font-semibold text-foreground mb-2 sm:mb-0">Courses</div>
+            <div className="relative w-full sm:w-64">
               <input
                 type="text"
                 placeholder="Search courses..."
-                className="pl-9 pr-4 py-2 border border-border-color rounded-md focus:outline-none focus:ring-1 focus:ring-primary-accent w-64 bg-background text-foreground"
+                className="pl-9 pr-4 py-2 border border-border-color rounded-md focus:outline-none focus:ring-1 focus:ring-primary-accent w-full bg-background text-foreground"
               />
               <Search className="absolute left-3 top-2.5 text-foreground/60" size={18} />
             </div>
@@ -87,33 +82,33 @@ const CoursesPage = () => {
         </header>
         
         {/* Content */}
-        <div className="flex-1 overflow-auto p-6 bg-background">
+        <div className="flex-1 overflow-auto p-4 sm:p-6 bg-background">
           {/* Actions bar */}
-          <div className="flex justify-between items-center mb-6">
+          <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6 space-y-4 sm:space-y-0">
             <div className="flex space-x-2">
               <button 
                 onClick={() => setActiveTab('active')}
-                className={`px-4 py-2 rounded-md ${activeTab === 'active' ? 'bg-primary-accent text-white' : 'bg-card-background border border-border-color text-foreground/80 hover:bg-foreground/5'}`}>
+                className={`px-3 py-1.5 sm:px-4 sm:py-2 text-sm rounded-md ${activeTab === 'active' ? 'bg-primary-accent text-white' : 'bg-card-background border border-border-color text-foreground/80 hover:bg-foreground/5'}`}>
                 Active
               </button>
               <button 
                 onClick={() => setActiveTab('archived')}
-                className={`px-4 py-2 rounded-md ${activeTab === 'archived' ? 'bg-primary-accent text-white' : 'bg-card-background border border-border-color text-foreground/80 hover:bg-foreground/5'}`}>
+                className={`px-3 py-1.5 sm:px-4 sm:py-2 text-sm rounded-md ${activeTab === 'archived' ? 'bg-primary-accent text-white' : 'bg-card-background border border-border-color text-foreground/80 hover:bg-foreground/5'}`}>
                 Archived
               </button>
               <button 
                 onClick={() => setActiveTab('all')}
-                className={`px-4 py-2 rounded-md ${activeTab === 'all' ? 'bg-primary-accent text-white' : 'bg-card-background border border-border-color text-foreground/80 hover:bg-foreground/5'}`}>
+                className={`px-3 py-1.5 sm:px-4 sm:py-2 text-sm rounded-md ${activeTab === 'all' ? 'bg-primary-accent text-white' : 'bg-card-background border border-border-color text-foreground/80 hover:bg-foreground/5'}`}>
                 All
               </button>
             </div>
             
-            <div className="flex space-x-3">
-              <button className="flex items-center px-4 py-2 bg-card-background border border-border-color rounded-md text-foreground/80 hover:bg-foreground/5">
+            <div className="flex space-x-3 w-full sm:w-auto">
+              <button className="flex items-center justify-center w-full sm:w-auto px-3 py-1.5 sm:px-4 sm:py-2 text-sm bg-card-background border border-border-color rounded-md text-foreground/80 hover:bg-foreground/5">
                 <Filter size={16} className="mr-2" />
                 Filter
               </button>
-              <button className="flex items-center px-4 py-2 bg-primary-accent text-white rounded-md hover:bg-primary-accent/90">
+              <button className="flex items-center justify-center w-full sm:w-auto px-3 py-1.5 sm:px-4 sm:py-2 text-sm bg-primary-accent text-white rounded-md hover:bg-primary-accent/90">
                 <Plus size={16} className="mr-2" />
                 Add New Course
               </button>
@@ -138,11 +133,7 @@ const CoursesPage = () => {
                   <div className="mt-4 grid grid-cols-3 gap-2 text-sm">
                     <div>
                       <div className="text-foreground/80">Students</div>
-                      
-                    </div>
-                    <div>
-                      <div className="text-foreground/80">Rooms</div>
-                      <div className="font-medium">{course.rooms}</div>
+                      <div className="font-medium">{course.students}</div>
                     </div>
                     <div>
                       <div className="text-foreground/80">Devices</div>

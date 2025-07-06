@@ -5,16 +5,6 @@ import { Search, User, Clock, Calendar, ChevronDown, MoreVertical } from 'lucide
 const LecturerAdminActivitiesPage = () => {
     const [activities] = useState([ // Sample Activity Data
         {
-            id: 1,
-            user: 'admin.lecturer1',
-            userName: 'Dr. Smith',
-            action: 'Device Added',
-            details: 'Added new device "Projector - Room 201"',
-            affectedItem: 'Projector - Room 201 (DEV006)',
-            timestamp: new Date(2025, 2, 20, 10, 30), // Year, Month (0-indexed), Day, Hour, Minute
-            category: 'Device Management'
-        },
-        {
             id: 2,
             user: 'admin.lecturer2',
             userName: 'Prof. Jones',
@@ -45,16 +35,6 @@ const LecturerAdminActivitiesPage = () => {
             category: 'User Management'
         },
         {
-            id: 5,
-            user: 'admin.lecturer2',
-            userName: 'Prof. Jones',
-            action: 'Device Edited',
-            details: 'Edited details of "Science Hall Scanner" - updated room to "Science Lab 1"',
-            affectedItem: 'Science Hall Scanner (DEV003)',
-            timestamp: new Date(2025, 2, 18, 11, 22),
-            category: 'Device Management'
-        },
-        {
             id: 6,
             user: 'admin.lecturer1',
             userName: 'Dr. Smith',
@@ -63,16 +43,6 @@ const LecturerAdminActivitiesPage = () => {
             affectedItem: 'Device Status Report (Mar 18-20, 2025)',
             timestamp: new Date(2025, 2, 18, 8, 55),
             category: 'Reporting'
-        },
-        {
-            id: 7,
-            user: 'admin.lecturer3',
-            userName: 'Ms. Davis',
-            action: 'Device Removed',
-            details: 'Removed device "Old Projector - Storeroom"',
-            affectedItem: 'Old Projector - Storeroom (DEV007) - *Hypothetical Device*',
-            timestamp: new Date(2025, 2, 17, 17, 10),
-            category: 'Device Management'
         },
     ]);
     const [searchQuery, setSearchQuery] = useState('');
@@ -108,13 +78,13 @@ const LecturerAdminActivitiesPage = () => {
         <div className="flex-1 flex flex-col overflow-hidden">
             {/* Header */}
             <header className="bg-card-background border-b border-border-color p-4">
-                <div className="flex justify-between items-center">
-                    <div className="text-lg font-semibold">Lecturer Admin Activities</div>
-                    <div className="relative">
+                <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center">
+                    <div className="text-lg font-semibold mb-2 sm:mb-0">Lecturer Admin Activities</div>
+                    <div className="relative w-full sm:w-64">
                         <input
                             type="text"
                             placeholder="Search activities..."
-                            className="pl-9 pr-4 py-2 border border-border-color rounded-md focus:outline-none focus:ring-1 focus:ring-primary-accent w-64 bg-background"
+                            className="pl-9 pr-4 py-2 border border-border-color rounded-md focus:outline-none focus:ring-1 focus:ring-primary-accent w-full bg-background"
                             value={searchQuery}
                             onChange={(e) => setSearchQuery(e.target.value)}
                         />
@@ -124,12 +94,12 @@ const LecturerAdminActivitiesPage = () => {
             </header>
 
             {/* Content */}
-            <div className="flex-1 overflow-auto p-6">
+            <div className="flex-1 overflow-auto p-4 sm:p-6">
                 {/* Filters and Actions Bar */}
-                <div className="flex justify-between items-center mb-6">
-                    <div className="flex space-x-4 items-center">
+                <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6 space-y-4 sm:space-y-0">
+                    <div className="flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4 items-start sm:items-center w-full sm:w-auto">
                         {/* Category Filter */}
-                        <div className="relative">
+                        <div className="relative w-full sm:w-auto">
                             <select
                                 className="block appearance-none w-full bg-background border border-border-color hover:border-foreground/30 px-4 py-2 pr-8 rounded shadow leading-tight focus:outline-none focus:ring-1 focus:ring-primary-accent"
                                 value={filterCategory}
@@ -145,7 +115,7 @@ const LecturerAdminActivitiesPage = () => {
                         </div>
 
                         {/* Sort By Dropdown */}
-                        <div className="relative">
+                        <div className="relative w-full sm:w-auto">
                             <select
                                 className="block appearance-none w-full bg-background border border-border-color hover:border-foreground/30 px-4 py-2 pr-8 rounded shadow leading-tight focus:outline-none focus:ring-1 focus:ring-primary-accent"
                                 value={sortBy}
@@ -163,16 +133,16 @@ const LecturerAdminActivitiesPage = () => {
                     </div>
 
                     {/* Refresh Button (Optional) */}
-                    <div>
-                        <button className="flex items-center px-4 py-2 bg-card-background border border-border-color rounded-md text-foreground/80 hover:bg-foreground/5">
+                    <div className="w-full sm:w-auto">
+                        <button className="flex items-center justify-center w-full px-4 py-2 bg-card-background border border-border-color rounded-md text-foreground/80 hover:bg-foreground/5">
                             <RefreshCw size={16} className="mr-2" stroke="currentColor" />
                             Refresh Activities
                         </button>
                     </div>
                 </div>
 
-                {/* Activity Log Table */}
-                <div className="overflow-x-auto">
+                {/* Activity Log - Table for Desktop, Cards for Mobile */}
+                <div className="hidden md:block overflow-x-auto">
                     <table className="min-w-full bg-card-background border border-border-color rounded-md">
                         <thead className="bg-foreground/5">
                             <tr>
@@ -221,6 +191,39 @@ const LecturerAdminActivitiesPage = () => {
                             )}
                         </tbody>
                     </table>
+                </div>
+
+                {/* Cards for Mobile */}
+                <div className="md:hidden space-y-4">
+                    {sortedActivities.length > 0 ? (
+                        sortedActivities.map(activity => (
+                            <div key={activity.id} className="bg-card-background border border-border-color rounded-lg p-4">
+                                <div className="flex justify-between items-start">
+                                    <div>
+                                        <p className="font-bold text-foreground">{activity.action}</p>
+                                        <p className="text-sm text-foreground/80">{activity.details}</p>
+                                    </div>
+                                    <button className="text-foreground/50 hover:text-foreground/80">
+                                        <MoreVertical size={20} />
+                                    </button>
+                                </div>
+                                <div className="mt-4 pt-4 border-t border-border-color">
+                                    <div className="flex items-center text-sm text-foreground/80 mb-2">
+                                        <User className="mr-2" size={14} />
+                                        {activity.userName} ({activity.user})
+                                    </div>
+                                    <div className="flex items-center text-sm text-foreground/80">
+                                        <Clock className="mr-2" size={14} />
+                                        {activity.timestamp.toLocaleString()}
+                                    </div>
+                                </div>
+                            </div>
+                        ))
+                    ) : (
+                        <div className="text-center text-foreground/60 py-8">
+                            No activities found matching your criteria.
+                        </div>
+                    )}
                 </div>
             </div>
         </div>

@@ -1,6 +1,6 @@
 "use client";
 import React from 'react';
-import { Clock, Smartphone, Wifi, Battery, ArrowLeft, Edit, BarChart, Home, CheckCircle, XCircle, AlertTriangle, Trash2 } from 'lucide-react';
+import { Clock, Smartphone, Wifi, Battery, ArrowLeft, Edit, BarChart, CheckCircle, XCircle, AlertTriangle, Trash2 } from 'lucide-react';
 import Link from 'next/link';
 
 interface Device2 {
@@ -8,8 +8,6 @@ interface Device2 {
     name: string;
     type: string;
     model: string;
-    room: string;
-    roomId: string;
     status: string;
     battery: number,
     lastSync: string;
@@ -25,8 +23,6 @@ const DeviceDetailsPage = () => {
         name: 'Main Hall Scanner',
         type: 'Tablet',
         model: 'iPad Air (2022)',
-        room: 'Main Lecture Hall',
-        roomId: 'R101',
         status: 'active',
         battery: 87,
         lastSync: '19 Mar 2025, 08:32 AM',
@@ -119,17 +115,6 @@ const DeviceDetailsPage = () => {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 {/* Left Column */}
                 <div>
-                    <div className="mb-4">
-                        <h3 className="text-lg font-semibold text-foreground/90 mb-2">Location</h3>
-                        <div className="px-4 py-3 bg-foreground/5 rounded-md border border-border-color">
-                            <div className="flex items-center mb-2">
-                                <Home size={16} className="text-foreground/60 mr-2" />
-                                <span className="font-medium text-foreground/80">Room:</span>
-                            </div>
-                            <div className="text-foreground">{device.room || 'Unassigned'} ({device.roomId || 'N/A'})</div>
-                        </div>
-                    </div>
-
                     <div className="mb-4">
                         <h3 className="text-lg font-semibold text-foreground/90 mb-2">Device Information</h3>
                         <div className="px-4 py-3 bg-foreground/5 rounded-md border border-border-color">
