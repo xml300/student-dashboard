@@ -7,7 +7,6 @@ import {
   BookOpenIcon,
   ChartBarIcon,
   DevicePhoneMobileIcon,
-  Cog6ToothIcon,
 } from "@heroicons/react/24/outline";
 
 interface SidebarProps {
