@@ -3,12 +3,10 @@ import React, { useState } from "react";
 import {
   MagnifyingGlassIcon,
   ChevronRightIcon,
-  ArrowRightIcon,
   ChartBarIcon,
   FunnelIcon,
   ArrowDownTrayIcon,
   CalendarDaysIcon,
-  ListBulletIcon,
   UserGroupIcon,
   ArrowTrendingUpIcon,
   ArrowTrendingDownIcon,
