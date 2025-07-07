@@ -75,17 +75,12 @@ export default function RootLayout({
               </div>
             </div>
           </header>
-          <div className="flex pt-16">
-            {/* Sidebar */}
+          <div className="flex h-screen pt-16 bg-background text-foreground">
             <Sidebar
               isOpen={isSidebarOpen}
               onClose={() => setSidebarOpen(false)}
             />
-
-            {/* Main content area */}
-            <main
-              className={`p-4 md:p-6 lg:p-8 transition-all duration-300 ease-in-out flex-1 bg-background text-foreground md:ml-64`}
-            >
+            <main className="flex-1 p-4 md:p-6 lg:p-8 overflow-y-auto">
               {children}
             </main>
           </div>

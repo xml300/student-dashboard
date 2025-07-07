@@ -2,14 +2,13 @@
 
 import React from "react";
 import Link from "next/link";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
-  faHouse,
-  faBook,
-  faChartLine,
-  faPhone,
-  faGear,
-} from "@fortawesome/free-solid-svg-icons";
+  HomeIcon,
+  BookOpenIcon,
+  ChartBarIcon,
+  DevicePhoneMobileIcon,
+  Cog6ToothIcon,
+} from "@heroicons/react/24/outline";
 
 interface SidebarProps {
   isOpen: boolean;
@@ -30,7 +29,7 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, onClose }) => {
         className={`
           bg-white dark:bg-gray-900 border-r border-gray-200 dark:border-gray-700 pt-6
           transition-transform duration-300 ease-in-out
-          w-64
+          w-64 flex-shrink-0
           z-40 
           fixed md:relative
           h-full
@@ -47,10 +46,7 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, onClose }) => {
               className="group flex items-center p-2 rounded-md text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-800"
               onClick={onClose}
             >
-              <FontAwesomeIcon
-                icon={faHouse}
-                className="mr-2 h-5 w-5 text-gray-500 dark:text-gray-300 transition-colors group-hover:text-blue-600 dark:group-hover:text-blue-400"
-              />
+              <HomeIcon className="mr-2 h-5 w-5 text-gray-500 dark:text-gray-300 transition-colors group-hover:text-primary-accent" />
               <span className="block text-sm font-medium">Home</span>
             </Link>
 
@@ -59,10 +55,7 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, onClose }) => {
               className="group flex items-center p-2 rounded-md text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-800"
               onClick={onClose}
             >
-              <FontAwesomeIcon
-                icon={faBook}
-                className="mr-2 h-5 w-5 text-gray-500 dark:text-gray-300 transition-colors group-hover:text-blue-600 dark:group-hover:text-blue-400"
-              />
+              <BookOpenIcon className="mr-2 h-5 w-5 text-gray-500 dark:text-gray-300 transition-colors group-hover:text-primary-accent" />
               <span className="block text-sm font-medium">Courses</span>
             </Link>
 
@@ -71,10 +64,7 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, onClose }) => {
               className="group flex items-center p-2 rounded-md text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-800"
               onClick={onClose}
             >
-              <FontAwesomeIcon
-                icon={faChartLine}
-                className="mr-2 h-5 w-5 text-gray-500 dark:text-gray-300 transition-colors group-hover:text-blue-600 dark:group-hover:text-blue-400"
-              />
+              <ChartBarIcon className="mr-2 h-5 w-5 text-gray-500 dark:text-gray-300 transition-colors group-hover:text-primary-accent" />
               <span className="block text-sm font-medium">Attendance</span>
             </Link>
 
@@ -83,23 +73,8 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, onClose }) => {
               className="group flex items-center p-2 rounded-md text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-800"
               onClick={onClose}
             >
-              <FontAwesomeIcon
-                icon={faPhone}
-                className="mr-2 h-5 w-5 text-gray-500 dark:text-gray-300 transition-colors group-hover:text-blue-600 dark:group-hover:text-blue-400"
-              />
+              <DevicePhoneMobileIcon className="mr-2 h-5 w-5 text-gray-500 dark:text-gray-300 transition-colors group-hover:text-primary-accent" />
               <span className="block text-sm font-medium">Devices</span>
-            </Link>
-
-            <Link
-              href="/settings"
-              className="group flex items-center p-2 rounded-md text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-800"
-              onClick={onClose}
-            >
-              <FontAwesomeIcon
-                icon={faGear}
-                className="mr-2 h-5 w-5 text-gray-500 dark:text-gray-300 transition-colors group-hover:text-blue-600 dark:group-hover:text-blue-400"
-              />
-              <span className="block text-sm font-medium">Settings</span>
             </Link>
           </div>
         </div>

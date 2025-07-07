@@ -1,23 +1,25 @@
 @import "tailwindcss";
 
 :root {
-  --background: #f8f9fa;
-  --foreground: #212529;
+  --background: #F7F9FA;
+  --foreground: #4A4A4A;
   --card-background: #ffffff;
-  --primary-accent: #007bff;
-  --secondary-accent: #f3b300;
+  --primary-accent: #4A90E2;
+  --secondary-accent: #50E3C2;
+  --accent: #F5A623;
   --border-color: #dee2e6;
-  --font-family: 'Poppins';
+  --font-family: 'Inter';
 }
 
 [data-theme="dark"] {
   --background: #121212;
   --foreground: #e9ecef;
   --card-background: #1e1e1e;
-  --primary-accent: #3b82f6;
-  --secondary-accent: #fbbf24;
+  --primary-accent: #4A90E2;
+  --secondary-accent: #50E3C2;
+  --accent: #F5A623;
   --border-color: #495057;
-  --font-family: 'Poppins';
+  --font-family: 'Inter';
 }
 
 @theme inline {

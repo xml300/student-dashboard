@@ -1,20 +1,23 @@
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faUser, faClipboard } from "@fortawesome/free-regular-svg-icons";
+import {
+  UserIcon,
+  ClipboardDocumentIcon,
+  DevicePhoneMobileIcon,
+  CheckCircleIcon,
+  PlusIcon,
+  ExclamationTriangleIcon,
+  EyeIcon,
+} from "@heroicons/react/24/outline";
 import Link from "next/link";
+import Card from "@/components/Card";
 
 
 export default function HomePage() {
   return (
     <div className="flex-1 overflow-auto">
-      <header className="bg-card-background shadow-sm sticky top-0 z-10">
-        <div className="flex justify-between items-center p-4">
-          <h1 className="text-xl font-semibold text-foreground">Dashboard Overview</h1>
-        </div>
-      </header>
-
-      <div className="p-4 sm:p-6">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-6">
-          <div className="bg-card-background rounded-lg shadow p-4 border-l-4 border-primary-accent">
+      <div className="p-6 sm:p-8">
+        <h1 className="text-3xl font-bold text-foreground mb-8">Dashboard</h1>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-8">
+          <Card className="border-l-4 border-primary-accent">
             <div className="flex justify-between items-start">
               <div>
                 <p className="text-sm text-foreground/80 mb-1">Total Students</p>
@@ -24,12 +27,12 @@ export default function HomePage() {
                 </p>
               </div>
               <div className="p-2 bg-primary-accent/10 rounded-lg">
-                <FontAwesomeIcon size="lg" icon={faUser} />
+                <UserIcon className="h-6 w-6 text-primary-accent" />
               </div>
             </div>
-          </div>
+          </Card>
 
-          <div className="bg-card-background rounded-lg shadow p-4 border-l-4 border-secondary-accent">
+          <Card className="border-l-4 border-secondary-accent">
             <div className="flex justify-between items-start">
               <div>
                 <p className="text-sm text-foreground/80 mb-1">Average Attendance</p>
@@ -37,43 +40,29 @@ export default function HomePage() {
                 <p className="text-xs text-red-500 mt-1">-3% from last month</p>
               </div>
               <div className="p-2 bg-secondary-accent/10 rounded-lg">
-                <FontAwesomeIcon size="lg" icon={faClipboard} />
+                <ClipboardDocumentIcon className="h-6 w-6 text-secondary-accent" />
               </div>
             </div>
-          </div>
+          </Card>
 
-
-          <div className="bg-card-background rounded-lg shadow p-4 border-l-4 border-purple-500">
+          <Card className="border-l-4 border-accent">
             <div className="flex justify-between items-start">
               <div>
                 <p className="text-sm text-foreground/80 mb-1">Connected Devices</p>
                 <h3 className="text-2xl font-bold">24</h3>
-                <p className="text-xs text-purple-500 mt-1">
+                <p className="text-xs text-accent mt-1">
                   All devices online
                 </p>
               </div>
-              <div className="p-2 bg-purple-500/10 rounded-lg">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  className="h-6 w-6 text-purple-500"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth="2"
-                    d="M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z"
-                  />
-                </svg>
+              <div className="p-2 bg-accent/10 rounded-lg">
+                <DevicePhoneMobileIcon className="h-6 w-6 text-accent" />
               </div>
             </div>
-          </div>
+          </Card>
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
-          <div className="bg-card-background rounded-lg shadow p-4">
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-8">
+          <Card className="lg:col-span-2">
             <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-4">
               <h3 className="text-lg font-semibold mb-2 sm:mb-0">
                 Attendance Trend
@@ -93,238 +82,145 @@ export default function HomePage() {
             <div className="h-64 bg-background rounded flex items-center justify-center">
               <p className="text-foreground/60">Attendance chart visualization</p>
             </div>
-          </div>
-
+          </Card>
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-          <div className="bg-card-background rounded-lg shadow">
-            <div className="p-4 border-b border-border-color">
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+          <Card className="lg:col-span-2">
+            <div className="flex justify-between items-center mb-4">
               <h3 className="text-lg font-semibold">Recent Activities</h3>
+              <Link
+                href="/activities"
+                className="text-primary-accent hover:underline text-sm font-medium"
+              >
+                View all
+              </Link>
             </div>
-            <div className="p-4">
-              <ul className="divide-y divide-border-color">
-                <li className="py-3">
-                  <div className="flex items-start">
-                    <div className="bg-green-500/10 p-2 rounded-full mr-3">
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        className="h-5 w-5 text-green-500"
-                        fill="none"
-                        viewBox="0 0 24 24"
-                        stroke="currentColor"
-                      >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          strokeWidth="2"
-                          d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
-                        />
-                      </svg>
-                    </div>
-                    <div>
-                      <p className="font-medium">
-                        Attendance recorded for CS101
-                      </p>
-                      <p className="text-sm text-foreground/80">
-                        42 students present • 10:15 AM
-                      </p>
-                    </div>
-                  </div>
-                </li>
-                <li className="py-3">
-                  <div className="flex items-start">
-                    <div className="bg-primary-accent/10 p-2 rounded-full mr-3">
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        className="h-5 w-5 text-primary-accent"
-                        fill="none"
-                        viewBox="0 0 24 24"
-                        stroke="currentColor"
-                      >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          strokeWidth="2"
-                          d="M12 4v16m8-8H4"
-                        />
-                      </svg>
-                    </div>
-                    <div>
-                      <p className="font-medium">New device registered</p>
-                      <p className="text-sm text-foreground/80">
-                        Device ID: TAB-247 • 9:30 AM
-                      </p>
-                    </div>
-                  </div>
-                </li>
-                <li className="py-3">
-                  <div className="flex items-start">
-                    <div className="bg-secondary-accent/10 p-2 rounded-full mr-3">
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        className="h-5 w-5 text-secondary-accent"
-                        fill="none"
-                        viewBox="0 0 24 24"
-                        stroke="currentColor"
-                      >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          strokeWidth="2"
-                          d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"
-                        />
-                      </svg>
-                    </div>
-                    <div>
-                      <p className="font-medium">Low attendance alert</p>
-                      <p className="text-sm text-foreground/80">
-                        MATH202 - 65% attendance • Yesterday
-                      </p>
-                    </div>
-                  </div>
-                </li>
-                <li className="py-3">
-                  <div className="flex items-start">
-                    <div className="bg-purple-500/10 p-2 rounded-full mr-3">
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        className="h-5 w-5 text-purple-500"
-                        fill="none"
-                        viewBox="0 0 24 24"
-                        stroke="currentColor"
-                      >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          strokeWidth="2"
-                          d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
-                        />
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          strokeWidth="2"
-                          d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"
-                        />
-                      </svg>
-                    </div>
-                    <div>
-                      <p className="font-medium">Attendance report generated</p>
-                      <p className="text-sm text-foreground/80">
-                        Mid-semester report • Yesterday
-                      </p>
-                    </div>
-                  </div>
-                </li>
-              </ul>
-              <div className="mt-4">
-                <Link
-                  href="/activities"
-                  className="text-primary-accent hover:underline text-sm font-medium"
-                >
-                  View all activities
-                </Link>
-              </div>
-            </div>
-          </div>
+            <ul className="divide-y divide-border-color">
+              <li className="py-3 flex items-start">
+                <div className="bg-green-500/10 p-2 rounded-full mr-4">
+                  <CheckCircleIcon className="h-5 w-5 text-green-500" />
+                </div>
+                <div>
+                  <p className="font-medium">Attendance recorded for CS101</p>
+                  <p className="text-sm text-foreground/80">
+                    42 students present • 10:15 AM
+                  </p>
+                </div>
+              </li>
+              <li className="py-3 flex items-start">
+                <div className="bg-primary-accent/10 p-2 rounded-full mr-4">
+                  <PlusIcon className="h-5 w-5 text-primary-accent" />
+                </div>
+                <div>
+                  <p className="font-medium">New device registered</p>
+                  <p className="text-sm text-foreground/80">
+                    Device ID: TAB-247 • 9:30 AM
+                  </p>
+                </div>
+              </li>
+              <li className="py-3 flex items-start">
+                <div className="bg-secondary-accent/10 p-2 rounded-full mr-4">
+                  <ExclamationTriangleIcon className="h-5 w-5 text-secondary-accent" />
+                </div>
+                <div>
+                  <p className="font-medium">Low attendance alert</p>
+                  <p className="text-sm text-foreground/80">
+                    MATH202 - 65% attendance • Yesterday
+                  </p>
+                </div>
+              </li>
+              <li className="py-3 flex items-start">
+                <div className="bg-accent/10 p-2 rounded-full mr-4">
+                  <EyeIcon className="h-5 w-5 text-accent" />
+                </div>
+                <div>
+                  <p className="font-medium">Attendance report generated</p>
+                  <p className="text-sm text-foreground/80">
+                    Mid-semester report • Yesterday
+                  </p>
+                </div>
+              </li>
+            </ul>
+          </Card>
 
-          <div className="bg-card-background rounded-lg shadow">
-            <div className="p-4 border-b border-border-color">
+          <Card>
+            <div className="flex justify-between items-center mb-4">
               <h3 className="text-lg font-semibold">Upcoming Classes</h3>
+              <Link
+                href="/schedule"
+                className="text-primary-accent hover:underline text-sm font-medium"
+              >
+                View schedule
+              </Link>
             </div>
-            <div className="p-4">
-              <ul className="divide-y divide-border-color">
-                <li className="py-3">
-                  <div className="flex justify-between items-center">
-                    <div className="flex items-center">
-                      <div className="mr-3 h-12 w-12 bg-primary-accent rounded-lg flex items-center justify-center text-white">
-                        <span className="font-semibold">CS</span>
-                      </div>
-                      <div>
-                        <p className="font-medium">Computer Science 202</p>
-                        <p className="text-sm text-foreground/80">
-                          10:00 AM - 11:30 AM
-                        </p>
-                      </div>
-                    </div>
-                    <div className="text-right">
-                      <span className="bg-green-500/10 text-green-500 text-xs px-2 py-1 rounded">
-                        Ready
-                      </span>
-                    </div>
+            <ul className="divide-y divide-border-color">
+              <li className="py-3 flex justify-between items-center">
+                <div className="flex items-center">
+                  <div className="mr-4 h-12 w-12 bg-primary-accent rounded-lg flex items-center justify-center text-white">
+                    <span className="font-semibold">CS</span>
                   </div>
-                </li>
-                <li className="py-3">
-                  <div className="flex justify-between items-center">
-                    <div className="flex items-center">
-                      <div className="mr-3 h-12 w-12 bg-secondary-accent rounded-lg flex items-center justify-center text-white">
-                        <span className="font-semibold">DB</span>
-                      </div>
-                      <div>
-                        <p className="font-medium">Database Systems</p>
-                        <p className="text-sm text-foreground/80">
-                          1:00 PM - 2:30 PM
-                        </p>
-                      </div>
-                    </div>
-                    <div className="text-right">
-                      <span className="bg-yellow-500/10 text-yellow-500 text-xs px-2 py-1 rounded">
-                        Device Check
-                      </span>
-                    </div>
+                  <div>
+                    <p className="font-medium">Computer Science 202</p>
+                    <p className="text-sm text-foreground/80">
+                      10:00 AM - 11:30 AM
+                    </p>
                   </div>
-                </li>
-                <li className="py-3">
-                  <div className="flex justify-between items-center">
-                    <div className="flex items-center">
-                      <div className="mr-3 h-12 w-12 bg-purple-500 rounded-lg flex items-center justify-center text-white">
-                        <span className="font-semibold">AI</span>
-                      </div>
-                      <div>
-                        <p className="font-medium">Artificial Intelligence</p>
-                        <p className="text-sm text-foreground/80">
-                          3:00 PM - 4:30 PM
-                        </p>
-                      </div>
-                    </div>
-                    <div className="text-right">
-                      <span className="bg-green-500/10 text-green-500 text-xs px-2 py-1 rounded">
-                        Ready
-                      </span>
-                    </div>
+                </div>
+                <span className="bg-green-500/10 text-green-500 text-xs px-2 py-1 rounded-full">
+                  Ready
+                </span>
+              </li>
+              <li className="py-3 flex justify-between items-center">
+                <div className="flex items-center">
+                  <div className="mr-4 h-12 w-12 bg-secondary-accent rounded-lg flex items-center justify-center text-white">
+                    <span className="font-semibold">DB</span>
                   </div>
-                </li>
-                <li className="py-3">
-                  <div className="flex justify-between items-center">
-                    <div className="flex items-center">
-                      <div className="mr-3 h-12 w-12 bg-green-500 rounded-lg flex items-center justify-center text-white">
-                        <span className="font-semibold">SE</span>
-                      </div>
-                      <div>
-                        <p className="font-medium">Software Engineering</p>
-                        <p className="text-sm text-foreground/80">
-                          Tomorrow, 9:00 AM
-                        </p>
-                      </div>
-                    </div>
-                    <div className="text-right">
-                      <span className="bg-blue-500/10 text-blue-500 text-xs px-2 py-1 rounded">
-                        Upcoming
-                      </span>
-                    </div>
+                  <div>
+                    <p className="font-medium">Database Systems</p>
+                    <p className="text-sm text-foreground/80">
+                      1:00 PM - 2:30 PM
+                    </p>
                   </div>
-                </li>
-              </ul>
-              <div className="mt-4">
-                <Link
-                  href="/schedule"
-                  className="text-primary-accent hover:underline text-sm font-medium"
-                >
-                  View full schedule
-                </Link>
-              </div>
-            </div>
-          </div>
+                </div>
+                <span className="bg-yellow-500/10 text-yellow-500 text-xs px-2 py-1 rounded-full">
+                  Device Check
+                </span>
+              </li>
+              <li className="py-3 flex justify-between items-center">
+                <div className="flex items-center">
+                  <div className="mr-4 h-12 w-12 bg-accent rounded-lg flex items-center justify-center text-white">
+                    <span className="font-semibold">AI</span>
+                  </div>
+                  <div>
+                    <p className="font-medium">Artificial Intelligence</p>
+                    <p className="text-sm text-foreground/80">
+                      3:00 PM - 4:30 PM
+                    </p>
+                  </div>
+                </div>
+                <span className="bg-green-500/10 text-green-500 text-xs px-2 py-1 rounded-full">
+                  Ready
+                </span>
+              </li>
+              <li className="py-3 flex justify-between items-center">
+                <div className="flex items-center">
+                  <div className="mr-4 h-12 w-12 bg-green-500 rounded-lg flex items-center justify-center text-white">
+                    <span className="font-semibold">SE</span>
+                  </div>
+                  <div>
+                    <p className="font-medium">Software Engineering</p>
+                    <p className="text-sm text-foreground/80">
+                      Tomorrow, 9:00 AM
+                    </p>
+                  </div>
+                </div>
+                <span className="bg-blue-500/10 text-blue-500 text-xs px-2 py-1 rounded-full">
+                  Upcoming
+                </span>
+              </li>
+            </ul>
+          </Card>
         </div>
       </div>
     </div>

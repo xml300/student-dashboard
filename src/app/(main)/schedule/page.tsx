@@ -1,7 +1,20 @@
 "use client";
 import React, { useState } from 'react';
-import { Calendar, List, ChevronLeft, ChevronRight, Filter, Search, Plus } from 'lucide-react';
+import {
+  CalendarIcon,
+  ListBulletIcon,
+  ChevronLeftIcon,
+  ChevronRightIcon,
+  FunnelIcon,
+  MagnifyingGlassIcon,
+  PlusIcon,
+  CalendarDaysIcon,
+  ClockIcon,
+  MapPinIcon,
+  AcademicCapIcon,
+} from '@heroicons/react/24/outline';
 import Link from 'next/link';
+import Card from '@/components/Card';
 
 const LecturerSchedulePage = () => {
     const [viewMode, setViewMode] = useState('calendar'); // 'calendar' or 'list'
@@ -142,134 +155,137 @@ const LecturerSchedulePage = () => {
 
     return (
         <div className="flex-1 flex flex-col overflow-hidden">
-            {/* Header */}
-            <header className="bg-card-background border-b border-border-color p-4">
-                <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center">
-                    <div className="text-lg font-semibold mb-2 sm:mb-0">Lecturer Schedule</div>
-                    <div className="flex flex-col sm:flex-row space-y-2 sm:space-y-0 sm:space-x-4 items-start sm:items-center w-full sm:w-auto">
-                        <div className="relative w-full sm:w-64">
+            <div className="flex-1 flex flex-col overflow-hidden">
+                <div className="p-6 sm:p-8">
+                    <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-8">
+                        <h1 className="text-3xl font-bold text-foreground mb-4 sm:mb-0">Lecturer Schedule</h1>
+                        <div className="relative w-full sm:w-72">
                             <input
                                 type="text"
                                 placeholder="Search schedule..."
-                                className="pl-9 pr-4 py-2 border border-border-color rounded-md focus:outline-none focus:ring-1 focus:ring-primary-accent w-full bg-background"
+                                className="pl-10 pr-4 py-2 border border-border-color rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-accent w-full bg-card-background text-foreground"
                                 value={searchQuery}
                                 onChange={(e) => setSearchQuery(e.target.value)}
                             />
-                            <Search className="absolute left-3 top-2.5 text-foreground/60" size={18} />
-                        </div>
-                        <button className="flex items-center justify-center w-full sm:w-auto px-3 py-2 bg-card-background border border-border-color rounded-md text-foreground/80 hover:bg-foreground/5">
-                            <Filter size={16} className="mr-2" />
-                            Filter
-                        </button>
-                    </div>
-                </div>
-            </header>
-
-            {/* Content */}
-            <div className="flex-1 overflow-auto p-4 sm:p-6 bg-background">
-                {/* View Mode Toggle & Actions */}
-                <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-4 space-y-4 sm:space-y-0">
-                    <div className="flex space-x-2">
-                        <button
-                            onClick={() => setViewMode('calendar')}
-                            className={`px-3 py-2 rounded-md flex items-center text-sm ${viewMode === 'calendar' ? 'bg-primary-accent text-white' : 'bg-card-background border border-border-color text-foreground/80 hover:bg-foreground/5'}`}
-                        >
-                            <Calendar size={16} className="mr-2" />
-                            Calendar
-                        </button>
-                        <button
-                            onClick={() => setViewMode('list')}
-                            className={`px-3 py-2 rounded-md flex items-center text-sm ${viewMode === 'list' ? 'bg-primary-accent text-white' : 'bg-card-background border border-border-color text-foreground/80 hover:bg-foreground/5'}`}
-                        >
-                            <List size={16} className="mr-2" />
-                            List
-                        </button>
-                    </div>
-                    <button className="flex items-center justify-center w-full sm:w-auto px-4 py-2 bg-primary-accent text-white rounded-md hover:bg-primary-accent/90">
-                        <Plus size={16} className="mr-2" />
-                        Add Event
-                    </button>
-                </div>
-
-                {/* Calendar View */}
-                {viewMode === 'calendar' && (
-                    <div className="bg-card-background rounded-lg border border-border-color overflow-hidden">
-                        <div className="p-4 flex justify-between items-center border-b border-border-color">
-                            <button onClick={prevMonth} className="hover:text-primary-accent"><ChevronLeft size={20} /></button>
-                            <h2 className="font-semibold text-lg">{monthNames[currentMonth.getMonth()]} {currentMonth.getFullYear()}</h2>
-                            <button onClick={nextMonth} className="hover:text-primary-accent"><ChevronRight size={20} /></button>
-                        </div>
-                        <div className="grid grid-cols-7 border-b border-border-color">
-                            {daysOfWeek.map((day, index) => (
-                                <div key={index} className="p-2 text-center text-foreground/80">{day}</div>
-                            ))}
-                        </div>
-                        <div className="grid grid-cols-7">
-                            {Array.from({ length: firstDayOfMonth }, (_, i) => ( // Empty days before first day of month
-                                <div key={`empty-${i}`} className="p-2 border-r border-b border-border-color bg-foreground/5"></div>
-                            ))}
-                            {Array.from({ length: daysInCurrentMonth }, (_, day) => {
-                                const dayNumber = day + 1;
-                                const eventsOnDay = getEventsForDay(dayNumber);
-                                const hasEvents = eventsOnDay.length > 0;
-                                return (
-                                    <div key={`day-${dayNumber}`} className={`p-2 border-r border-b border-border-color hover:bg-foreground/10 cursor-pointer ${hasEvents ? 'has-events' : ''}`}>
-                                        <div className="text-sm font-medium mb-1">{dayNumber}</div>
-                                        {eventsOnDay.slice(0, 2).map(event => ( // Display max 2 events per day in calendar
-                                            <div key={event.id} className="text-xs bg-primary-accent/10 text-primary-accent px-1 py-0.5 rounded mb-0.5 truncate" title={event.title}>
-                                                {event.title}
-                                            </div>
-                                        ))}
-                                        {eventsOnDay.length > 2 && (
-                                            <div className="text-xs text-foreground/60 mt-0.5">+{eventsOnDay.length - 2} more</div>
-                                        )}
-                                    </div>
-                                );
-                            })}
+                            <MagnifyingGlassIcon className="absolute left-3 top-1/2 -translate-y-1/2 text-foreground/60 h-5 w-5" />
                         </div>
                     </div>
-                )}
 
-                {/* List View */}
-                {viewMode === 'list' && (
-                    <div className="space-y-4">
-                        {sortedEventsForList.length > 0 ? (
-                            sortedEventsForList.map((event) => (
-                                <div key={event.id} className="bg-card-background rounded-lg border border-border-color p-4">
-                                    <div className="flex justify-between items-start">
-                                        <div>
-                                            <p className="font-bold">{event.title}</p>
-                                            <p className="text-sm text-foreground/80">{event.type}</p>
-                                        </div>
-                                        <Link href="#" className="text-primary-accent hover:text-primary-accent/80 text-sm">View</Link>
-                                    </div>
-                                    <div className="mt-4 pt-4 border-t border-border-color space-y-2 text-sm">
-                                        <div className="flex justify-between">
-                                            <span className="text-foreground/80">Date:</span>
-                                            <span>{new Date(event.date).toLocaleDateString()}</span>
-                                        </div>
-                                        <div className="flex justify-between">
-                                            <span className="text-foreground/80">Time:</span>
-                                            <span>{event.startTime} - {event.endTime}</span>
-                                        </div>
-                                        <div className="flex justify-between">
-                                            <span className="text-foreground/80">Location:</span>
-                                            <span>{event.location || 'N/A'}</span>
-                                        </div>
-                                        <div className="flex justify-between">
-                                            <span className="text-foreground/80">Course:</span>
-                                            <span>{event.courseCode || 'N/A'}</span>
-                                        </div>
-                                    </div>
-                                </div>
-                            ))
-                        ) : (
-                            <div className="text-center text-foreground/60 py-8">
-                                No events found for current filter and search.
+                    <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-8 space-y-4 sm:space-y-0">
+                        <div className="flex space-x-2">
+                            <button
+                                onClick={() => setViewMode('calendar')}
+                                className={`px-4 py-2 rounded-lg flex items-center text-sm font-medium ${viewMode === 'calendar' ? 'bg-primary-accent text-white' : 'bg-card-background text-foreground/80 hover:bg-foreground/5'}`}
+                            >
+                                <CalendarIcon className="h-5 w-5 mr-2" />
+                                Calendar
+                            </button>
+                            <button
+                                onClick={() => setViewMode('list')}
+                                className={`px-4 py-2 rounded-lg flex items-center text-sm font-medium ${viewMode === 'list' ? 'bg-primary-accent text-white' : 'bg-card-background text-foreground/80 hover:bg-foreground/5'}`}
+                            >
+                                <ListBulletIcon className="h-5 w-5 mr-2" />
+                                List
+                            </button>
+                        </div>
+                        <div className="flex space-x-3 w-full sm:w-auto">
+                            <button className="flex items-center justify-center w-full sm:w-auto px-4 py-2 text-sm font-medium bg-card-background border border-border-color rounded-lg text-foreground/80 hover:bg-foreground/5">
+                                <FunnelIcon className="h-5 w-5 mr-2" />
+                                Filter
+                            </button>
+                            <button className="flex items-center justify-center w-full sm:w-auto px-4 py-2 bg-primary-accent text-white rounded-lg hover:bg-primary-accent/90">
+                                <PlusIcon className="h-5 w-5 mr-2" />
+                                Add Event
+                            </button>
+                        </div>
+                    </div>
+
+                    {viewMode === 'calendar' && (
+                        <Card className="overflow-hidden">
+                            <div className="p-4 flex justify-between items-center border-b border-border-color">
+                                <button onClick={prevMonth} className="p-2 rounded-full hover:bg-foreground/5 text-foreground/80 hover:text-primary-accent transition-colors"><ChevronLeftIcon className="h-5 w-5" /></button>
+                                <h2 className="font-semibold text-xl text-foreground">{monthNames[currentMonth.getMonth()]} {currentMonth.getFullYear()}</h2>
+                                <button onClick={nextMonth} className="p-2 rounded-full hover:bg-foreground/5 text-foreground/80 hover:text-primary-accent transition-colors"><ChevronRightIcon className="h-5 w-5" /></button>
                             </div>
-                        )}
-                    </div>
-                )}
+                            <div className="grid grid-cols-7 border-b border-border-color bg-background">
+                                {daysOfWeek.map((day, index) => (
+                                    <div key={index} className="p-3 text-center text-sm font-medium text-foreground/80">{day}</div>
+                                ))}
+                            </div>
+                            <div className="grid grid-cols-7">
+                                {Array.from({ length: firstDayOfMonth }, (_, i) => (
+                                    <div key={`empty-${i}`} className="min-h-[100px] p-3 border-r border-b border-border-color bg-background"></div>
+                                ))}
+                                {Array.from({ length: daysInCurrentMonth }, (_, day) => {
+                                    const dayNumber = day + 1;
+                                    const eventsOnDay = getEventsForDay(dayNumber);
+                                    const hasEvents = eventsOnDay.length > 0;
+                                    return (
+                                        <div key={`day-${dayNumber}`} className={`min-h-[100px] p-3 border-r border-b border-border-color hover:bg-background/5 cursor-pointer transition-colors last:border-r-0`}>
+                                            <div className="text-sm font-semibold text-foreground mb-1">{dayNumber}</div>
+                                            {eventsOnDay.slice(0, 2).map(event => (
+                                                <div key={event.id} className="text-xs bg-primary-accent/10 text-primary-accent px-2 py-0.5 rounded-full mb-1 truncate font-medium" title={event.title}>
+                                                    {event.title}
+                                                </div>
+                                            ))}
+                                            {eventsOnDay.length > 2 && (
+                                                <div className="text-xs text-foreground/60 mt-1">+{eventsOnDay.length - 2} more</div>
+                                            )}
+                                        </div>
+                                    );
+                                })}
+                            </div>
+                        </Card>
+                    )}
+
+                    {viewMode === 'list' && (
+                        <div className="space-y-6">
+                            {sortedEventsForList.length > 0 ? (
+                                sortedEventsForList.map((event) => (
+                                    <Card key={event.id} className="p-6">
+                                        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-4">
+                                            <div>
+                                                <p className="font-bold text-lg text-foreground">{event.title}</p>
+                                                <p className="text-sm text-primary-accent font-medium">{event.type}</p>
+                                            </div>
+                                            <Link href="#" className="text-primary-accent hover:underline text-sm font-medium mt-2 sm:mt-0">View Details</Link>
+                                        </div>
+                                        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 pt-4 border-t border-border-color text-sm">
+                                            <div className="flex items-center">
+                                                <CalendarDaysIcon className="h-5 w-5 text-foreground/60 mr-2" />
+                                                <span className="text-foreground/80">Date:</span>
+                                                <span className="ml-1 font-medium text-foreground">{new Date(event.date).toLocaleDateString()}</span>
+                                            </div>
+                                            <div className="flex items-center">
+                                                <ClockIcon className="h-5 w-5 text-foreground/60 mr-2" />
+                                                <span className="text-foreground/80">Time:</span>
+                                                <span className="ml-1 font-medium text-foreground">{event.startTime} - {event.endTime}</span>
+                                            </div>
+                                            <div className="flex items-center">
+                                                <MapPinIcon className="h-5 w-5 text-foreground/60 mr-2" />
+                                                <span className="text-foreground/80">Location:</span>
+                                                <span className="ml-1 font-medium text-foreground">{event.location || 'N/A'}</span>
+                                            </div>
+                                            {event.courseCode && (
+                                                <div className="flex items-center">
+                                                    <AcademicCapIcon className="h-5 w-5 text-foreground/60 mr-2" />
+                                                    <span className="text-foreground/80">Course:</span>
+                                                    <span className="ml-1 font-medium text-foreground">{event.courseCode}</span>
+                                                </div>
+                                            )}
+                                        </div>
+                                    </Card>
+                                ))
+                            ) : (
+                                <Card>
+                                    <div className="text-center text-foreground/60 py-8">
+                                        No events found for current filter and search.
+                                    </div>
+                                </Card>
+                            )}
+                        </div>
+                    )}
+                </div>
             </div>
         </div>
     );

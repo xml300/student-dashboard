@@ -16,6 +16,10 @@ const config: Config = {
         'primary-accent': 'var(--primary-accent)',
         'secondary-accent': 'var(--secondary-accent)',
         'border-color': 'var(--border-color)',
+        'accent': 'var(--accent)',
+      },
+      fontFamily: {
+        sans: ['var(--font-sans)', 'sans-serif'],
       },
     },
   },
