@@ -1,0 +1,13 @@
+export interface CourseOverview {
+  id: string;
+  name: string;
+  description: string;
+  credits: number;
+  lastAttendance: string;
+  nextSession: string;
+  recentSessions: any[]; // Consider defining a more specific type for sessions if available
+  students: number;
+  attendanceRate: string;
+  semester: string;
+  title: string;
+}

@@ -12,7 +12,7 @@ export async function GET() {
     const userCourses = await db.query.courses.findMany({
       where: eq(courses.userId, userId),
     });
-    return NextResponse.json(userCourses);
+    return NextResponse.json(userCourses || []);
   } catch (error) {
     console.error('Error fetching courses:', error);
     return NextResponse.json(

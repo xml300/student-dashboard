@@ -1,7 +1,120 @@
 @import "tailwindcss";
+@custom-variant dark (&:where(.dark, .dark *));
 
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+:root { /* Light mode defaults */
+  --background: #F7F9FA;
+  --foreground: #4A4A4A;
+  --card: #ffffff;
+  --border: #dee2e6;
+  --primary-accent: #4A90E2;
+  --secondary-accent: #50E3C2;
+  --accent: #F5A623;
+  --font-family: 'Inter';
+}
+
+html {
+  color-scheme: light;
+}
+
+html.dark { /* Dark mode overrides */
+  color-scheme: dark;
+  --background: #09090b;
+  --foreground: #F3F4F6;
+  --card: #18181b;
+  --border: #27272a;
+}
 
 body {
   font-family: 'Inter', sans-serif;
+  background-color: var(--background);
+  color: var(--foreground);
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+@layer components {
+  .btn-primary {
+    background-image: linear-gradient(to right, var(--primary), var(--secondary));
+    color: white;
+    font-weight: 600; /* Semi-bold */
+    padding: 0.75rem 1.5rem;
+    border-radius: 0.75rem; /* More rounded */
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+    transition: all 0.3s ease-in-out;
+    border: none;
+    cursor: pointer;
+  }
+
+  .btn-primary:hover {
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.05);
+    transform: translateY(-3px);
+  }
+
+  .btn-secondary {
+    background-color: var(--border);
+    color: var(--foreground);
+    font-weight: 600; /* Semi-bold */
+    padding: 0.75rem 1.5rem;
+    border-radius: 0.75rem; /* More rounded */
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.05);
+    transition: all 0.3s ease-in-out;
+    border: none;
+    cursor: pointer;
+  }
+
+  .btn-secondary:hover {
+    background-color: #D1D5DB; /* Gray 300 */
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -4px rgba(0, 0, 0, 0.05);
+    transform: translateY(-2px);
+  }
+
+  html.dark .btn-secondary:hover {
+    background-color: #4B5563; /* Gray 600 */
+  }
+
+  .input-field {
+    display: block;
+    width: 100%;
+    padding: 0.5rem 1rem; /* py-2 px-4 */
+    border: 1px solid var(--border); /* border border-gray-300 */
+    border-radius: 0.5rem; /* rounded-lg */
+    background-color: var(--card); /* bg-white */
+    color: var(--foreground); /* text-gray-900 */
+    transition: all 0.2s ease-in-out; /* transition-all duration-200 ease-in-out */
+    outline: none; /* outline-none */
+  }
+
+  html.dark .input-field {
+    border-color: var(--border); /* dark:border-gray-600 */
+    background-color: var(--card); /* dark:bg-gray-700 */
+    color: var(--foreground); /* dark:text-white */
+  }
+
+  .input-field::placeholder {
+    color: #9CA3AF; /* placeholder-gray-400 */
+    opacity: 1;
+  }
+
+  html.dark .input-field::placeholder {
+    color: #A3A3A3; /* lighter gray for dark bg */
+    opacity: 1;
+  }
+
+  .input-field:focus {
+    box-shadow: 0 0 0 2px var(--primary); /* focus:ring-2 focus:ring-primary */
+    border-color: transparent; /* focus:border-transparent */
+  }
+
+  .card {
+    background-color: var(--card); /* bg-white */
+    border-radius: 0.75rem; /* rounded-xl */
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05); /* shadow-lg */
+    border: 1px solid var(--border); /* border border-gray-200 */
+    color: var(--foreground);
+  }
+
+  html.dark .card {
+    background-color: var(--card); /* dark:bg-gray-800 */
+    border-color: var(--border); /* dark:border-gray-700 */
+    color: var(--foreground);
+  }
 }
