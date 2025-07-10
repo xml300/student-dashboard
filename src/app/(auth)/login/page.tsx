@@ -1,8 +1,34 @@
+"use client";
+
 import Link from "next/link";
 import Image from "next/image";
+import { useState } from "react";
+import { signIn } from "next-auth/react";
+import { useRouter } from "next/navigation";
 import Logo from "/public/file.svg";
 
 export default function LoginPage() {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState<string | null>(null);
+  const router = useRouter();
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setError(null);
+
+    const result = await signIn("credentials", {
+      redirect: false,
+      email,
+      password
+    });
+
+    if (result?.error) {
+      setError(result.error);
+    } else {
+      router.push("/"); // Redirect to dashboard or desired page after successful login
+    }
+  };
   return (
     <div className="flex min-h-screen flex-col items-center justify-center bg-background px-4 py-12 sm:px-6 lg:px-8">
       <div className="w-full max-w-md space-y-8">
@@ -28,7 +54,7 @@ export default function LoginPage() {
             </Link>
           </p>
         </div>
-        <form className="mt-8 space-y-6" action="#" method="POST">
+        <form className="mt-8 space-y-6" onSubmit={handleSubmit}>
           <div className="space-y-4 rounded-md shadow-sm">
             <div>
               <label htmlFor="email-address" className="sr-only">
@@ -40,6 +66,8 @@ export default function LoginPage() {
                 type="email"
                 autoComplete="email"
                 required
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
                 className="relative block w-full appearance-none rounded-md border border-border-color bg-input-background px-3 py-2 text-foreground placeholder-foreground/60 focus:z-10 focus:border-primary-accent focus:outline-none focus:ring-primary-accent sm:text-sm"
                 placeholder="Email address"
               />
@@ -54,6 +82,8 @@ export default function LoginPage() {
                 type="password"
                 autoComplete="current-password"
                 required
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
                 className="relative block w-full appearance-none rounded-md border border-border-color bg-input-background px-3 py-2 text-foreground placeholder-foreground/60 focus:z-10 focus:border-primary-accent focus:outline-none focus:ring-primary-accent sm:text-sm"
                 placeholder="Password"
               />
@@ -85,6 +115,10 @@ export default function LoginPage() {
               </Link>
             </div>
           </div>
+
+          {error && (
+            <p className="text-center text-sm text-red-500">{error}</p>
+          )}
 
           <div>
             <button

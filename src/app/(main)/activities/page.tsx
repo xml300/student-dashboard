@@ -1,6 +1,6 @@
 "use client";
 import React, { useState } from 'react';
-import { Search, User, Clock, Calendar, ChevronDown, MoreVertical } from 'lucide-react';
+import { MagnifyingGlassIcon, UserIcon, ClockIcon, CalendarDaysIcon, ChevronDownIcon, EllipsisVerticalIcon, ArrowPathIcon } from '@heroicons/react/24/outline';
 
 const LecturerAdminActivitiesPage = () => {
     const [activities] = useState([ // Sample Activity Data
@@ -88,7 +88,7 @@ const LecturerAdminActivitiesPage = () => {
                             value={searchQuery}
                             onChange={(e) => setSearchQuery(e.target.value)}
                         />
-                        <Search className="absolute left-3 top-2.5 text-foreground/60" size={18} />
+                        <MagnifyingGlassIcon className="absolute left-3 top-2.5 h-5 w-5 text-foreground/60" />
                     </div>
                 </div>
             </header>
@@ -110,7 +110,7 @@ const LecturerAdminActivitiesPage = () => {
                                 ))}
                             </select>
                             <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-foreground/80">
-                                <ChevronDown className="h-4 w-4" />
+                                <ChevronDownIcon className="h-4 w-4" />
                             </div>
                         </div>
 
@@ -127,7 +127,7 @@ const LecturerAdminActivitiesPage = () => {
                                 <option value="user-desc">User (Z-A)</option>
                             </select>
                             <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-foreground/80">
-                                <ChevronDown className="h-4 w-4" />
+                                <ChevronDownIcon className="h-4 w-4" />
                             </div>
                         </div>
                     </div>
@@ -135,7 +135,7 @@ const LecturerAdminActivitiesPage = () => {
                     {/* Refresh Button (Optional) */}
                     <div className="w-full sm:w-auto">
                         <button className="flex items-center justify-center w-full px-4 py-2 bg-card-background border border-border-color rounded-md text-foreground/80 hover:bg-foreground/5">
-                            <RefreshCw size={16} className="mr-2" stroke="currentColor" />
+                            <ArrowPathIcon className="h-5 w-5 mr-2" />
                             Refresh Activities
                         </button>
                     </div>
@@ -159,7 +159,7 @@ const LecturerAdminActivitiesPage = () => {
                                 sortedActivities.map(activity => (
                                     <tr key={activity.id} className="hover:bg-foreground/5 transition-colors">
                                         <td className="py-2 px-3 border-b text-foreground font-medium flex items-center">
-                                            <User className="mr-2 text-foreground/60" size={16} />
+                                            <UserIcon className="h-4 w-4 mr-2 text-foreground/60" />
                                             {activity.userName} <span className="text-foreground/60 ml-1 text-sm">({activity.user})</span>
                                         </td>
                                         <td className="py-2 px-3 border-b text-foreground/80">{activity.action}</td>
@@ -167,17 +167,17 @@ const LecturerAdminActivitiesPage = () => {
                                         <td className="py-2 px-3 border-b text-foreground/80">{activity.category}</td>
                                         <td className="py-2 px-3 border-b text-foreground/80">
                                             <div className="flex items-center">
-                                                <Calendar className="mr-1 text-foreground/60" size={14} />
+                                                <CalendarDaysIcon className="h-4 w-4 mr-1 text-foreground/60" />
                                                 {activity.timestamp.toLocaleDateString()}
                                             </div>
                                             <div className="flex items-center">
-                                                <Clock className="mr-1 text-foreground/60" size={14} />
+                                                <ClockIcon className="h-4 w-4 mr-1 text-foreground/60" />
                                                 {activity.timestamp.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
                                             </div>
                                         </td>
                                         <td className="py-2 px-3 border-b text-right">
                                             <button className="text-foreground/50 hover:text-foreground/80">
-                                                <MoreVertical size={20} />
+                                                <EllipsisVerticalIcon className="h-5 w-5" />
                                             </button>
                                         </td>
                                     </tr>
@@ -204,16 +204,16 @@ const LecturerAdminActivitiesPage = () => {
                                         <p className="text-sm text-foreground/80">{activity.details}</p>
                                     </div>
                                     <button className="text-foreground/50 hover:text-foreground/80">
-                                        <MoreVertical size={20} />
+                                        <EllipsisVerticalIcon className="h-5 w-5" />
                                     </button>
                                 </div>
                                 <div className="mt-4 pt-4 border-t border-border-color">
                                     <div className="flex items-center text-sm text-foreground/80 mb-2">
-                                        <User className="mr-2" size={14} />
+                                        <UserIcon className="h-4 w-4 mr-2" />
                                         {activity.userName} ({activity.user})
                                     </div>
                                     <div className="flex items-center text-sm text-foreground/80">
-                                        <Clock className="mr-2" size={14} />
+                                        <ClockIcon className="h-4 w-4 mr-2" />
                                         {activity.timestamp.toLocaleString()}
                                     </div>
                                 </div>
@@ -230,9 +230,6 @@ const LecturerAdminActivitiesPage = () => {
     );
 };
 
-const RefreshCw = ({ size, className, stroke }: { size?: number, className?: string, stroke?: string }) => { // Using RefreshCw from lucide-react caused a naming conflict, so created a local alias.
-    return <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24" fill="none" stroke={stroke} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}><path d="M21 12a9 9 0 0 0-9-9 9 9 0 0 0-9 9"/><path d="M16 12h5l-3 3"/></svg>;
-};
 
 
 export default LecturerAdminActivitiesPage;

@@ -1,24 +1,28 @@
 "use client";
 import React from 'react';
-import { Clock, Smartphone, Wifi, Battery, ArrowLeft, Edit, BarChart, CheckCircle, XCircle, AlertTriangle, Trash2 } from 'lucide-react';
+import { DevicePhoneMobileIcon, WifiIcon, Battery50Icon, ArrowLeftIcon, PencilSquareIcon, CheckCircleIcon, XCircleIcon, ExclamationTriangleIcon, TrashIcon, PowerIcon, ArrowPathIcon, BellIcon } from '@heroicons/react/24/outline';
 import Link from 'next/link';
 
-interface Device2 {
+interface Device {
     id: string;
     name: string;
     type: string;
     model: string;
-    status: string;
-    battery: number,
+    status: 'active' | 'inactive' | 'maintenance';
+    battery: number;
     lastSync: string;
     lastUsed: string;
-    wifiStrength: string;
+    wifiStrength: 'strong' | 'medium' | 'weak';
     assignedCourses: string[];
+    recentActivity: {
+        event: string;
+        timestamp: string;
+        status: 'success' | 'failure';
+    }[];
 }
 
-// {device }: { device: Device2 }
 const DeviceDetailsPage = () => {
-    const device: Device2 = {
+    const device: Device = {
         id: 'DEV001',
         name: 'Main Hall Scanner',
         type: 'Tablet',
@@ -28,174 +32,168 @@ const DeviceDetailsPage = () => {
         lastSync: '19 Mar 2025, 08:32 AM',
         lastUsed: '19 Mar 2025, 08:32 AM',
         wifiStrength: 'strong',
-        assignedCourses: ['CSC301', 'ENG205']
-    };
-    if (!device) {
-        return <div>Device not found.</div>; // Handle case where device data is not provided
-    }
-
-    // Helper function to render status badge (copied from your code)
-    const renderStatusBadge = (status: string) => {
-        switch (status) {
-            case 'active':
-                return (
-                    <span className="flex items-center text-xs px-2 py-1 rounded-full bg-green-500/10 text-green-500">
-                        <CheckCircle size={12} className="mr-1" />
-                        Active
-                    </span>
-                );
-            case 'inactive':
-                return (
-                    <span className="flex items-center text-xs px-2 py-1 rounded-full bg-foreground/10 text-foreground/80">
-                        <XCircle size={12} className="mr-1" />
-                        Inactive
-                    </span>
-                );
-            case 'maintenance':
-                return (
-                    <span className="flex items-center text-xs px-2 py-1 rounded-full bg-yellow-500/10 text-yellow-500">
-                        <AlertTriangle size={12} className="mr-1" />
-                        Maintenance
-                    </span>
-                );
-            default:
-                return (
-                    <span className="flex items-center text-xs px-2 py-1 rounded-full bg-foreground/10 text-foreground/80">
-                        {status}
-                    </span>
-                );
-        }
+        assignedCourses: ['CSC301 - Intro to DB', 'ENG205 - Communication'],
+        recentActivity: [
+            { event: 'Synced 142 records', timestamp: '19 Mar 2025, 08:32 AM', status: 'success' },
+            { event: 'Session started for CSC301', timestamp: '19 Mar 2025, 08:00 AM', status: 'success' },
+            { event: 'Failed to sync', timestamp: '18 Mar 2025, 02:15 PM', status: 'failure' },
+            { event: 'Device came online', timestamp: '18 Mar 2025, 02:10 PM', status: 'success' },
+        ]
     };
 
-    // Helper function to render wifi strength indicator (copied from your code)
-    const renderWifiStrength = (strength: string) => {
-        switch (strength) {
-            case 'strong':
-                return <Wifi size={16} className="text-green-500" />;
-            case 'medium':
-                return <Wifi size={16} className="text-yellow-500" />;
-            case 'weak':
-                return <Wifi size={16} className="text-red-500" />;
-            default:
-                return <Wifi size={16} className="text-foreground/60" />;
-        }
+    const renderStatusBadge = (status: Device['status']) => {
+        const styles = {
+            active: "bg-green-500/10 text-green-500",
+            inactive: "bg-foreground/10 text-foreground/80",
+            maintenance: "bg-yellow-500/10 text-yellow-500",
+        };
+        const icons = {
+            active: <CheckCircleIcon className="h-3 w-3" />,
+            inactive: <XCircleIcon className="h-3 w-3" />,
+            maintenance: <ExclamationTriangleIcon className="h-3 w-3" />,
+        };
+        return (
+            <span className={`flex items-center text-xs px-2 py-1 rounded-full ${styles[status]}`}>
+                {icons[status]}
+                <span className="ml-1 capitalize">{status}</span>
+            </span>
+        );
     };
 
-    // Helper function to render battery level (copied from your code)
+    const renderWifiStrength = (strength: Device['wifiStrength']) => {
+        const colors = { strong: "text-green-500", medium: "text-yellow-500", weak: "text-red-500" };
+        return <WifiIcon className={`h-4 w-4 ${colors[strength] || "text-foreground/60"}`} />;
+    };
+
     const renderBatteryLevel = (level: number) => {
         let color = "text-foreground/60";
         if (level >= 70) color = "text-green-500";
         else if (level >= 30) color = "text-yellow-500";
         else color = "text-red-500";
-
         return (
             <div className="flex items-center">
-                <Battery size={16} className={color} />
+                <Battery50Icon className={`h-4 w-4 ${color}`} />
                 <span className="ml-1">{level}%</span>
             </div>
         );
     };
 
     return (
-        <div className="flex flex-col p-6 bg-card-background rounded-lg shadow-md">
-            {/* Back Button */}
-            <Link href="/devices" className="mb-4 flex items-center text-primary-accent hover:underline text-sm w-fit">
-                <ArrowLeft size={16} className="mr-1" />
-                Back to Devices List
-            </Link>
-
-            {/* Device Header */}
-            <div className="mb-6 border-b pb-4">
-                <h1 className="text-2xl font-bold text-foreground">{device.name}</h1>
-                <div className="text-sm text-foreground/80 mt-1">{device.id} • {device.type}</div>
-                <div className="mt-2">{renderStatusBadge(device.status)}</div>
+        <div className="flex-1 p-6 bg-background">
+            <div className="flex items-center mb-6">
+                <Link href="/devices" className="text-primary-accent hover:underline flex items-center">
+                    <ArrowLeftIcon className="h-5 w-5 mr-2" />
+                    Back to Devices
+                </Link>
             </div>
 
-            {/* Device Details Grid */}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                {/* Left Column */}
-                <div>
-                    <div className="mb-4">
-                        <h3 className="text-lg font-semibold text-foreground/90 mb-2">Device Information</h3>
-                        <div className="px-4 py-3 bg-foreground/5 rounded-md border border-border-color">
-                            <div className="flex items-center mb-2">
-                                <Smartphone size={16} className="text-foreground/60 mr-2" />
-                                <span className="font-medium text-foreground/80">Model:</span>
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                {/* Left Column - Device Info & Actions */}
+                <div className="lg:col-span-1 space-y-6">
+                    <div className="bg-card-background p-6 rounded-lg border border-border-color">
+                        <div className="flex items-center mb-4">
+                            <DevicePhoneMobileIcon className="h-8 w-8 text-primary-accent mr-4" />
+                            <div>
+                                <h1 className="text-xl font-bold">{device.name}</h1>
+                                <p className="text-sm text-foreground/80">{device.id} • {device.model}</p>
                             </div>
-                            <div className="text-foreground">{device.model}</div>
+                        </div>
+                        <div className="space-y-3">
+                            <div className="flex justify-between items-center">
+                                <span className="text-sm font-medium text-foreground/80">Status</span>
+                                {renderStatusBadge(device.status)}
+                            </div>
+                            <div className="flex justify-between items-center">
+                                <span className="text-sm font-medium text-foreground/80">Battery</span>
+                                {renderBatteryLevel(device.battery)}
+                            </div>
+                            <div className="flex justify-between items-center">
+                                <span className="text-sm font-medium text-foreground/80">WiFi</span>
+                                {renderWifiStrength(device.wifiStrength)}
+                            </div>
                         </div>
                     </div>
 
-                    <div className="mb-4">
-                        <h3 className="text-lg font-semibold text-foreground/90 mb-2">Connectivity</h3>
-                        <div className="px-4 py-3 bg-foreground/5 rounded-md border border-border-color">
-                            <div className="flex items-center mb-2">
-                                <Wifi size={16} className="text-foreground/60 mr-2" />
-                                <span className="font-medium text-foreground/80">WiFi Strength:</span>
-                            </div>
-                            <div className="flex items-center text-foreground">{renderWifiStrength(device.wifiStrength)} <span className="ml-1 capitalize">{device.wifiStrength}</span></div>
+                    <div className="bg-card-background p-6 rounded-lg border border-border-color">
+                        <h2 className="text-lg font-semibold mb-4">Remote Actions</h2>
+                        <div className="space-y-2">
+                            <button className="w-full flex items-center justify-center px-4 py-2 bg-primary-accent/10 border border-primary-accent text-primary-accent rounded-md hover:bg-primary-accent/20 transition-colors text-sm">
+                                <BellIcon className="h-5 w-5 mr-2" />
+                                Ping Device
+                            </button>
+                            <button className="w-full flex items-center justify-center px-4 py-2 bg-foreground/10 border border-border-color text-foreground/80 rounded-md hover:bg-foreground/20 transition-colors text-sm">
+                                <ArrowPathIcon className="h-5 w-5 mr-2" />
+                                Force Sync
+                            </button>
+                            <button className="w-full flex items-center justify-center px-4 py-2 bg-yellow-500/10 border border-yellow-500 text-yellow-500 rounded-md hover:bg-yellow-500/20 transition-colors text-sm">
+                                <PowerIcon className="h-5 w-5 mr-2" />
+                                Restart Device
+                            </button>
                         </div>
                     </div>
-
-                    <div>
-                        <h3 className="text-lg font-semibold text-foreground/90 mb-2">Power</h3>
-                        <div className="px-4 py-3 bg-foreground/5 rounded-md border border-border-color">
-                            <div className="flex items-center mb-2">
-                                <Battery size={16} className="text-foreground/60 mr-2" />
-                                <span className="font-medium text-foreground/80">Battery Level:</span>
-                            </div>
-                            <div className="flex items-center text-foreground">{renderBatteryLevel(device.battery)}</div>
+                    
+                    <div className="bg-card-background p-6 rounded-lg border border-border-color">
+                        <h2 className="text-lg font-semibold mb-4">Management</h2>
+                        <div className="space-y-2">
+                            <button className="w-full flex items-center justify-center px-4 py-2 bg-foreground/10 border border-border-color text-foreground/80 rounded-md hover:bg-foreground/20 transition-colors text-sm">
+                                <PencilSquareIcon className="h-5 w-5 mr-2" />
+                                Edit Details
+                            </button>
+                            <button className="w-full flex items-center justify-center px-4 py-2 bg-red-500/10 border border-red-500 text-red-500 rounded-md hover:bg-red-500/20 transition-colors text-sm">
+                                <TrashIcon className="h-5 w-5 mr-2" />
+                                Delete Device
+                            </button>
                         </div>
                     </div>
                 </div>
 
-                {/* Right Column */}
-                <div>
-                    <div className="mb-4">
-                        <h3 className="text-lg font-semibold text-foreground/90 mb-2">Activity</h3>
-                        <div className="px-4 py-3 bg-foreground/5 rounded-md border border-border-color">
-                            <div className="flex items-center mb-2">
-                                <Clock size={16} className="text-foreground/60 mr-2" />
-                                <span className="font-medium text-foreground/80">Last Sync:</span>
+                {/* Right Column - Activity & Courses */}
+                <div className="lg:col-span-2 space-y-6">
+                    <div className="bg-card-background p-6 rounded-lg border border-border-color">
+                        <h2 className="text-lg font-semibold mb-4">Activity</h2>
+                        <div className="space-y-3 text-sm">
+                            <div className="flex justify-between">
+                                <span className="text-foreground/80">Last Used:</span>
+                                <span>{device.lastUsed}</span>
                             </div>
-                            <div className="text-foreground">{device.lastSync}</div>
-                            <div className="flex items-center mt-2">
-                                <Clock size={16} className="text-foreground/60 mr-2" />
-                                <span className="font-medium text-foreground/80">Last Used:</span>
+                            <div className="flex justify-between">
+                                <span className="text-foreground/80">Last Sync:</span>
+                                <span>{device.lastSync}</span>
                             </div>
-                            <div className="text-foreground">{device.lastUsed}</div>
                         </div>
                     </div>
 
                     {device.assignedCourses && device.assignedCourses.length > 0 && (
-                        <div className="mb-4">
-                            <h3 className="text-lg font-semibold text-foreground/90 mb-2">Assigned Courses</h3>
-                            <div className="px-4 py-3 bg-foreground/5 rounded-md border border-border-color">
-                                <ul className="list-disc pl-5 text-foreground">
-                                    {device.assignedCourses.map(course => (
-                                        <li key={course}>{course}</li>
-                                    ))}
-                                </ul>
-                            </div>
+                        <div className="bg-card-background p-6 rounded-lg border border-border-color">
+                            <h2 className="text-lg font-semibold mb-4">Assigned Courses</h2>
+                            <ul className="space-y-2">
+                                {device.assignedCourses.map(course => (
+                                    <li key={course} className="flex items-center justify-between p-3 bg-foreground/5 rounded-md">
+                                        <span>{course}</span>
+                                        <Link href="#" className="text-primary-accent hover:underline text-sm">View Course</Link>
+                                    </li>
+                                ))}
+                            </ul>
                         </div>
                     )}
-                </div>
-            </div>
 
-            {/* Actions Bar at the bottom */}
-            <div className="mt-8 border-t pt-4 flex justify-end space-x-4">
-                <button className="flex items-center px-4 py-2 bg-card-background border border-red-500 text-red-500 rounded-md hover:bg-red-500/10 transition-colors">
-                    <Trash2 size={16} className="mr-2" />
-                    Delete Device
-                </button>
-                <button className="flex items-center px-4 py-2 bg-card-background border border-border-color text-foreground/80 hover:bg-foreground/5 transition-colors">
-                    <BarChart size={16} className="mr-2" />
-                    Check Status
-                </button>
-                <button className="flex items-center px-4 py-2 bg-primary-accent text-white rounded-md hover:bg-primary-accent/90 transition-colors">
-                    <Edit size={16} className="mr-2" />
-                    Edit Device
-                </button>
+                    <div className="bg-card-background p-6 rounded-lg border border-border-color">
+                        <h2 className="text-lg font-semibold mb-4">Recent Event Log</h2>
+                        <div className="space-y-4">
+                            {device.recentActivity.map((activity, index) => (
+                                <div key={index} className="flex items-start">
+                                    <div className="mr-3 mt-1">
+                                        {activity.status === 'success' ? <CheckCircleIcon className="h-4 w-4 text-green-500" /> : <XCircleIcon className="h-4 w-4 text-red-500" />}
+                                    </div>
+                                    <div>
+                                        <p className="font-medium">{activity.event}</p>
+                                        <p className="text-xs text-foreground/60">{activity.timestamp}</p>
+                                    </div>
+                                </div>
+                            ))}
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     );

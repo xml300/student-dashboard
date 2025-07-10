@@ -1,72 +1,126 @@
 "use client";
 import React, { useState } from 'react';
-import { MagnifyingGlassIcon, ChevronRightIcon, EllipsisVerticalIcon, AdjustmentsHorizontalIcon, PlusIcon } from '@heroicons/react/24/outline';
+import { MagnifyingGlassIcon, ChevronRightIcon, EllipsisVerticalIcon, PlusIcon } from '@heroicons/react/24/outline';
 import Link from 'next/link';
 import Card from '@/components/Card';
+import AddCourseModal from '@/components/modals/AddCourseModal';
+import { CourseOverview } from '@/data/types/types';
+
+interface CourseDisplay extends CourseOverview {
+  devices: number;
+  status: 'active' | 'archived';
+}
 
 const CoursesPage = () => {
   const [activeTab, setActiveTab] = useState('active');
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [searchTerm, setSearchTerm] = useState('');
   
   // Sample courses data
-  const courses = [
+  const courses: CourseDisplay[] = [
     {
       id: 'CSC301',
+      name: 'Introduction to Database Systems',
+      description: 'A comprehensive course on database systems.',
+      credits: 3,
       title: 'Introduction to Database Systems',
       semester: 'Spring 2025',
       students: 142,
       devices: 3,
+      lastAttendance: 'Mar 17, 2025',
       nextSession: 'Mar 21, 2025 - 10:00 AM',
       attendanceRate: '87%',
+      recentSessions: [], // Add empty array for recentSessions
       status: 'active'
     },
     {
       id: 'ENG205',
+      name: 'Technical Writing and Communication',
+      description: 'A course on technical writing.',
+      credits: 3,
       title: 'Technical Writing and Communication',
       semester: 'Spring 2025',
       students: 98,
       devices: 2,
+      lastAttendance: 'Mar 19, 2025',
       nextSession: 'Mar 20, 2025 - 2:00 PM',
       attendanceRate: '92%',
+      recentSessions: [],
       status: 'active'
     },
     {
       id: 'MATH401',
+      name: 'Advanced Calculus',
+      description: 'An advanced course in calculus.',
+      credits: 4,
       title: 'Advanced Calculus',
       semester: 'Spring 2025',
       students: 64,
       devices: 1,
+      lastAttendance: 'Mar 18, 2025',
       nextSession: 'Mar 19, 2025 - 11:30 AM',
       attendanceRate: '79%',
+      recentSessions: [],
       status: 'active'
     },
     {
       id: 'PHY302',
+      name: 'Quantum Mechanics',
+      description: 'An introduction to quantum mechanics.',
+      credits: 3,
       title: 'Quantum Mechanics',
       semester: 'Spring 2025',
       students: 53,
       devices: 1,
+      lastAttendance: 'Mar 22, 2025',
       nextSession: 'Mar 23, 2025 - 9:00 AM',
       attendanceRate: '84%',
+      recentSessions: [],
       status: 'active'
     },
     {
       id: 'BIO101',
+      name: 'Introduction to Biology',
+      description: 'A foundational course in biology.',
+      credits: 3,
       title: 'Introduction to Biology',
       semester: 'Fall 2024',
       students: 156,
       devices: 3,
+      lastAttendance: 'N/A',
       nextSession: 'N/A',
       attendanceRate: '83%',
+      recentSessions: [],
       status: 'archived'
     }
   ];
 
-  const filteredCourses = courses.filter(course => 
-    activeTab === 'all' || course.status === activeTab
-  );
+  const filteredCourses = courses
+    .filter(course => activeTab === 'all' || course.status === activeTab)
+    .filter(course => 
+      course.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      course.id.toLowerCase().includes(searchTerm.toLowerCase())
+    );
+
+  const handleAddCourse = (newCourse: CourseOverview) => {
+    console.log('New Course:', newCourse);
+    // Here you would typically handle the API call to add the course
+  };
+
+  const handleSelectCourse = (courseId: string) => {
+    console.log('Selected Course ID:', courseId);
+    // Handle the selection logic, e.g., navigate to the course page
+  };
 
   return ( 
       <div className="flex-1 flex flex-col overflow-hidden">
+        <AddCourseModal 
+          isOpen={isModalOpen}
+          onClose={() => setIsModalOpen(false)}
+          onAddCourse={handleAddCourse}
+          courses={courses}
+          onSelectCourse={handleSelectCourse}
+        />
         <div className="p-6 sm:p-8">
           <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-8">
             <h1 className="text-3xl font-bold text-foreground mb-4 sm:mb-0">Courses</h1>
@@ -74,6 +128,8 @@ const CoursesPage = () => {
               <input
                 type="text"
                 placeholder="Search courses..."
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
                 className="pl-10 pr-4 py-2 border border-border-color rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-accent w-full bg-card-background text-foreground"
               />
               <MagnifyingGlassIcon className="absolute left-3 top-1/2 -translate-y-1/2 text-foreground/60 h-5 w-5" />
@@ -99,12 +155,8 @@ const CoursesPage = () => {
               </button>
             </div>
             
-            <div className="flex space-x-3 w-full sm:w-auto">
-              <button className="flex items-center justify-center w-full sm:w-auto px-4 py-2 text-sm font-medium bg-card-background border border-border-color rounded-lg text-foreground/80 hover:bg-foreground/5">
-                <AdjustmentsHorizontalIcon className="h-5 w-5 mr-2" />
-                Filter
-              </button>
-              <button className="flex items-center justify-center w-full sm:w-auto px-4 py-2 text-sm font-medium bg-primary-accent text-white rounded-lg hover:bg-primary-accent/90">
+            <div className="flex w-full sm:w-auto">
+              <button onClick={() => setIsModalOpen(true)} className="flex items-center justify-center w-full sm:w-auto px-4 py-2 text-sm font-medium bg-primary-accent text-white rounded-lg hover:bg-primary-accent/90">
                 <PlusIcon className="h-5 w-5 mr-2" />
                 Add New Course
               </button>
@@ -165,7 +217,7 @@ const CoursesPage = () => {
               </Card>
             ))}
             
-            <Card className="border-2 border-dashed border-border-color flex flex-col items-center justify-center p-10 text-foreground/60 hover:border-primary-accent hover:text-primary-accent cursor-pointer transition-colors">
+            <Card onClick={() => setIsModalOpen(true)} className="border-2 border-dashed border-border-color flex flex-col items-center justify-center p-10 text-foreground/60 hover:border-primary-accent hover:text-primary-accent cursor-pointer transition-colors">
               <PlusIcon className="h-8 w-8 mb-2" />
               <div className="font-medium">Add New Course</div>
             </Card>

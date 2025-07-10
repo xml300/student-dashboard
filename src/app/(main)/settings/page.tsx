@@ -2,8 +2,7 @@
 import React, { useState } from "react";
 
 
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faGear } from "@fortawesome/free-solid-svg-icons";
+import { Cog6ToothIcon } from "@heroicons/react/24/outline";
 import Image from "next/image";
 
 // Mock components (assuming these are in your project)
@@ -170,7 +169,7 @@ export default function SettingsPage() {
               <ActionButton
                 onClick={handleSaveSettings}
                 label="Save Settings"
-                icon={<FontAwesomeIcon icon={faGear} className="w-4 h-4" />}
+                icon={<Cog6ToothIcon className="w-4 h-4" />}
                 variant="primary"
                 className="w-full sm:w-auto"
               />

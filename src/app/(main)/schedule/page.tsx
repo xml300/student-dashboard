@@ -219,7 +219,7 @@ const LecturerSchedulePage = () => {
                                 {Array.from({ length: daysInCurrentMonth }, (_, day) => {
                                     const dayNumber = day + 1;
                                     const eventsOnDay = getEventsForDay(dayNumber);
-                                    const hasEvents = eventsOnDay.length > 0;
+                                    // const hasEvents = eventsOnDay.length > 0;
                                     return (
                                         <div key={`day-${dayNumber}`} className={`min-h-[100px] p-3 border-r border-b border-border-color hover:bg-background/5 cursor-pointer transition-colors last:border-r-0`}>
                                             <div className="text-sm font-semibold text-foreground mb-1">{dayNumber}</div>

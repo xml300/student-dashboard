@@ -7,7 +7,6 @@ import {
   BookOpenIcon,
   ChartBarIcon,
   DevicePhoneMobileIcon,
-  Cog6ToothIcon,
 } from "@heroicons/react/24/outline";
 
 interface SidebarProps {
@@ -31,11 +30,10 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, onClose }) => {
           transition-transform duration-300 ease-in-out
           w-64 flex-shrink-0
           z-40 
-          fixed md:relative
           h-full
           overflow-y-auto
-          ${isOpen ? "translate-x-0" : "-translate-x-full"}
-          md:translate-x-0
+          ${isOpen ? "block fixed translate-x-0" : "hidden fixed -translate-x-full"}
+          md:block md:relative md:translate-x-0
         `}
       >
         {/* Sidebar content */}
