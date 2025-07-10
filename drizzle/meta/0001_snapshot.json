@@ -1,4 +1,5 @@
 {
+<<<<<<< HEAD
   "id": "2731c111-f3be-453e-8e4e-9f06d5d1b9fe",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "version": "7",
@@ -10,10 +11,24 @@
       "columns": {
         "course_id": {
           "name": "course_id",
+=======
+  "id": "409fdfd6-7d0f-414a-864c-213409445336",
+  "prevId": "58d44d72-e870-467f-ba38-3ec70a175ecb",
+  "version": "7",
+  "dialect": "postgresql",
+  "tables": {
+    "public.attendance": {
+      "name": "attendance",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+>>>>>>> 89af23dbb9007f91ba737715a825608d4b6da105
           "type": "serial",
           "primaryKey": true,
           "notNull": true
         },
+<<<<<<< HEAD
         "course_name": {
           "name": "course_name",
           "type": "text",
@@ -81,10 +96,15 @@
         },
         "course_id": {
           "name": "course_id",
+=======
+        "schedule_id": {
+          "name": "schedule_id",
+>>>>>>> 89af23dbb9007f91ba737715a825608d4b6da105
           "type": "integer",
           "primaryKey": false,
           "notNull": false
         },
+<<<<<<< HEAD
         "session_datetime": {
           "name": "session_datetime",
           "type": "timestamp",
@@ -111,10 +131,24 @@
           "primaryKey": false,
           "notNull": false,
           "default": "now()"
+=======
+        "date": {
+          "name": "date",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "present": {
+          "name": "present",
+          "type": "boolean",
+          "primaryKey": false,
+          "notNull": true
+>>>>>>> 89af23dbb9007f91ba737715a825608d4b6da105
         }
       },
       "indexes": {},
       "foreignKeys": {
+<<<<<<< HEAD
         "lecture_sessions_course_id_courses_course_id_fk": {
           "name": "lecture_sessions_course_id_courses_course_id_fk",
           "tableFrom": "lecture_sessions",
@@ -124,6 +158,17 @@
           ],
           "columnsTo": [
             "course_id"
+=======
+        "attendance_schedule_id_schedule_id_fk": {
+          "name": "attendance_schedule_id_schedule_id_fk",
+          "tableFrom": "attendance",
+          "tableTo": "schedule",
+          "columnsFrom": [
+            "schedule_id"
+          ],
+          "columnsTo": [
+            "id"
+>>>>>>> 89af23dbb9007f91ba737715a825608d4b6da105
           ],
           "onDelete": "no action",
           "onUpdate": "no action"
@@ -135,20 +180,45 @@
       "checkConstraints": {},
       "isRLSEnabled": false
     },
+<<<<<<< HEAD
     "public.lecturers": {
       "name": "lecturers",
       "schema": "",
       "columns": {
         "lecturer_id": {
           "name": "lecturer_id",
+=======
+    "public.courses": {
+      "name": "courses",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+>>>>>>> 89af23dbb9007f91ba737715a825608d4b6da105
           "type": "serial",
           "primaryKey": true,
           "notNull": true
         },
+<<<<<<< HEAD
+=======
+        "name": {
+          "name": "name",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "description": {
+          "name": "description",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+>>>>>>> 89af23dbb9007f91ba737715a825608d4b6da105
         "user_id": {
           "name": "user_id",
           "type": "integer",
           "primaryKey": false,
+<<<<<<< HEAD
           "notNull": true
         },
         "created_at": {
@@ -164,13 +234,22 @@
           "primaryKey": false,
           "notNull": false,
           "default": "now()"
+=======
+          "notNull": false
+>>>>>>> 89af23dbb9007f91ba737715a825608d4b6da105
         }
       },
       "indexes": {},
       "foreignKeys": {
+<<<<<<< HEAD
         "lecturers_user_id_users_id_fk": {
           "name": "lecturers_user_id_users_id_fk",
           "tableFrom": "lecturers",
+=======
+        "courses_user_id_users_id_fk": {
+          "name": "courses_user_id_users_id_fk",
+          "tableFrom": "courses",
+>>>>>>> 89af23dbb9007f91ba737715a825608d4b6da105
           "tableTo": "users",
           "columnsFrom": [
             "user_id"
@@ -188,22 +267,37 @@
       "checkConstraints": {},
       "isRLSEnabled": false
     },
+<<<<<<< HEAD
     "public.students": {
       "name": "students",
       "schema": "",
       "columns": {
         "student_id": {
           "name": "student_id",
+=======
+    "public.schedule": {
+      "name": "schedule",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+>>>>>>> 89af23dbb9007f91ba737715a825608d4b6da105
           "type": "serial",
           "primaryKey": true,
           "notNull": true
         },
+<<<<<<< HEAD
         "user_id": {
           "name": "user_id",
+=======
+        "course_id": {
+          "name": "course_id",
+>>>>>>> 89af23dbb9007f91ba737715a825608d4b6da105
           "type": "integer",
           "primaryKey": false,
           "notNull": false
         },
+<<<<<<< HEAD
         "matric_no": {
           "name": "matric_no",
           "type": "varchar(50)",
@@ -223,16 +317,44 @@
           "primaryKey": false,
           "notNull": false,
           "default": "now()"
+=======
+        "day_of_week": {
+          "name": "day_of_week",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "start_time": {
+          "name": "start_time",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "end_time": {
+          "name": "end_time",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": true
+>>>>>>> 89af23dbb9007f91ba737715a825608d4b6da105
         }
       },
       "indexes": {},
       "foreignKeys": {
+<<<<<<< HEAD
         "students_user_id_users_id_fk": {
           "name": "students_user_id_users_id_fk",
           "tableFrom": "students",
           "tableTo": "users",
           "columnsFrom": [
             "user_id"
+=======
+        "schedule_course_id_courses_id_fk": {
+          "name": "schedule_course_id_courses_id_fk",
+          "tableFrom": "schedule",
+          "tableTo": "courses",
+          "columnsFrom": [
+            "course_id"
+>>>>>>> 89af23dbb9007f91ba737715a825608d4b6da105
           ],
           "columnsTo": [
             "id"
@@ -257,10 +379,29 @@
           "primaryKey": true,
           "notNull": true
         },
+<<<<<<< HEAD
         "username": {
           "name": "username",
           "type": "text",
           "primaryKey": false,
+=======
+        "full_name": {
+          "name": "full_name",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "phone": {
+          "name": "phone",
+          "type": "varchar(256)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "email": {
+          "name": "email",
+          "type": "varchar(256)",
+          "primaryKey": false,
+>>>>>>> 89af23dbb9007f91ba737715a825608d4b6da105
           "notNull": true
         },
         "password": {
@@ -268,6 +409,7 @@
           "type": "text",
           "primaryKey": false,
           "notNull": true
+<<<<<<< HEAD
         },
         "user_type": {
           "name": "user_type",
@@ -289,17 +431,27 @@
           "primaryKey": false,
           "notNull": false,
           "default": "now()"
+=======
+>>>>>>> 89af23dbb9007f91ba737715a825608d4b6da105
         }
       },
       "indexes": {},
       "foreignKeys": {},
       "compositePrimaryKeys": {},
       "uniqueConstraints": {
+<<<<<<< HEAD
         "users_username_unique": {
           "name": "users_username_unique",
           "nullsNotDistinct": false,
           "columns": [
             "username"
+=======
+        "users_email_unique": {
+          "name": "users_email_unique",
+          "nullsNotDistinct": false,
+          "columns": [
+            "email"
+>>>>>>> 89af23dbb9007f91ba737715a825608d4b6da105
           ]
         }
       },

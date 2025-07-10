@@ -1,4 +1,5 @@
 {
+<<<<<<< HEAD
   "name": "app",
   "version": "0.1.0",
   "private": true,
@@ -38,10 +39,36 @@
   "devDependencies": {
     "@eslint/eslintrc": "^3",
     "@tailwindcss/postcss": "^4",
+=======
+  "name": "student-dashboard",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev --turbopack",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint"
+  },
+  "dependencies": {
+    "@headlessui/react": "^2.2.4",
+    "@heroicons/react": "^2.2.0",
+    "bcrypt": "^6.0.0",
+    "dotenv": "^17.1.0",
+    "drizzle-orm": "^0.44.2",
+    "next": "15.3.5",
+    "pg": "^8.16.3",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0"
+  },
+  "devDependencies": {
+    "@tailwindcss/postcss": "^4",
+    "@types/bcrypt": "^5.0.2",
+>>>>>>> 89af23dbb9007f91ba737715a825608d4b6da105
     "@types/node": "^20",
     "@types/pg": "^8.15.4",
     "@types/react": "^19",
     "@types/react-dom": "^19",
+<<<<<<< HEAD
     "@typescript-eslint/eslint-plugin": "^8.36.0",
     "@typescript-eslint/parser": "^8.36.0",
     "drizzle-kit": "^0.31.4",
@@ -50,5 +77,12 @@
     "tailwindcss": "^4",
     "ts-node": "^10.9.2",
     "typescript": "^5.8.3"
+=======
+    "autoprefixer": "^10.4.21",
+    "drizzle-kit": "^0.31.4",
+    "postcss": "^8.5.6",
+    "tailwindcss": "^4.1.11",
+    "typescript": "^5"
+>>>>>>> 89af23dbb9007f91ba737715a825608d4b6da105
   }
 }
