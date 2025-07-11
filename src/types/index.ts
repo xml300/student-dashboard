@@ -1,4 +1,5 @@
 export interface CourseOverview {
+  attendanceId: number;
   id: string;
   name: string;
   description: string;

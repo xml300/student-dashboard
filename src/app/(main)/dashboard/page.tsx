@@ -1,3 +1,4 @@
+"use client"
 import {
   AcademicCapIcon,
   CalendarDaysIcon,
@@ -25,7 +26,30 @@ const attendanceActivity = [
   { detail: "Marked present in Data Structures", time: "2 days ago, 1:00 PM" },
 ];
 
+import React, { useState, useEffect } from 'react';
+
+type DeviceInfo = {
+  name: string;
+  id: string;
+  lastActive: string;
+};
+
 const DashboardPage = () => {
+  const [deviceInfo, setDeviceInfo] = useState<DeviceInfo | null>(null);
+
+  // Detect authorized device on mount
+  useEffect(() => {
+    const stored = localStorage.getItem('authorizedDevice');
+    if (stored) {
+      setDeviceInfo(JSON.parse(stored));
+    }
+  }, []);
+
+  const handleRemoveDevice = () => {
+    localStorage.removeItem('authorizedDevice');
+    setDeviceInfo(null);
+  };
+
   return (
     <div className="space-y-8">
       {/* Hero Section */}
@@ -61,18 +85,36 @@ const DashboardPage = () => {
         {/* Registered Device Section */}
         <div className="bg-background border border-border rounded-xl p-4 mb-6">
           <h2 className="text-lg font-semibold text-foreground mb-3">Registered Device</h2>
-          <div className="flex items-center gap-4">
-            <div className="flex-shrink-0 w-12 h-12 bg-border rounded-full flex items-center justify-center">
-              {/* Device Icon */}
-              <svg xmlns="http://www.w3.org/2000/svg" className="h-7 w-7 text-foreground/70" fill="none" viewBox="0 0 24 24" stroke="currentColor"><rect x="4" y="4" width="16" height="16" rx="3" strokeWidth="1.5"/><rect x="9" y="17" width="6" height="1.5" rx="0.75" fill="currentColor"/></svg>
+          {deviceInfo ? (
+            <div className="flex items-center gap-4">
+              <div className="flex-shrink-0 w-12 h-12 bg-border rounded-full flex items-center justify-center">
+                {/* Device Icon */}
+                <svg xmlns="http://www.w3.org/2000/svg" className="h-7 w-7 text-foreground/70" fill="none" viewBox="0 0 24 24" stroke="currentColor"><rect x="4" y="4" width="16" height="16" rx="3" strokeWidth="1.5"/><rect x="9" y="17" width="6" height="1.5" rx="0.75" fill="currentColor"/></svg>
+              </div>
+              <div>
+                <div className="text-base font-semibold text-foreground">{deviceInfo.name}</div>
+                <div className="text-sm text-foreground/70">Last active: {deviceInfo.lastActive}</div>
+                <div className="text-xs text-foreground/60 mt-1">Device ID: {deviceInfo.id}</div>
+              </div>
+              <Link href="/device" className="ml-auto px-3 py-1.5 rounded-md bg-border text-foreground/90 border border-border hover:bg-border/70 transition-colors text-xs font-medium">Manage</Link>
+              <button
+                onClick={handleRemoveDevice}
+                className="ml-2 px-3 py-1.5 rounded-md bg-red-600 text-white border border-red-700 hover:bg-red-700 transition-colors text-xs font-medium"
+              >Remove</button>
             </div>
-            <div>
-              <div className="text-base font-semibold text-foreground">John’s MacBook Pro</div>
-              <div className="text-sm text-foreground/70">Last active: Today, 10:15 AM</div>
-              <div className="text-xs text-foreground/60 mt-1">Device ID: 8A2F-1B3C-4D5E</div>
+          ) : (
+            <div className="flex items-center gap-4">
+              <div className="flex-shrink-0 w-12 h-12 bg-border rounded-full flex items-center justify-center">
+                {/* Device Icon */}
+                <svg xmlns="http://www.w3.org/2000/svg" className="h-7 w-7 text-foreground/70" fill="none" viewBox="0 0 24 24" stroke="currentColor"><rect x="4" y="4" width="16" height="16" rx="3" strokeWidth="1.5"/><rect x="9" y="17" width="6" height="1.5" rx="0.75" fill="currentColor"/></svg>
+              </div>
+              <div>
+                <div className="text-base font-semibold text-foreground/60">No device authorized</div>
+                <div className="text-sm text-foreground/50">Authorize your device to mark attendance.</div>
+              </div>
+              <Link href="/device" className="ml-auto px-3 py-1.5 rounded-md bg-blue-600 text-white border border-blue-700 hover:bg-blue-700 transition-colors text-xs font-medium">Authorize Device</Link>
             </div>
-            <Link href="/(main)/dashboard/device" className="ml-auto px-3 py-1.5 rounded-md bg-border text-foreground/90 border border-border hover:bg-border/70 transition-colors text-xs font-medium">Manage</Link>
-          </div>
+          )}
         </div>
         {/* Attendance Activity */}
         <div className="bg-background border border-border rounded-xl p-4 mb-6">

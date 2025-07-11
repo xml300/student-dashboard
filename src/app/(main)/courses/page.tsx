@@ -199,9 +199,9 @@ export default function CoursesPage() {
                     <Link href={`/courses/${course.id}`} className="flex-1 px-3 py-2 rounded-lg bg-black dark:bg-primary-accent text-white border border-primary-accent hover:bg-primary-accent/90 text-sm text-center transition-colors font-medium">
                       View Details
                     </Link>
-                    <button className="flex-1 px-3 py-2 rounded-lg bg-border text-foreground border border-border hover:bg-border/70 text-sm transition-colors font-medium">
+                    <Link href={`/attendance/${course.attendanceId || 1}`} className="flex-1 px-3 py-2 rounded-lg bg-border text-foreground border border-border hover:bg-border/70 text-sm transition-colors font-medium">
                       Take Attendance
-                    </button>
+                    </Link>
                   </div>
                 </div>
               </div>
