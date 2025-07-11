@@ -29,11 +29,11 @@ interface Course {
 
 export default function CoursesPage() {
   const [courses, setCourses] = useState<CourseOverview[]>([
-    { id: 'CS101', name: 'Introduction to Programming', description: 'Learn the basics of programming with Python.', credits: 3, lastAttendance: 'N/A', nextSession: 'N/A', recentSessions: [], students: 0, attendanceRate: '0%', semester: 'Fall 2023', title: 'Introduction to Programming' },
-    { id: 'CS201', name: 'Web Development Fundamentals', description: 'Build interactive websites using HTML, CSS, and JavaScript.', credits: 4, lastAttendance: 'N/A', nextSession: 'N/A', recentSessions: [], students: 0, attendanceRate: '0%', semester: 'Fall 2023', title: 'Web Development Fundamentals' },
-    { id: 'CS205', name: 'Data Structures and Algorithms', description: 'Understand fundamental data structures and algorithms.', credits: 3, lastAttendance: 'N/A', nextSession: 'N/A', recentSessions: [], students: 0, attendanceRate: '0%', semester: 'Spring 2024', title: 'Data Structures and Algorithms' },
-    { id: 'CS301', name: 'Database Management Systems', description: 'Explore relational databases and SQL.', credits: 3, lastAttendance: 'N/A', nextSession: 'N/A', recentSessions: [], students: 0, attendanceRate: '0%', semester: 'Spring 2024', title: 'Database Management Systems' },
-    { id: 'CS305', name: 'Operating Systems', description: 'Learn about the core concepts of operating systems.', credits: 4, lastAttendance: 'N/A', nextSession: 'N/A', recentSessions: [], students: 0, attendanceRate: '0%', semester: 'Fall 2024', title: 'Operating Systems' },
+    { id: 'CS101', name: 'Introduction to Programming', description: 'Learn the basics of programming with Python.', credits: 3, lastAttendance: 'N/A', nextSession: 'N/A', recentSessions: [], students: 0, attendanceRate: '0%', semester: 'Fall 2023', attendanceId: 1, title: 'Introduction to Programming' },
+    { id: 'CS201', name: 'Web Development Fundamentals', description: 'Build interactive websites using HTML, CSS, and JavaScript.', credits: 4, lastAttendance: 'N/A', nextSession: 'N/A', recentSessions: [], students: 0, attendanceRate: '0%', semester: 'Fall 2023', attendanceId: 2, title: 'Web Development Fundamentals' },
+    { id: 'CS205', name: 'Data Structures and Algorithms', description: 'Understand fundamental data structures and algorithms.', credits: 3, lastAttendance: 'N/A', nextSession: 'N/A', recentSessions: [], students: 0, attendanceRate: '0%', semester: 'Spring 2024', attendanceId: 3, title: 'Data Structures and Algorithms' },
+    { id: 'CS301', name: 'Database Management Systems', description: 'Explore relational databases and SQL.', credits: 3, lastAttendance: 'N/A', nextSession: 'N/A', recentSessions: [], students: 0, attendanceRate: '0%', semester: 'Spring 2024', attendanceId: 4, title: 'Database Management Systems' },
+    { id: 'CS305', name: 'Operating Systems', description: 'Learn about the core concepts of operating systems.', credits: 4, lastAttendance: 'N/A', nextSession: 'N/A', recentSessions: [], students: 0, attendanceRate: '0%', semester: 'Fall 2024', attendanceId: 5, title: 'Operating Systems' },
   ]);
   const [filteredCourses, setFilteredCourses] = useState<CourseOverview[]>([]);
   const [showBookmarked, setShowBookmarked] = useState(false);
@@ -47,9 +47,9 @@ export default function CoursesPage() {
     // Simulate fetching available courses from an API
     const fetchAvailableCourses = async () => {
       const dummyAvailableCourses: CourseOverview[] = [
-        { id: 'CS401', name: 'Advanced Algorithms', description: 'In-depth study of advanced algorithms and complexity.', credits: 3, lastAttendance: 'N/A', nextSession: 'N/A', recentSessions: [], students: 0, attendanceRate: '0%', semester: 'Spring 2025', title: 'Advanced Algorithms' },
-        { id: 'AI501', name: 'Machine Learning', description: 'Introduction to machine learning concepts and algorithms.', credits: 4, lastAttendance: 'N/A', nextSession: 'N/A', recentSessions: [], students: 0, attendanceRate: '0%', semester: 'Fall 2025', title: 'Machine Learning' },
-        { id: 'SEC101', name: 'Cybersecurity Basics', description: 'Fundamental concepts of cybersecurity and network security.', credits: 3, lastAttendance: 'N/A', nextSession: 'N/A', recentSessions: [], students: 0, attendanceRate: '0%', semester: 'Spring 2025', title: 'Cybersecurity Basics' },
+        { id: 'CS401', name: 'Advanced Algorithms', description: 'In-depth study of advanced algorithms and complexity.', credits: 3, lastAttendance: 'N/A', nextSession: 'N/A', recentSessions: [], students: 0, attendanceRate: '0%', semester: 'Spring 2025', attendanceId: 1, title: 'Advanced Algorithms' },
+        { id: 'AI501', name: 'Machine Learning', description: 'Introduction to machine learning concepts and algorithms.', credits: 4, lastAttendance: 'N/A', nextSession: 'N/A', recentSessions: [], students: 0, attendanceRate: '0%', semester: 'Fall 2025', attendanceId: 2, title: 'Machine Learning' },
+        { id: 'SEC101', name: 'Cybersecurity Basics', description: 'Fundamental concepts of cybersecurity and network security.', credits: 3, lastAttendance: 'N/A', nextSession: 'N/A', recentSessions: [], students: 0, attendanceRate: '0%', semester: 'Spring 2025', attendanceId: 3, title: 'Cybersecurity Basics' },
       ];
       setAvailableCourses(dummyAvailableCourses);
     };

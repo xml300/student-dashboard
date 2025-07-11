@@ -1,6 +1,7 @@
 "use client";
 import { useEffect, useState } from 'react';
 import { CheckCircleIcon, ExclamationCircleIcon } from '@heroicons/react/24/outline';
+import { useRouter } from 'next/navigation';
 
 // Dummy data for current attendance room and session
 const currentRoom = {
@@ -17,14 +18,15 @@ const currentSession = {
 };
 
 export default function AttendancePage() {
-  // Placeholder for Bluetooth attendance logic
-    const handleUploadImage = async (imageData: string) => {
+    const router = useRouter();
+    const validateDeviceAuthorization = async (imageData: string) => {
       try {
-        const file = e.target.files?.[0];
+        const response = await fetch(imageData);
+        const blob = await response.blob();
+        const file = new File([blob], "env.png", {type: blob.type});
         if (!file) return;
         const formData = new FormData();
         formData.append('image', file);
-        // Replace with your backend endpoint
         const res = await fetch('/api/device/validate', {
           method: 'POST',
           body: formData,
@@ -32,9 +34,9 @@ export default function AttendancePage() {
         if (!res.ok) throw new Error('Validation failed');
         const data = await res.json();
         if (data.valid) {
-          alert('Device authorization validated!');
+          return true;
         } else {
-          alert('Device authorization invalid.');
+          return false;
         }
       } catch (error) {
         alert('Failed to validate device.');
@@ -45,7 +47,12 @@ export default function AttendancePage() {
     fetch('/api/device/authorize')
     .then(res => res.json())
     .then(json => {
-      json.image
+      console.log(json.image);
+      return validateDeviceAuthorization(json.image);
+    }).then(isValid => {
+      if(!isValid){
+        router.push("/dashboard");
+      }
     });
   });
   
@@ -58,10 +65,36 @@ export default function AttendancePage() {
         return;
       }
 
+      const SERVICE_UUID = "5c339364-c7be-4f23-b666-a8ff73a6a86a";
+      const CHARACTERISTIC_UUID = "bfc0c92f-317d-4ba9-976b-cc11ce77b4ca";
+
       const device = await navigator.bluetooth.requestDevice({ filters: [{ services: ["5c339364-c7be-4f23-b666-a8ff73a6a86a"] }] });
-      console.log(device);
-      // TODO: Implement Web Bluetooth logic here
-      alert('Attempting to take attendance using Web Bluetooth...');
+      const server = await device.gatt?.connect();
+      const service = await server?.getPrimaryService(SERVICE_UUID);   
+      const characteristic = await service?.getCharacteristic(CHARACTERISTIC_UUID);        
+      const value = await characteristic?.readValue();
+      const serve1 = device.gatt?.disconnect();
+      const serve2 = device.forget();
+
+      const decoder = new TextDecoder("utf-8");
+      const uuid = decoder.decode(value);
+
+      // Send UUID and session info to backend to mark attendance
+      const res = await fetch('/api/attendance/mark', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ uuid, sessionId: currentSession.id }),
+      });
+      if (!res.ok) throw new Error('Attendance marking failed');
+      const data = await res.json();
+      if (data.success) {
+        alert('Attendance marked successfully!');
+      } else {
+        alert('Attendance marking failed.');
+      }
+
+      await serve1;
+      await serve2;
     } catch (error) {
       console.log(error)
       alert('Bluetooth attendance failed.');
