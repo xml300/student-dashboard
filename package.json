@@ -1,5 +1,4 @@
 {
-<<<<<<< HEAD
   "name": "app",
   "version": "0.1.0",
   "private": true,
@@ -39,35 +38,6 @@
   "devDependencies": {
     "@eslint/eslintrc": "^3",
     "@tailwindcss/postcss": "^4",
-=======
-  "name": "student-dashboard",
-  "version": "0.1.0",
-  "private": true,
-  "scripts": {
-    "dev": "next dev",
-    "build": "next build",
-    "start": "next start",
-    "lint": "next lint"
-  },
-  "dependencies": {
-    "@headlessui/react": "^2.2.4",
-    "@heroicons/react": "^2.2.0",
-    "bcrypt": "^6.0.0",
-    "canvas": "^3.1.2",
-    "dotenv": "^17.1.0",
-    "drizzle-orm": "^0.44.2",
-    "next": "15.3.5",
-    "next-themes": "^0.4.6",
-    "pg": "^8.16.3",
-    "react": "^19.0.0",
-    "react-dom": "^19.0.0",
-    "tesseract.js": "^6.0.1",
-    "uuid": "^11.1.0"
-  },
-  "devDependencies": {
-    "@tailwindcss/postcss": "^4",
-    "@types/bcrypt": "^5.0.2",
->>>>>>> 89af23dbb9007f91ba737715a825608d4b6da105
     "@types/node": "^20",
     "@types/pg": "^8.15.4",
     "@types/react": "^19",
