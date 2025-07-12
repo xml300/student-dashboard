@@ -1,0 +1,20 @@
+[
+    {
+        "id": "1",
+        "name": "Introduction to React",
+        "description": "Learn the basics of React",
+        "credits": 3
+    },
+    {
+        "id": "2",
+        "name": "Advanced JavaScript",
+        "description": "Deep dive into JS concepts",
+        "credits": 4
+    },
+    {
+        "id": "3",
+        "name": "Data Structures",
+        "description": "Master fundamental data structures",
+        "credits": 3
+    }
+]
