@@ -1,4 +1,45 @@
 {
+<<<<<<< HEAD
+  "name": "app",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint",
+    "db:seed": "npx ts-node src/db/seeders.ts",
+    "db:migrate": "npx ts-node --esm src/db/migrate.ts"
+  },
+  "dependencies": {
+    "@auth/drizzle-adapter": "^1.10.0",
+    "@azure/app-configuration": "^1.9.0",
+    "@azure/identity": "^4.10.2",
+    "@azure/keyvault-secrets": "^4.10.0",
+    "@heroicons/react": "^2.2.0",
+    "@radix-ui/react-label": "^2.1.7",
+    "@radix-ui/react-select": "^2.2.5",
+    "bcryptjs": "^3.0.2",
+    "class-variance-authority": "^0.7.1",
+    "clsx": "^2.1.1",
+    "dgram": "^1.0.1",
+    "drizzle-orm": "^0.44.2",
+    "jspdf": "^3.0.1",
+    "jspdf-autotable": "^5.0.2",
+    "lucide-react": "^0.525.0",
+    "next": "15.2.3",
+    "next-auth": "^4.24.11",
+    "pg": "^8.16.3",
+    "react": "^19.0.0",
+    "react-datepicker": "^8.4.0",
+    "react-dom": "^19.0.0",
+    "recharts": "^3.0.2",
+    "tailwind-merge": "^3.3.1"
+  },
+  "devDependencies": {
+    "@eslint/eslintrc": "^3",
+    "@tailwindcss/postcss": "^4",
+=======
   "name": "student-dashboard",
   "version": "0.1.0",
   "private": true,
@@ -26,6 +67,7 @@
   "devDependencies": {
     "@tailwindcss/postcss": "^4",
     "@types/bcrypt": "^5.0.2",
+>>>>>>> 89af23dbb9007f91ba737715a825608d4b6da105
     "@types/node": "^20",
     "@types/pg": "^8.15.4",
     "@types/react": "^19",
@@ -36,5 +78,6 @@
     "postcss": "^8.5.6",
     "tailwindcss": "^4.1.11",
     "typescript": "^5"
+>>>>>>> 89af23dbb9007f91ba737715a825608d4b6da105
   }
 }
