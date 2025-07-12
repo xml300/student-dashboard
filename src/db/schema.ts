@@ -11,7 +11,39 @@ const timestamps = {
   createdAt: timestamp('created_at').defaultNow(),
   updatedAt: timestamp('updated_at', { mode: 'date', withTimezone: true }).defaultNow().$onUpdate(() => new Date())
 };
+import {
+  timestamp,
+  pgTable,
+  text,
+  integer,
+  serial,
+  varchar
+} from "drizzle-orm/pg-core"
 
+const timestamps = {
+  createdAt: timestamp('created_at').defaultNow(),
+  updatedAt: timestamp('updated_at', { mode: 'date', withTimezone: true }).defaultNow().$onUpdate(() => new Date())
+};
+
+export const users = pgTable("users", {
+  id: text("id").notNull().primaryKey(),
+  username: text("username").notNull().unique(),
+  password: text("password").notNull(),
+  userType: integer("userType").notNull().default(0),
+  ...timestamps
+})
+
+export const lecturers = pgTable('lecturers', {
+  lecturerId: serial("lecturer_id").primaryKey(),
+  userId: text("user_id").references(() => users.id).notNull(),
+  ...timestamps
+});
+
+export const students = pgTable('students', {
+  studentId: serial('student_id').primaryKey(),
+  userId: text('user_id').references(() => users.id),
+  matricNo: varchar("matric_no", { length: 50 }).notNull(),
+  ...timestamps
 export const users = pgTable("users", {
   id: text("id").notNull().primaryKey(),
   username: text("username").notNull().unique(),
@@ -34,10 +66,6 @@ export const students = pgTable('students', {
 });
 
 export const courses = pgTable('courses', {
-  courseId: serial('id').primaryKey(),
-  name: text('name').notNull(),
-  description: text('description'),
-  userId: integer('user_id').references(() => users.id),
   courseId: serial("course_id").primaryKey(),
   courseName: text('course_name').notNull(),
   courseCode: text('course_code').notNull().unique(),
@@ -46,12 +74,6 @@ export const courses = pgTable('courses', {
   ...timestamps
 });
 
-export const schedule = pgTable('schedule', {
-  id: serial('id').primaryKey(),
-  courseId: integer('course_id').references(() => courses.courseId),
-  dayOfWeek: integer('day_of_week').notNull(),
-  startTime: timestamp('start_time').notNull(),
-  endTime: timestamp('end_time').notNull(),
 export const lectureSessions = pgTable('lecture_sessions', {
   sessionId: serial("session_id").primaryKey(),
   courseId: integer("course_id").references(() => courses.courseId),

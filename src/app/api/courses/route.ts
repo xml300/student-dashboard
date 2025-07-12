@@ -22,22 +22,8 @@ export async function GET() {
   }
 }
 
-export async function POST(req: Request) {
-  try {
-    const { name, description } = await req.json();
-
-    await db.insert(courses).values({
-      name,
-      description,
-      userId,
-    });
-
-    return NextResponse.json({ message: 'Course created successfully' });
-  } catch (error) {
-    console.error('Error creating course:', error);
-    return NextResponse.json(
-      { error: 'Internal server error' },
-      { status: 500 }
-    );
-  }
+export async function GET(request: NextRequest){
+    console.log(request);
+    const courses = await getCourses();
+    return NextResponse.json(courses || []);
 }
