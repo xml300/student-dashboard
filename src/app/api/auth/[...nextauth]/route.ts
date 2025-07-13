@@ -1,7 +1,11 @@
-import NextAuth, { User } from "next-auth";
+import NextAuth, { AuthOptions, User } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
+import { db } from "@/db";
+import { users } from "@/db/schema";
+import { eq } from "drizzle-orm";
+import bcrypt from "bcryptjs";
 
-const authOptions = {
+const authOptions: AuthOptions = {
   pages: {
     signIn: "/login",
   },
@@ -9,19 +13,54 @@ const authOptions = {
     CredentialsProvider({
       name: "Credentials",
       credentials: {
-        email: { label: "Email", type: "email" },
+        username: { label: "Username", type: "text" },
         password: { label: "Password", type: "password" },
       },
-      async authorize(credentials) {
-        console.log(credentials);
-        if (!credentials?.email || !credentials?.password) {
+      async authorize(credentials): Promise<User | null> {
+        if (!credentials?.username || !credentials?.password) {
           return null;
         }
 
-        if(credentials.email == "test@example.com"){
-            return {id: 2} as unknown as User;
+        const user = (
+          await db
+            .select()
+            .from(users)
+            .where(eq(users.username, credentials.username))
+        )[0];
+
+        if (!user) {
+          const hashedPassword = await bcrypt.hash(credentials.password, 10);
+          await db.insert(users).values({
+            username: credentials.username,
+            password: hashedPassword,
+          });
+          const newUser = (
+            await db
+              .select()
+              .from(users)
+              .where(eq(users.username, credentials.username))
+          )[0];
+          return {
+            id: "dummy-id",
+            name: newUser.username,
+            email: newUser.username,
+          };
         }
-        return null;
+
+        const isPasswordValid = await bcrypt.compare(
+          credentials.password,
+          user.password
+        );
+
+        if (!isPasswordValid) {
+          return null;
+        }
+
+        return {
+          id: "dummy-id",
+          name: user.username,
+          email: user.username,
+        };
       },
     }),
   ],
