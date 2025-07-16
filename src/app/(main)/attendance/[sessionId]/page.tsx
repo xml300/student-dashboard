@@ -81,13 +81,16 @@ export default function AttendancePage() {
 
       const SERVICE_UUIDs = uuids;
       const CHARACTERISTIC_UUID = "bfc0c92f-317d-4ba9-976b-cc11ce77b4ca";
+      let service_id = null
 
       const device = await navigator.bluetooth.requestDevice({ filters: [{ services: SERVICE_UUIDs }] });
-      device.onserviceadded = (service) => {
-        console.log(service)
+      device.onserviceadded = (event) => {
+        const service = event.
+        console.log(service);
+        service_id = service.uuid;
       }
       const server = await device.gatt?.connect();
-      const service = await server?.getPrimaryService();   
+      const service = await server?.getPrimaryService(service_id);   
       const characteristic = await service?.getCharacteristic(CHARACTERISTIC_UUID);        
       const value = await characteristic?.readValue();
       const serve1 = device.gatt?.disconnect();
