@@ -150,10 +150,16 @@ export async function getCourses({ studentId }: { studentId?: number } = {}) {
       .from(courses)
       .innerJoin(lectureSessions, eq(lectureSessions.courseId, courses.courseId))
       .leftJoin(studentEnrollments, eq(studentEnrollments.courseId, courses.courseId))
-      .groupBy(courses.courseId)
+      .groupBy(courses.courseCode,
+        courses.courseName,
+        courses.courseDesc,
+        courses.semester,
+        courses.status,
+        courses.courseUnit,
+      )
       .where(eq(studentEnrollments.studentId, studentId));
     return allCourses;
-  }
+}
   const allCourses = db
     .select({
       id: courses.courseCode,

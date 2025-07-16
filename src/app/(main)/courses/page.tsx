@@ -199,7 +199,7 @@ export default function CoursesPage() {
                     </div>
                   </div>
                   <div className="flex justify-between items-center text-xs text-foreground/60 mb-2">
-                    <span className="font-medium">Code: <span className="font-semibold text-foreground/90">{course.id}</span></span>
+                    <span className="font-medium">Code: <span className="font-semibold text-foreground/90">{course.id}{course.title}</span></span>
                     <span className="font-medium">Units: <span className="font-semibold text-foreground/90">{course.credits}</span></span>
                   </div>
                   {/* Recent activity */}
@@ -208,7 +208,7 @@ export default function CoursesPage() {
                     <Link href={`/courses/${course.id}`} className="flex-1 px-3 py-2 rounded-lg bg-black dark:bg-[var(--primary-accent)] text-white border-[var(--primary-accent)] hover:brightness-95 text-sm text-center transition-colors font-medium">
                       View Details
                     </Link>
-                    <Link href={`/attendance/${course.lastSessionId || 1}`} className="text-center flex-1 px-3 py-2 rounded-lg bg-border text-foreground border border-border hover:bg-border/70 text-sm transition-colors font-medium">
+                    <Link href={`/attendance/${course.activeSessionId}`} className="text-center flex-1 px-3 py-2 rounded-lg bg-border text-foreground border border-border hover:bg-border/70 text-sm transition-colors font-medium">
                       Take Attendance
                     </Link>
                   </div>

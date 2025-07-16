@@ -11,5 +11,6 @@ export interface CourseOverview {
   attendanceRate: string;
   semester: number;
   lastSessionId: number;
+  activeSessionId: number;
   title: string;
 }

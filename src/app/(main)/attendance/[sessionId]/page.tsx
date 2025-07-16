@@ -1,17 +1,10 @@
 "use client";
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import { useParams } from 'next/navigation';
 import { CheckCircleIcon, ExclamationCircleIcon } from '@heroicons/react/24/outline';
 import { useRouter } from 'next/navigation';
 
-
-export default function AttendancePage() {
-    const router = useRouter();
-    const params = useParams();
-    const sessionId = params?.sessionId as string;
-    const [currentRoom, setCurrentRoom] = useState<{id: string, name: string, status: string} | null>(null);
-    const [currentSession, setCurrentSession] = useState<{id: string, name: string, time: string, status: string} | null>(null);
-    const validateDeviceAuthorization = async (imageData: string) => {
+const validateDeviceAuthorization = async (imageData: string) => {
       try {
         const response = await fetch(imageData);
         const blob = await response.blob();
@@ -35,6 +28,13 @@ export default function AttendancePage() {
       }
   };
 
+export default function AttendancePage() {
+    const router = useRouter();
+    const params = useParams();
+    const sessionId = params?.sessionId as string;
+    const [currentRoom, setCurrentRoom] = useState<{id: string, name: string, status: string} | null>(null);
+    const [currentSession, setCurrentSession] = useState<{id: string, name: string, time: string, status: string} | null>(null);
+    const intervalRef = useRef<number | null>(null);
 
   useEffect(() => {
     // Fetch attendance room and session info
@@ -51,6 +51,8 @@ export default function AttendancePage() {
       }
     }
     fetchAttendanceData();
+    intervalRef.current = window.setInterval(fetchAttendanceData, 5000);
+
 
     // Device authorization
     fetch('/api/device/authorize')
@@ -62,14 +64,24 @@ export default function AttendancePage() {
           router.push("/dashboard");
         }
       });
-  }, [sessionId]);
+    
+    return () => {
+      if (intervalRef.current) {
+        window.clearInterval(intervalRef.current);
+      }
+    };
+  }, [sessionId, router]);
   
   const handleTakeAttendance = async () => {
+    let device: BluetoothDevice | undefined;
     try {
       if (!navigator.bluetooth) {
+        alert("Bluetooth not supported on this browser.");
         return;
       }
-      if (!navigator.bluetooth.getAvailability()) {
+      const isBluetoothAvailable = await navigator.bluetooth.getAvailability();
+      if (!isBluetoothAvailable) {
+        alert("Bluetooth is not available or not enabled.");
         return;
       }
 
@@ -81,30 +93,36 @@ export default function AttendancePage() {
 
       const SERVICE_UUIDs = uuids;
       const CHARACTERISTIC_UUID = "bfc0c92f-317d-4ba9-976b-cc11ce77b4ca";
-      let service_id = null
 
-      const device = await navigator.bluetooth.requestDevice({ filters: [{ services: SERVICE_UUIDs }] });
-      device.onserviceadded = (event) => {
-        const service = event.
-        console.log(service);
-        service_id = service.uuid;
-      }
+      console.log(SERVICE_UUIDs)
+      device = await navigator.bluetooth.requestDevice({ filters: [{ services: SERVICE_UUIDs }] });
       const server = await device.gatt?.connect();
-      const service = await server?.getPrimaryService(service_id);   
-      const characteristic = await service?.getCharacteristic(CHARACTERISTIC_UUID);        
-      const value = await characteristic?.readValue();
-      const serve1 = device.gatt?.disconnect();
-      const serve2 = device.forget();
+      if (!server) throw new Error("Couldn't connect to device");
 
+      let service;
+      for (const uuid of SERVICE_UUIDs) {
+          try {
+              service = await server.getPrimaryService(uuid);
+              if (service) break;
+          } catch (e) {
+              console.error(`Service ${uuid} not found, trying next.`);
+          }
+      }
+
+      if (!service) throw new Error("No matching service found on device.");
+      
+      const characteristic = await service.getCharacteristic(CHARACTERISTIC_UUID);        
+      const value = await characteristic.readValue();
+      
       const decoder = new TextDecoder("utf-8");
-      const uuid = decoder.decode(value);
+      const uuidValue = decoder.decode(value);
 
       // Send UUID and session info to backend to mark attendance
 
       const res = await fetch('/api/attendance/mark', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ uuid, sessionId: currentSession?.id }),
+        body: JSON.stringify({ uuid: uuidValue, sessionId: currentSession?.id }),
       });
       if (!res.ok) throw new Error('Attendance marking failed');
       const data = await res.json();
@@ -114,11 +132,13 @@ export default function AttendancePage() {
         alert('Attendance marking failed.');
       }
 
-      await serve1;
-      await serve2;
     } catch (error) {
       console.log(error)
-      alert('Bluetooth attendance failed.');
+      alert(`An error occurred: ${error instanceof Error ? error.message : "Unknown error"}`);
+    } finally {
+        if (device?.gatt?.connected) {
+            device.gatt.disconnect();
+        }
     }
   };
 
@@ -155,8 +175,14 @@ export default function AttendancePage() {
               <h3 className="text-lg font-semibold text-neutral-200">Session Info</h3>
             </div>
             <p className="text-neutral-300 font-medium mb-1">{currentSession.name}</p>
-            <p className="text-neutral-400 mb-1">{currentSession.time}</p>
-            <p className="text-neutral-400">Session Status: <span className={currentSession.status === 'ongoing' ? 'text-blue-400 font-bold' : 'text-yellow-400'}>{currentSession.status}</span></p>
+            <p className="text-neutral-400 mb-1">{new Date(currentSession.time).toLocaleDateString('en-US', {
+              year: 'numeric',
+              month: 'long',
+              day: 'numeric',
+              hour: '2-digit',
+              minute: '2-digit'
+            })}</p>
+            <p className="text-neutral-400">Session Status: <span className={currentSession.status === 'ongoing' ? 'text-blue-400 font-bold' : 'text-yellow-400'}>{currentSession.status.charAt(0).toUpperCase() + currentSession.status.slice(1)}</span></p>
           </>
         ) : (
           <p className="text-neutral-400">Loading session info...</p>

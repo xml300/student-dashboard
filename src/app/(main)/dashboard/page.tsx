@@ -130,8 +130,7 @@ const DashboardPage = () => {
         </div>
         {/* Attendance Shortcuts */}
         <div className="flex flex-wrap gap-3 mt-8">
-          <Link href="/(main)/courses" className="px-4 py-2 rounded-lg bg-border text-foreground border border-border hover:bg-border/70 transition-colors font-medium">View All Courses</Link>
-          <Link href="/(main)/attendance" className="px-4 py-2 rounded-lg bg-border text-foreground border border-border hover:bg-border/70 transition-colors font-medium">Take Attendance</Link>
+          <Link href="/courses" className="px-4 py-2 rounded-lg bg-border text-foreground border border-border hover:bg-border/70 transition-colors font-medium">View All Courses</Link>
         </div>
       </section>
     </div>
