@@ -28,13 +28,7 @@ interface Course {
 }
 
 export default function CoursesPage() {
-  const [courses, setCourses] = useState<CourseOverview[]>([
-    { id: 'CS101', name: 'Introduction to Programming', description: 'Learn the basics of programming with Python.', credits: 3, lastAttendance: 'N/A', nextSession: 'N/A', recentSessions: [], students: 0, attendanceRate: '0%', semester: 'Fall 2023', attendanceId: 1, title: 'Introduction to Programming' },
-    { id: 'CS201', name: 'Web Development Fundamentals', description: 'Build interactive websites using HTML, CSS, and JavaScript.', credits: 4, lastAttendance: 'N/A', nextSession: 'N/A', recentSessions: [], students: 0, attendanceRate: '0%', semester: 'Fall 2023', attendanceId: 2, title: 'Web Development Fundamentals' },
-    { id: 'CS205', name: 'Data Structures and Algorithms', description: 'Understand fundamental data structures and algorithms.', credits: 3, lastAttendance: 'N/A', nextSession: 'N/A', recentSessions: [], students: 0, attendanceRate: '0%', semester: 'Spring 2024', attendanceId: 3, title: 'Data Structures and Algorithms' },
-    { id: 'CS301', name: 'Database Management Systems', description: 'Explore relational databases and SQL.', credits: 3, lastAttendance: 'N/A', nextSession: 'N/A', recentSessions: [], students: 0, attendanceRate: '0%', semester: 'Spring 2024', attendanceId: 4, title: 'Database Management Systems' },
-    { id: 'CS305', name: 'Operating Systems', description: 'Learn about the core concepts of operating systems.', credits: 4, lastAttendance: 'N/A', nextSession: 'N/A', recentSessions: [], students: 0, attendanceRate: '0%', semester: 'Fall 2024', attendanceId: 5, title: 'Operating Systems' },
-  ]);
+  const [courses, setCourses] = useState<CourseOverview[]>([]);
   const [filteredCourses, setFilteredCourses] = useState<CourseOverview[]>([]);
   const [showBookmarked, setShowBookmarked] = useState(false);
   // Demo: Bookmarked state for each course (in real app, store in DB or user profile)
@@ -44,16 +38,19 @@ export default function CoursesPage() {
   const [availableCourses, setAvailableCourses] = useState<CourseOverview[]>([]);
 
   useEffect(() => {
-    // Simulate fetching available courses from an API
-    const fetchAvailableCourses = async () => {
-      const dummyAvailableCourses: CourseOverview[] = [
-        { id: 'CS401', name: 'Advanced Algorithms', description: 'In-depth study of advanced algorithms and complexity.', credits: 3, lastAttendance: 'N/A', nextSession: 'N/A', recentSessions: [], students: 0, attendanceRate: '0%', semester: 'Spring 2025', attendanceId: 1, title: 'Advanced Algorithms' },
-        { id: 'AI501', name: 'Machine Learning', description: 'Introduction to machine learning concepts and algorithms.', credits: 4, lastAttendance: 'N/A', nextSession: 'N/A', recentSessions: [], students: 0, attendanceRate: '0%', semester: 'Fall 2025', attendanceId: 2, title: 'Machine Learning' },
-        { id: 'SEC101', name: 'Cybersecurity Basics', description: 'Fundamental concepts of cybersecurity and network security.', credits: 3, lastAttendance: 'N/A', nextSession: 'N/A', recentSessions: [], students: 0, attendanceRate: '0%', semester: 'Spring 2025', attendanceId: 3, title: 'Cybersecurity Basics' },
-      ];
-      setAvailableCourses(dummyAvailableCourses);
+    // Fetch courses from API
+    const fetchCourses = async () => {
+      try {
+        const res = await fetch('/api/courses');
+        if (!res.ok) throw new Error('Failed to fetch courses');
+        const data = await res.json();
+        setCourses(data || []);
+        setAvailableCourses(data || []);
+      } catch (err) {
+        // fallback or error UI could be added here
+      }
     };
-    fetchAvailableCourses();
+    fetchCourses();
   }, []);
 
 
@@ -78,6 +75,7 @@ export default function CoursesPage() {
       setCourses((prevCourses) => [...prevCourses, courseToAdd]);
     }
   };
+  console.log(courses, availableCourses)
 
   return (
     <div className="space-y-8">
@@ -96,14 +94,14 @@ export default function CoursesPage() {
           </div>
           <button
             onClick={() => setShowBookmarked((v) => !v)}
-            className={`flex items-center gap-2 px-4 py-2 rounded-lg border border-border transition-colors ${showBookmarked ? 'bg-primary-accent text-white' : 'bg-card text-foreground hover:bg-background'}`}
+            className={`flex items-center gap-2 px-4 py-2 rounded-lg border border-border transition-colors ${showBookmarked ? 'bg-[var(--primary-accent)] text-white' : 'bg-card text-foreground hover:bg-background'}`}
           >
             <StarIcon className={`h-5 w-5 ${showBookmarked ? 'text-yellow-300' : 'text-foreground/70'}`} />
             <span>Bookmarked</span>
           </button>
           <button
             onClick={() => setIsModalOpen(true)}
-            className="flex items-center gap-2 px-4 py-2 rounded-lg bg-primary-accent text-white border border-primary-accent hover:bg-primary-accent/90 transition-colors"
+            className="flex items-center gap-2 px-4 py-2 rounded-lg bg-[var(--primary-accent)] text-white border-[var(--primary-accent)] hover:brightness-95 transition-colors"
           >
             <PlusCircleIcon className="h-5 w-5" />
             <span>Add Course</span>
@@ -162,7 +160,7 @@ export default function CoursesPage() {
                     <div className="flex-1">
                       <h2 className="text-2xl font-bold text-foreground mb-1 line-clamp-1">{course.title}</h2>
                       <div className="flex gap-2 text-xs text-foreground/60 items-center">
-                        <span className="font-medium">{course.semester}</span>
+                        <span className="font-medium">{course.semester}{course.semester == 1 ? 'st':'nd'} Semester</span>
                         <span className="font-medium">• {course.students} students</span>
                         {/* Status badge */}
                         <span className={`ml-2 px-2 py-0.5 rounded-full text-xs font-semibold border ${status === 'Ongoing' ? 'bg-green-100 text-green-700 border-green-300 dark:bg-green-900 dark:text-green-300 dark:border-green-700' : 'bg-yellow-100 text-yellow-700 border-yellow-300 dark:bg-yellow-900 dark:text-yellow-300 dark:border-yellow-700'}`}>{status}</span>
@@ -196,10 +194,10 @@ export default function CoursesPage() {
                   {/* Recent activity */}
                   <div className="text-xs text-foreground/60 mb-4 italic">{recentActivity}</div>
                   <div className="flex gap-2 mt-auto">
-                    <Link href={`/courses/${course.id}`} className="flex-1 px-3 py-2 rounded-lg bg-black dark:bg-primary-accent text-white border border-primary-accent hover:bg-primary-accent/90 text-sm text-center transition-colors font-medium">
+                    <Link href={`/courses/${course.id}`} className="flex-1 px-3 py-2 rounded-lg bg-black dark:bg-[var(--primary-accent)] text-white border-[var(--primary-accent)] hover:brightness-95 text-sm text-center transition-colors font-medium">
                       View Details
                     </Link>
-                    <Link href={`/attendance/${course.attendanceId || 1}`} className="flex-1 px-3 py-2 rounded-lg bg-border text-foreground border border-border hover:bg-border/70 text-sm transition-colors font-medium">
+                    <Link href={`/attendance/${course.lastSessionId || 1}`} className="text-center flex-1 px-3 py-2 rounded-lg bg-border text-foreground border border-border hover:bg-border/70 text-sm transition-colors font-medium">
                       Take Attendance
                     </Link>
                   </div>

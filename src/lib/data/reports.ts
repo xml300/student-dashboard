@@ -5,8 +5,9 @@ import {
   courses,
   lectureSessions,
   attendanceRecords,
+  studentEnrollments,
 } from "@/db/schema";
-import { and, eq, sql } from "drizzle-orm";
+import { and, eq, sql, count, countDistinct } from "drizzle-orm";
 
 export async function getAttendanceSummary(
   startDate?: string,
@@ -135,11 +136,20 @@ export async function getStudentInsights(
 export async function getCourses() {
   const allCourses = await db
     .select({
-      courseId: courses.courseId,
-      courseCode: courses.courseCode,
-      courseName: courses.courseName,
+      id: courses.courseCode,
+      name: courses.courseName,
+      title: courses.courseName,
+      description: courses.courseDesc,
+      semester: courses.semester,
+      status: courses.status,
+      students: countDistinct(studentEnrollments.studentId),
+      credits: courses.courseUnit,
+      activeSessionId: lectureSessions.sessionId
     })
-    .from(courses);
+    .from(courses)
+    .innerJoin(lectureSessions, eq(lectureSessions.courseId, courses.courseId))
+    .leftJoin(studentEnrollments, eq(studentEnrollments.courseId, courses.courseId))
+    .groupBy(courses.courseId, lectureSessions.sessionId);
   return allCourses;
 }
 
