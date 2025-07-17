@@ -100,7 +100,8 @@ export default function AttendancePage() {
       const CHARACTERISTIC_UUID = "bfc0c92f-317d-4ba9-976b-cc11ce77b4ca";
       alert(JSON.stringify(SERVICE_UUIDs))
       console.log(SERVICE_UUIDs)
-      device = await navigator.bluetooth.requestDevice({ filters: [{ services: SERVICE_UUIDs }] });
+      //device = await navigator.bluetooth.requestDevice({ filters: [{ services: SERVICE_UUIDs }] });
+      device = await navigator.bluetooth.requestDevice({acceptAllDevices: true});
       const server = await device.gatt?.connect();
       if (!server) throw new Error("Couldn't connect to device");
 
