@@ -125,7 +125,7 @@ export default function AttendancePage() {
       const res = await fetch('/api/attendance/mark', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ uuid: uuidValue, sessionId: currentSession?.id }),
+        body: JSON.stringify({ uuid: deviceUUID, sessionId: currentSession?.id }),
       });
       if (!res.ok) throw new Error('Attendance marking failed');
       const data = await res.json();
