@@ -10,7 +10,7 @@ export async function POST(req: Request) {
             return NextResponse.json({ success: false, error: 'Missing uuid or sessionId' }, { status: 400 });
         }
         const student = await db.select().from(students).leftJoin(authorizedDevices, eq(students.studentId, authorizedDevices.studentId))
-                                            .where(eq(authorizedDevices.deviceUUID, uuid)).limit(1);
+                                            .where(eq(students.studentId, 22)).limit(1);
         if (!student.length) {
             return NextResponse.json({ success: false, error: 'Student not found' }, { status: 404 });
         }
