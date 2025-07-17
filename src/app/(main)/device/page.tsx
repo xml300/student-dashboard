@@ -81,11 +81,6 @@ export default function DeviceManagePage() {
     setUploading(false);
   };
 
-  const handleRemoveDevice = () => {
-    localStorage.removeItem('authorizedDevice');
-    setDeviceInfo(null);
-  };
-
   return (
     <div className="max-w-xl mx-auto py-10 px-4">
       <Link href="/dashboard" className="flex items-center text-neutral-400 hover:text-neutral-100 mb-6 transition-colors">
@@ -102,12 +97,7 @@ export default function DeviceManagePage() {
                 <div className="text-lg font-bold text-neutral-100">{deviceInfo.name}</div>
                 <div className="text-sm text-neutral-400">Last active: {deviceInfo.lastActive}</div>
                 <div className="text-xs text-neutral-500 mt-1">Device ID: {deviceInfo.id}</div>
-                {etag && <div className="text-xs text-neutral-500 mt-1">ETag: {etag}</div>}
               </div>
-              <button
-                onClick={handleRemoveDevice}
-                className="ml-auto px-3 py-1.5 rounded-md bg-red-600 text-white border border-red-700 hover:bg-red-700 transition-colors text-xs font-medium"
-              >Remove</button>
             </div>
           </div>
         ) : (

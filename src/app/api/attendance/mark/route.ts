@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server';
 import { db } from '@/db';
-import { eq } from 'drizzle-orm';
+import { and, eq } from 'drizzle-orm';
 import { attendanceRecords, authorizedDevices, students } from '@/db/schema';
 
 export async function POST(req: Request) {
@@ -15,10 +15,21 @@ export async function POST(req: Request) {
             return NextResponse.json({ success: false, error: 'Student not found' }, { status: 404 });
         }
 
+        const studentId = student[0].students.studentId;
+
+        // Check if attendance has already been marked
+        const existingRecord = await db.select().from(attendanceRecords)
+            .where(and(eq(attendanceRecords.sessionId, sessionId), eq(attendanceRecords.studentId, studentId)))
+            .limit(1);
+
+        if (existingRecord.length > 0) {
+            return NextResponse.json({ success: false, error: 'Attendance already marked' }, { status: 409 });
+        }
+
         // Insert attendance record
         await db.insert(attendanceRecords).values({
             sessionId: sessionId,
-            studentId: student[0].students.studentId,
+            studentId: studentId,
             attendanceRecord: 1, // 1 = present
         });
 

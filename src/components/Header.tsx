@@ -8,6 +8,7 @@ import {
 } from "@heroicons/react/24/outline";
 import { useTheme } from "next-themes";
 import { useState, useEffect } from "react";
+import { useSession } from "next-auth/react";
 
 type Props = {
   sidebarOpen: boolean;
@@ -17,6 +18,7 @@ type Props = {
 const Header = ({ sidebarOpen, setSidebarOpen }: Props) => {
   const [mounted, setMounted] = useState(false);
   const { theme, setTheme } = useTheme();
+  const {data:session, status} = useSession();
 
   useEffect(() => {
     setMounted(true);
@@ -37,7 +39,7 @@ const Header = ({ sidebarOpen, setSidebarOpen }: Props) => {
           <Bars3Icon className="h-6 w-6 text-neutral-200" />
         </button>
         <h1 className="text-2xl font-bold text-neutral-100">
-          Good Morning, RUN/CMP/21/10929!
+          Good Morning, {status == 'loading' ? '' : session?.user.name}
         </h1>
       </div>
       <div className="flex items-center gap-4">

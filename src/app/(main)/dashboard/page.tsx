@@ -6,55 +6,75 @@ import {
   ClockIcon,
 } from '@heroicons/react/24/outline';
 import Link from 'next/link';
-
-
-const userName = "RUN/CMP/21/10929";
-const attendanceStats = [
-  { label: "Total Classes", value: 42, icon: AcademicCapIcon },
-  { label: "Attended", value: 39, icon: ClipboardDocumentCheckIcon },
-  { label: "Missed", value: 3, icon: CalendarDaysIcon },
-  { label: "Attendance Rate", value: "93%", icon: ClockIcon },
-];
-const attendanceNotifications = [
-  { message: "You have an attendance session in 10 minutes (Web Development)", time: "Just now" },
-  { message: "Attendance marked for Data Structures", time: "2 hours ago" },
-];
-const attendanceActivity = [
-  { detail: "Marked present in Operating Systems", time: "Today, 9:00 AM" },
-  { detail: "Missed class in Database Management", time: "Yesterday, 2:00 PM" },
-  { detail: "Marked present in Web Development", time: "Yesterday, 10:00 AM" },
-  { detail: "Marked present in Data Structures", time: "2 days ago, 1:00 PM" },
-];
-
 import React, { useState, useEffect } from 'react';
 
 type DeviceInfo = {
-  name: string;
+  name: string | null;
   id: string;
   lastActive: string;
 };
 
-const DashboardPage = () => {
-  const [deviceInfo, setDeviceInfo] = useState<DeviceInfo | null>(null);
+type AttendanceStat = {
+  label: string;
+  value: number | string;
+  icon: React.ElementType;
+};
 
-  // Detect authorized device on mount
+type Notification = {
+  message: string;
+  time: string;
+};
+
+type Activity = {
+  detail: string;
+  time: string;
+};
+
+const DashboardPage = () => {
+  const [userName, setUserName] = useState('');
+  const [attendanceStats, setAttendanceStats] = useState<AttendanceStat[]>([]);
+  const [attendanceNotifications, setAttendanceNotifications] = useState<Notification[]>([]);
+  const [attendanceActivity, setAttendanceActivity] = useState<Activity[]>([]);
+  const [deviceInfo, setDeviceInfo] = useState<DeviceInfo | null>(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+
   useEffect(() => {
-    const stored = localStorage.getItem('authorizedDevice');
-    if (stored) {
-      setDeviceInfo(JSON.parse(stored));
-    }
+    const fetchData = async () => {
+      try {
+        const res = await fetch('/api/dashboard');
+        if (!res.ok) {
+          throw new Error('Failed to fetch dashboard data');
+        }
+        const data = await res.json();
+        setUserName(data.userName);
+        setAttendanceStats(data.attendanceStats.map((stat: any, index: number) => ({ ...stat, icon: [AcademicCapIcon, ClipboardDocumentCheckIcon, CalendarDaysIcon, ClockIcon][index] })));
+        setAttendanceNotifications(data.attendanceNotifications);
+        setAttendanceActivity(data.attendanceActivity);
+        setDeviceInfo(data.deviceInfo);
+      } catch (err: any) {
+        setError(err.message);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchData();
   }, []);
 
-  const handleRemoveDevice = () => {
-    localStorage.removeItem('authorizedDevice');
-    setDeviceInfo(null);
-  };
+  if (loading) {
+    return <div>Loading...</div>;
+  }
+
+  if (error) {
+    return <div>Error: {error}</div>;
+  }
 
   return (
     <div className="space-y-8">
       {/* Hero Section */}
       <section className="bg-card text-foreground p-8 rounded-2xl shadow-lg border border-border text-left">
-        <h1 className="text-3xl font-bold mb-1">Attendance Dashboard</h1>
+        <h1 className="text-3xl font-bold mb-1">Welcome, {userName}</h1>
         <p className="text-base font-light mb-6 text-foreground/70">
           Track your attendance and stay up to date with your classes.
         </p>
@@ -97,10 +117,6 @@ const DashboardPage = () => {
                 <div className="text-xs text-foreground/60 mt-1">Device ID: {deviceInfo.id}</div>
               </div>
               <Link href="/device" className="ml-auto px-3 py-1.5 rounded-md bg-border text-foreground/90 border border-border hover:bg-border/70 transition-colors text-xs font-medium">Manage</Link>
-              <button
-                onClick={handleRemoveDevice}
-                className="ml-2 px-3 py-1.5 rounded-md bg-red-600 text-white border border-red-700 hover:bg-red-700 transition-colors text-xs font-medium"
-              >Remove</button>
             </div>
           ) : (
             <div className="flex items-center gap-4">

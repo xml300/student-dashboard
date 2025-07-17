@@ -19,9 +19,9 @@ const validateDeviceAuthorization = async (imageData: string) => {
         if (!res.ok) throw new Error('Validation failed');
         const data = await res.json();
         if (data.valid) {
-          return true;
+          return [true, data.uuid];
         } else {
-          return false;
+          return [false, null];
         }
       } catch (error) {
         alert('Failed to validate device.');
@@ -32,6 +32,7 @@ export default function AttendancePage() {
     const router = useRouter();
     const params = useParams();
     const sessionId = params?.sessionId as string;
+    const [deviceUUID, setDeviceUUID] = useState(null);
     const [currentRoom, setCurrentRoom] = useState<{id: string, name: string, status: string} | null>(null);
     const [currentSession, setCurrentSession] = useState<{id: string, name: string, time: string, status: string} | null>(null);
     const intervalRef = useRef<number | null>(null);
@@ -59,10 +60,14 @@ export default function AttendancePage() {
       .then(res => res.json())
       .then(json => {
         return validateDeviceAuthorization(json.image);
-      }).then(isValid => {
+      }).then( arr => {
+        if(arr){
+        const [isValid, deviceUUID] = arr;
         if(!isValid){
           router.push("/dashboard");
         }
+        setDeviceUUID(deviceUUID);
+      }
       });
     
     return () => {
@@ -116,8 +121,6 @@ export default function AttendancePage() {
       
       const decoder = new TextDecoder("utf-8");
       const uuidValue = decoder.decode(value);
-
-      // Send UUID and session info to backend to mark attendance
 
       const res = await fetch('/api/attendance/mark', {
         method: 'POST',

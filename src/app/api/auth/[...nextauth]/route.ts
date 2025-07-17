@@ -5,7 +5,7 @@ import { users } from "@/db/schema";
 import { eq } from "drizzle-orm";
 import bcrypt from "bcryptjs";
 
-const authOptions: AuthOptions = {
+export const authOptions: AuthOptions = {
   pages: {
     signIn: "/login",
   },
