@@ -39,7 +39,7 @@ const Header = ({ sidebarOpen, setSidebarOpen }: Props) => {
           <Bars3Icon className="h-6 w-6 text-neutral-200" />
         </button>
         <h1 className="text-2xl font-bold text-neutral-100">
-          Good Morning, {status == 'loading' ? '' : session?.user.name}
+          Good Morning, {status == 'loading' ? '' : session?.user?.name}
         </h1>
       </div>
       <div className="flex items-center gap-4">
