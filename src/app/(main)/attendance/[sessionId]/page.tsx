@@ -105,7 +105,7 @@ export default function AttendancePage() {
       if (!server) throw new Error("Couldn't connect to device");
 
       let service;
-      console.log(server.getPrimaryServices())
+      alert((await server.getPrimaryServices()))
       for (const uuid of SERVICE_UUIDs) {
           try {
               service = await server.getPrimaryService(uuid);
