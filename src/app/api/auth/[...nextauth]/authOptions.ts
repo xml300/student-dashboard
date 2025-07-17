@@ -1,3 +1,10 @@
+import { AuthOptions, User } from "next-auth";
+import CredentialsProvider from "next-auth/providers/credentials";
+import { db } from "@/db";
+import { users } from "@/db/schema";
+import { eq } from "drizzle-orm";
+import bcrypt from "bcryptjs";
+
 export const authOptions: AuthOptions = {
   pages: {
     signIn: "/login",
