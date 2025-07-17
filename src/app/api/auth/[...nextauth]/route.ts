@@ -1,9 +1,5 @@
-import NextAuth, { AuthOptions, User } from "next-auth";
-import CredentialsProvider from "next-auth/providers/credentials";
-import { db } from "@/db";
-import { users } from "@/db/schema";
-import { eq } from "drizzle-orm";
-import bcrypt from "bcryptjs";
+import NextAuthfrom "next-auth";
+import {authOptions} from "./authOptions"
 
 const handler = NextAuth(authOptions);
 
