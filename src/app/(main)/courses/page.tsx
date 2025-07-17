@@ -81,12 +81,15 @@ export default function CoursesPage() {
       },
       body: JSON.stringify({ courseId }),
     });
-    if(!res.ok) return alert('Failed to add course');
+    if (!res.ok) return alert('Failed to add course');
     const courseToAdd = availableCourses.find(c => c.id === courseId);
     if (courseToAdd) {
       setCourses((prevCourses) => [...prevCourses, courseToAdd]);
     }
   };
+
+  const filter = new Date();
+  filter.setHours(filter.getHours() - 3);
 
   return (
     <div className="space-y-8">
@@ -171,7 +174,7 @@ export default function CoursesPage() {
                     <div className="flex-1">
                       <h2 className="text-2xl font-bold text-foreground mb-1 line-clamp-1">{course.title}</h2>
                       <div className="flex gap-2 text-xs text-foreground/60 items-center">
-                        <span className="font-medium">{course.semester}{course.semester == 1 ? 'st':'nd'} Semester</span>
+                        <span className="font-medium">{course.semester}{course.semester == 1 ? 'st' : 'nd'} Semester</span>
                         <span className="font-medium">• {course.students} students</span>
                         {/* Status badge */}
                         <span className={`ml-2 px-2 py-0.5 rounded-full text-xs font-semibold border ${status === 'Ongoing' ? 'bg-green-100 text-green-700 border-green-300 dark:bg-green-900 dark:text-green-300 dark:border-green-700' : 'bg-yellow-100 text-yellow-700 border-yellow-300 dark:bg-yellow-900 dark:text-yellow-300 dark:border-yellow-700'}`}>{status}</span>
@@ -199,18 +202,22 @@ export default function CoursesPage() {
                     </div>
                   </div>
                   <div className="flex justify-between items-center text-xs text-foreground/60 mb-2">
-                    <span className="font-medium">Code: <span className="font-semibold text-foreground/90">{course.id}{course.title}</span></span>
+                    <span className="font-medium">Code: <span className="font-semibold text-foreground/90">{course.id}</span></span>
                     <span className="font-medium">Units: <span className="font-semibold text-foreground/90">{course.credits}</span></span>
                   </div>
                   {/* Recent activity */}
                   <div className="text-xs text-foreground/60 mb-4 italic">{recentActivity}</div>
                   <div className="flex gap-2 mt-auto">
-                    <Link href={`/courses/${course.id}`} className="flex-1 px-3 py-2 rounded-lg bg-black dark:bg-[var(--primary-accent)] text-white border-[var(--primary-accent)] hover:brightness-95 text-sm text-center transition-colors font-medium">
+                    <Link href={`/courses/${course.id}`} className="flex-1 flex items-center justify-center px-3 py-2 rounded-lg bg-black dark:bg-[var(--primary-accent)] text-white border-[var(--primary-accent)] hover:brightness-95 text-sm text-center transition-colors font-medium">
                       View Details
                     </Link>
-                    <Link href={`/attendance/${course.activeSessionId}`} className="text-center flex-1 px-3 py-2 rounded-lg bg-border text-foreground border border-border hover:bg-border/70 text-sm transition-colors font-medium">
-                      Take Attendance
-                    </Link>
+                    {(new Date(course.activeSessionDatetime) > filter) ?
+                      <Link href={`/attendance/${course.activeSessionId}`} className="text-center flex-1 px-3 py-2 rounded-lg bg-border text-foreground border border-border hover:bg-border/70 text-sm transition-colors font-medium">
+                        Take Attendance
+                      </Link> :
+                      <button className="text-center flex-1 px-3 py-2 rounded-lg bg-border text-foreground border border-border hover:bg-border/70 text-sm transition-colors font-medium">
+                        No Attendance Available
+                      </button>}
                   </div>
                 </div>
               </div>

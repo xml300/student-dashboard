@@ -12,5 +12,6 @@ export interface CourseOverview {
   semester: number;
   lastSessionId: number;
   activeSessionId: number;
+  activeSessionDatetime: string;
   title: string;
 }

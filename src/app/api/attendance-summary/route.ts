@@ -12,7 +12,7 @@ export async function GET(request: Request) {
   }
 
   try {
-    const roomData = await db.select().from(attendanceRooms).where(eq(attendanceRooms.id, parseInt(attendID))).limit(1);
+    const roomData = await db.select().from(attendanceRooms).where(eq(attendanceRooms.sessionId, parseInt(attendID))).limit(1);
     if (roomData.length === 0) {
       return NextResponse.json({ error: 'Room not found' }, { status: 404 });
     }
@@ -37,7 +37,6 @@ export async function GET(request: Request) {
         return NextResponse.json({ error: 'Course not found' }, { status: 404 });
     }
     const course = courseData[0];
-
     const roomStatus = 'open';
 
     return NextResponse.json({ 

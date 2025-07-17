@@ -91,7 +91,7 @@ export default function AttendancePage() {
         body: JSON.stringify({sessionId: sessionId})
       }).then(res => res.json());
 
-      const SERVICE_UUIDs = uuids;
+      const SERVICE_UUIDs = uuids.rooms;
       const CHARACTERISTIC_UUID = "bfc0c92f-317d-4ba9-976b-cc11ce77b4ca";
 
       console.log(SERVICE_UUIDs)
