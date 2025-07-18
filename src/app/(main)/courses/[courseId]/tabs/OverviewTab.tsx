@@ -13,7 +13,6 @@ interface CourseOverview {
   lastAttendance: string;
   nextSession: string;
   attendanceRate: string;
-  recentSessions: { date: string; attendees: number; totalStudents: number; rate: string; }[];
 }
 
 interface OverviewTabProps {
@@ -64,23 +63,6 @@ const OverviewTab: React.FC<OverviewTabProps> = ({ course }) => {
         </div>
       </div>
 
-      {/* Recent Sessions */}
-      <div className="bg-card rounded-lg border border-border p-6">
-        <h3 className="text-xl font-semibold text-foreground mb-4">Recent Sessions</h3>
-        <ul className="divide-y divide-border">
-          {course.recentSessions.map((session, index) => (
-            <li key={index} className="py-3 flex justify-between items-center">
-              <div>
-                <p className="text-foreground font-medium">{session.date}</p>
-                <p className="text-sm text-foreground/70">{session.attendees} / {session.totalStudents} students attended</p>
-              </div>
-              <span className="px-3 py-1 bg-background text-foreground/90 text-xs font-medium rounded-full border border-border">
-                {parseFloat(session.rate.replace('%', '')).toFixed(2)}%
-              </span>
-            </li>
-          ))}
-        </ul>
-      </div>
     </div>
   );
 };
