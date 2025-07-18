@@ -5,7 +5,7 @@ import { signIn } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
 
 export default function LoginForm() {
-  const [username, setUsername] = useState('');
+  const [matricNo, setMatricNo] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const router = useRouter();
@@ -16,7 +16,7 @@ export default function LoginForm() {
 
     const result = await signIn('credentials', {
       redirect: false,
-      username,
+      matricNo,
       password,
     });
 
@@ -30,16 +30,16 @@ export default function LoginForm() {
   return (
     <form onSubmit={handleSubmit} className="space-y-6">
       <div>
-        <label htmlFor="username" className="block text-sm font-medium text-neutral-200 mb-1">Matriculation Number</label>
+        <label htmlFor="matricNo" className="block text-sm font-medium text-neutral-200 mb-1">Matriculation Number</label>
         <div className="relative mt-1">
           <input
-            id="username"
-            name="username"
+            id="matricNo"
+            name="matricNo"
             type="text"
-            autoComplete="username"
+            autoComplete="matricNo"
             required
-            value={username}
-            onChange={(e) => setUsername(e.target.value)}
+            value={matricNo}
+            onChange={(e) => setMatricNo(e.target.value)}
             className="input-field pl-10"
           />
           <span className="absolute left-3 top-1/2 -translate-y-1/2 text-neutral-500">

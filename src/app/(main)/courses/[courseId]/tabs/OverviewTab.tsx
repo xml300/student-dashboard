@@ -75,7 +75,7 @@ const OverviewTab: React.FC<OverviewTabProps> = ({ course }) => {
                 <p className="text-sm text-foreground/70">{session.attendees} / {session.totalStudents} students attended</p>
               </div>
               <span className="px-3 py-1 bg-background text-foreground/90 text-xs font-medium rounded-full border border-border">
-                {session.rate}
+                {parseFloat(session.rate.replace('%', '')).toFixed(2)}%
               </span>
             </li>
           ))}

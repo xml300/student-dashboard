@@ -5,12 +5,34 @@ import { db } from '@/db';
 import { authorizedDevices } from '@/db/schema';
 import { getCurrentUser } from '@/lib/auth';
 
+import { eq } from 'drizzle-orm';
+
 export async function GET(request: NextRequest) {
     const user = await getCurrentUser();
-    const etag = new Date().toISOString();
-    if (request.headers.get("If-None-Match") == etag) {
-        return new NextResponse(null, { status: 304 });
+    const studentId = (user as any)?.studentId;
+
+    if (!studentId) {
+        return new NextResponse('Unauthorized', { status: 401 });
     }
+
+    const existingDevice = await db.query.authorizedDevices.findFirst({
+        where: eq(authorizedDevices.studentId, studentId),
+    });
+
+    if (existingDevice) {
+        let etag: string | undefined;
+        if (existingDevice.authorizedAt) {
+            etag = existingDevice.authorizedAt.toISOString();
+            if (request.headers.get("If-None-Match") === etag) {
+                return new NextResponse(null, { status: 304 });
+            }
+        }
+        return NextResponse.json({ uuid: existingDevice.deviceUUID }, {
+            status: 200,
+            headers: { 'ETag': etag || '' },
+        });
+    }
+
     const uuid = uuidv4();
     const hex = uuid.replace(/-/g, '');
     const bytes = [];
@@ -30,17 +52,20 @@ export async function GET(request: NextRequest) {
     ctx.putImageData(imgData, 0, 0);
     const image = canvas.toDataURL();
 
-    // Insert into authorizedDevices (dummy studentId=1, deviceType='Laptop', status='active')
-    try {
-        await db.insert(authorizedDevices).values({
-            studentId: (user as any)?.studentId,
-            deviceUUID: uuid,
-            deviceType: 'Laptop',
-            status: 'active',
-        });
-    } catch (e) {
-        // Ignore DB errors for duplicate UUIDs, etc.
+    const newDeviceResult = await db.insert(authorizedDevices).values({
+        studentId: studentId,
+        deviceUUID: uuid,
+        deviceType: 'Laptop',
+        status: 'active',
+    }).returning();
+
+    const newDevice = newDeviceResult[0];
+
+    if (!newDevice || !newDevice.authorizedAt) {
+        return new NextResponse('Failed to create device', { status: 500 });
     }
+
+    const etag = newDevice.authorizedAt.toISOString();
 
     return NextResponse.json({ uuid, image }, {
         status: 200,

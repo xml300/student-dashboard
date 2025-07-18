@@ -21,33 +21,28 @@ export const authOptions: AuthOptions = {
     CredentialsProvider({
       name: "Credentials",
       credentials: {
-        username: { label: "Username", type: "text" },
         password: { label: "Password", type: "password" },
         matricNo: { label: "Matriculation Number", type: "text" },
         action: { label: "Action", type: "text" },
       },
       async authorize(credentials): Promise<NewUser | null> {
-        if (!credentials?.username || !credentials?.password) {
+        if (!credentials?.matricNo || !credentials?.password) {
           return null;
         }
 
-        const user = (
-          await db
-            .select()
-            .from(users)
-            .where(eq(users.username, credentials.username))
-        )[0];
+        const studentQuery = await db
+          .select()
+          .from(students)
+          .where(eq(students.matricNo, credentials.matricNo));
+        let student = studentQuery[0];
 
-        if (!user) {
+        if (!student) {
           if (credentials.action === "signup") {
-            if (!credentials.matricNo) {
-              return null;
-            }
             const hashedPassword = await bcrypt.hash(credentials.password, 10);
             const newUser = await db
               .insert(users)
               .values({
-                username: credentials.username,
+                username: credentials.matricNo,
                 password: hashedPassword,
               })
               .returning();
@@ -71,6 +66,18 @@ export const authOptions: AuthOptions = {
           return null;
         }
 
+        if (!student.userId) {
+          return null;
+        }
+
+        const user = (
+          await db.select().from(users).where(eq(users.id, student.userId))
+        )[0];
+
+        if (!user) {
+          return null;
+        }
+
         const isPasswordValid = await bcrypt.compare(
           credentials.password,
           user.password
@@ -80,19 +87,12 @@ export const authOptions: AuthOptions = {
           return null;
         }
 
-        const student = (
-          await db
-            .select()
-            .from(students)
-            .where(eq(students.userId, user.id))
-        )[0];
-
         return {
           id: user.id.toString(),
           name: user.username,
           email: user.username,
-          studentId: student?.studentId,
-          matricNo: student?.matricNo,
+          studentId: student.studentId,
+          matricNo: student.matricNo,
         };
       },
     }),
