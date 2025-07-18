@@ -3,8 +3,10 @@ import { v4 as uuidv4 } from 'uuid';
 import { createCanvas } from 'canvas';
 import { db } from '@/db';
 import { authorizedDevices } from '@/db/schema';
+import { getCurrentUser } from '@/lib/auth';
 
 export async function GET(request: NextRequest) {
+    const user = await getCurrentUser();
     const etag = new Date().toISOString();
     if (request.headers.get("If-None-Match") == etag) {
         return new NextResponse(null, { status: 304 });
@@ -31,7 +33,7 @@ export async function GET(request: NextRequest) {
     // Insert into authorizedDevices (dummy studentId=1, deviceType='Laptop', status='active')
     try {
         await db.insert(authorizedDevices).values({
-            studentId: 1,
+            studentId: (user as any)?.studentId,
             deviceUUID: uuid,
             deviceType: 'Laptop',
             status: 'active',
