@@ -29,8 +29,8 @@ const Header = ({ sidebarOpen, setSidebarOpen }: Props) => {
   }
 
   return (
-    <header className="bg-neutral-900 border-b border-neutral-800 py-4 px-6 flex justify-between items-center">
-      <div className="flex items-center gap-4">
+    <header className="bg-neutral-900 border-b border-neutral-800 py-4 px-4 md:px-6 flex justify-between items-center">
+      <div className="flex items-center gap-2 md:gap-4">
         <button
           onClick={() => setSidebarOpen(!sidebarOpen)}
           aria-controls="sidebar"
@@ -38,11 +38,11 @@ const Header = ({ sidebarOpen, setSidebarOpen }: Props) => {
         >
           <Bars3Icon className="h-6 w-6 text-neutral-200" />
         </button>
-        <h1 className="text-2xl font-bold text-neutral-100">
-          Good Morning, {status == 'loading' ? '' : session?.user?.name}
+        <h1 className="text-lg md:text-2xl font-bold text-neutral-100">
+          Good Morning, {status === "loading" ? "" : session?.user?.name}
         </h1>
       </div>
-      <div className="flex items-center gap-4">
+      <div className="flex items-center gap-2 md:gap-4">
         <div className="relative hidden md:block">
           <input
             type="text"
@@ -52,7 +52,7 @@ const Header = ({ sidebarOpen, setSidebarOpen }: Props) => {
           <MagnifyingGlassIcon className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-neutral-500" />
         </div>
         <button
-          onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
+          onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
           className="p-2 rounded-full bg-neutral-800 text-neutral-200 hover:bg-neutral-700 transition-colors duration-200"
         >
           {theme === 'dark' ? (

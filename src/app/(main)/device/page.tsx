@@ -17,38 +17,51 @@ export default function DeviceManagePage() {
   const [uploading, setUploading] = useState(false);
 
   useEffect(() => {
-    const stored = localStorage.getItem('authorizedDevice');
-    if (stored) {
-      setDeviceInfo(JSON.parse(stored));
-    }
+    const fetchDeviceStatus = async () => {
+      try {
+        const res = await fetch('/api/device/authorize');
+        if (res.ok) {
+          const data = await res.json();
+          setDeviceInfo({
+            name: 'Authorized Device',
+            id: data.uuid,
+            lastActive: new Date().toLocaleString(),
+          });
+        }
+      } catch (error) {
+        console.error('Failed to fetch device status:', error);
+      }
+    };
+
+    fetchDeviceStatus();
   }, []);
 
   // Step 1: Request backend to generate UUID and image
   const handleAuthorizeDevice = async () => {
     setAuthorizing(true);
     try {
-      // Replace with your backend endpoint
       const res = await fetch('/api/device/authorize');
-      if (!res.ok && res.status != 304) throw new Error('Failed to authorize device');
-      const etag = res.headers.get('ETag');
-      console.log()
-      const data = await res.json();
-      setAuthImage(data.image); // image should be a base64 string or URL
-      setEtag(etag);
-      // Store info in localStorage
-      localStorage.setItem('deviceAuthImage', data.image);
-      localStorage.setItem('deviceAuthEtag', etag || '');
-      setDeviceInfo({
-        name: 'Authorized Device',
-        id: data.uuid,
-        lastActive: new Date().toLocaleString(),
-      });
-      localStorage.setItem('authorizedDevice', JSON.stringify({
-        name: 'Authorized Device',
-        id: data.uuid,
-        lastActive: new Date().toLocaleString(),
-      }));
-      alert('Device authorized successfully!');
+      if (res.status === 304) {
+        alert('Device already authorized.');
+        const data = await res.json();
+        setDeviceInfo({
+          name: 'Authorized Device',
+          id: data.uuid,
+          lastActive: new Date().toLocaleString(),
+        });
+      } else if (res.ok) {
+        const data = await res.json();
+        setAuthImage(data.image); // image should be a base64 string or URL
+        setEtag(res.headers.get('ETag'));
+        setDeviceInfo({
+          name: 'Authorized Device',
+          id: data.uuid,
+          lastActive: new Date().toLocaleString(),
+        });
+        alert('Device authorized successfully!');
+      } else {
+        throw new Error('Failed to authorize device');
+      }
     } catch (error) {
       alert('Device authorization failed.');
     }

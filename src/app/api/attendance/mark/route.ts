@@ -2,15 +2,17 @@ import { NextResponse } from 'next/server';
 import { db } from '@/db';
 import { and, eq } from 'drizzle-orm';
 import { attendanceRecords, authorizedDevices, students } from '@/db/schema';
+import { getCurrentUser } from '@/lib/auth';
 
 export async function POST(req: Request) {
     try {
+        const user = await getCurrentUser();
         const { uuid, sessionId } = await req.json();
         if (!uuid || !sessionId) {
             return NextResponse.json({ success: false, error: 'Missing uuid or sessionId' }, { status: 400 });
         }
         const student = await db.select().from(students).leftJoin(authorizedDevices, eq(students.studentId, authorizedDevices.studentId))
-                                            .where(eq(students.studentId, 22)).limit(1);
+                                            .where(eq(students.studentId, (user as any)?.studentId)).limit(1);
         if (!student.length) {
             return NextResponse.json({ success: false, error: 'Student not found' }, { status: 404 });
         }
