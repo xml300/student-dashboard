@@ -840,7 +840,7 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: Props) => {
             <UserCircleIcon className="h-9 w-9 text-neutral-300" />
           </span>
           <div>
-            <div className="font-semibold text-neutral-100">RUN/CMP/22/20394</div>
+            <div className="font-semibold text-neutral-100">RUN/CMP/22/10790</div>
             <div className="text-xs text-neutral-400">Student</div>
           </div>
         </div>

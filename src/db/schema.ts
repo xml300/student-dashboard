@@ -49,6 +49,7 @@ export const lectureSessions = pgTable('lecture_sessions', {
   courseId: integer("course_id").references(() => courses.courseId),
   sessionDatetime: timestamp('session_datetime').defaultNow(),
   duration: integer('duration').notNull(),
+  status: text('status'),
   ...timestamps 
 });
 

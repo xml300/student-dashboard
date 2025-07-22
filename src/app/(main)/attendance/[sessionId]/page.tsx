@@ -95,6 +95,7 @@ export default function AttendancePage() {
         headers: {'Content-Type': 'application/json'},
         body: JSON.stringify({sessionId: sessionId})
       }).then(res => res.json());
+      console.log(deviceUUID);
 
       const SERVICE_UUIDs = uuids.rooms;
       const CHARACTERISTIC_UUID = "bfc0c92f-317d-4ba9-976b-cc11ce77b4ca";
@@ -122,6 +123,7 @@ export default function AttendancePage() {
       const decoder = new TextDecoder("utf-8");
       const uuidValue = decoder.decode(value);
 
+
       const res = await fetch('/api/attendance/mark', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -131,6 +133,7 @@ export default function AttendancePage() {
       const data = await res.json();
       if (data.success) {
         alert('Attendance marked successfully!');
+        router.push('/dashboard');
       } else {
         alert('Attendance marking failed.');
       }
