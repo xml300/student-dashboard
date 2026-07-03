@@ -40,7 +40,7 @@ export async function POST(req: Request) {
   }).returning({ id: courses.id });
 
   
-  const { addActivity } = await import("@/app/api/v1/admin/api/dashboard/addActivity");
+  const { addActivity } = await import("@/app/api/v1/admin/dashboard/addActivity");
   await addActivity({
     category: "Course Management",
     action: "Created new course",
