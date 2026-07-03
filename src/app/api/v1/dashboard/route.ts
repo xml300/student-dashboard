@@ -12,11 +12,10 @@ export async function GET() {
         }
 
         const studentQuery = await db.select().from(students).innerJoin(users, eq(students.userId, users.id)).where(eq(users.username, user.matricNo)).limit(1);
-        if (!studentQuery.length) {
+        if (studentQuery.length === 0) {
             return NextResponse.json({ error: 'Student not found' }, { status: 404 });
-        }
-        const student = studentQuery[0].students;
-        const studentId = (user as any)?.studentId;
+        } 
+        const studentId = user.studentId;
 
         const totalClassesResult = await db.select({ value: count() }).from(lectureSessions);
         const attendedClassesResult = await db.select({ value: count() }).from(attendanceRecords).where(and(eq(attendanceRecords.studentId, studentId), eq(attendanceRecords.attendanceRecord, 1)));

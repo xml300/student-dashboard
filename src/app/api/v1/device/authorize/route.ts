@@ -9,7 +9,7 @@ import { eq } from 'drizzle-orm';
 
 export async function GET(request: NextRequest) {
     const user = await getCurrentUser();
-    const studentId = (user as any).studentId;
+    const studentId = user?.studentId;
 
     if (!studentId) {
         return NextResponse.json({
@@ -21,12 +21,10 @@ export async function GET(request: NextRequest) {
         }, { status: 401 });
     }
 
-    const existingDevice = await db.query.authorizedDevices.findFirst({
-        where: eq(authorizedDevices.userId, (user as any).id),
-    });
+    const [existingDevice] = await db.select().from(authorizedDevices).where(eq(authorizedDevices.userId, user?.id)).limit(1);
 
     if (existingDevice) {
-        let etag: string | undefined;
+        let etag = '';
         if (existingDevice.authorizedAt) {
             etag = existingDevice.authorizedAt.toISOString();
             if (request.headers.get("If-None-Match") === etag) {
@@ -35,7 +33,7 @@ export async function GET(request: NextRequest) {
         }
         return NextResponse.json({ uuid: existingDevice.deviceUUID }, {
             status: 200,
-            headers: { 'ETag': etag || '' },
+            headers: { 'ETag': etag },
         });
     }
 
@@ -59,7 +57,7 @@ export async function GET(request: NextRequest) {
     const image = canvas.toDataURL();
 
     const newDeviceResult = await db.insert(authorizedDevices).values({
-        userId: (user as any).id,
+        userId: user.id,
         deviceUUID: uuid,
         deviceType: 'Laptop',
         status: 'active',

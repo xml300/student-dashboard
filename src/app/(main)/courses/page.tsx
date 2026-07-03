@@ -71,7 +71,7 @@ export default function CoursesPage() {
   };
 
   const handleSelectCourse = async (courseId: string) => {
-    const data = await api.post<{success: boolean}>('/courses/add', { courseId });
+    const data = await api.post<{success: boolean}>('/courses', { courseId });
     if (!data.success) return alert('Failed to add course');
     const courseToAdd = availableCourses.find(c => c.id === courseId);
     if (courseToAdd) {

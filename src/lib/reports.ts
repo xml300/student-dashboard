@@ -15,7 +15,7 @@ export async function getCourses({ studentId }: { studentId?: number } = {}) {
     const allCourses = await db
       .select({
         id: courses.courseCode,
-        courseId: courses.courseId,
+        courseId: courses.id,
         name: courses.courseName,
         title: courses.courseName,
         description: courses.courseDesc,
@@ -23,14 +23,14 @@ export async function getCourses({ studentId }: { studentId?: number } = {}) {
         status: courses.status,
         students: countDistinct(studentEnrollments.studentId),
         credits: courses.courseUnit,
-        activeSessionId: max(lectureSessions.sessionId),
+        activeSessionId: max(lectureSessions.id),
         activeSessionDatetime: max(lectureSessions.sessionDatetime)
       })
       .from(courses)
-      .innerJoin(lectureSessions, eq(lectureSessions.courseId, courses.courseId))
-      .leftJoin(studentEnrollments, eq(studentEnrollments.courseId, courses.courseId))
+      .innerJoin(lectureSessions, eq(lectureSessions.courseId, courses.id))
+      .leftJoin(studentEnrollments, eq(studentEnrollments.courseId, courses.id))
       .groupBy(courses.courseCode,
-        courses.courseId,
+        courses.id,
         courses.courseName,
         courses.courseDesc,
         courses.semester,
@@ -57,7 +57,7 @@ export async function getCourses({ studentId }: { studentId?: number } = {}) {
 export async function getStudents() {
   const allStudents = await db
     .select({
-      studentId: students.studentId,
+      studentId: students.id,
       username: users.username,
       matricNo: students.matricNo,
     })
