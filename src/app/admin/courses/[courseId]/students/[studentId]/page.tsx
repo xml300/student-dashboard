@@ -1,16 +1,24 @@
 import React from 'react';
-import { getStudentAttendanceByCourse } from '@/lib/data/reports';
-import PageHeading from '@/components/PageHeading';
+import PageHeading from '@/components/admin/components/PageHeading';
 
 const StudentDetailsPage = async ({ params }: { params: Promise<{ courseId: string, studentId: string }> }) => {
   const {studentId, courseId} = await params;
-  const studentData = await getStudentAttendanceByCourse(studentId, courseId);
+  const studentData = {student: null, course: null, sessions: []};
+  
 
   if (!studentData) {
     return <div>Student not found</div>;
   }
 
   const { student, course, sessions } = studentData;
+
+  if(!student) {
+    return <p>Student not found</p>;
+  }
+  
+  if(!course) {
+    return <p>Course not found</p>;
+  }
 
   return (
     <div>

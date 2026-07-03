@@ -1,6 +1,6 @@
 import React from 'react';
-import { getSessionById } from '@/lib/data/reports';
 import PageHeading from '@/components/PageHeading';
+import { LectureSessions } from '@/data/models/lecture-sessions';
 
 
 interface SessionStudent {
@@ -11,7 +11,7 @@ interface SessionStudent {
 }
 
 const SessionDetailsPage = async ({ params }: { params: Promise<{ courseId: string, sessionId: string }> }) => {
-  const session = await getSessionById((await params).sessionId);
+  const session = await LectureSessions.getById(Number((await params).sessionId));
 
   if (!session) {
     return <div>Session not found</div>;

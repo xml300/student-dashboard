@@ -1,20 +1,19 @@
 import { NextResponse } from "next/server";
-import { db } from "@/db";
-import { courses, courseAssignments } from "@/db/schema";
+import { db } from "@/data/db";
+import { courses, courseAssignments } from "@/data/db/schema";
 import { eq } from "drizzle-orm";
-import { getAllCoursesData } from "@/lib/data/reports";
 import { getServerSession } from "next-auth";
-import { NSession } from "@/data/types/types";
+import { NSession } from "@/types/data";
 import { authOptions } from "../auth/[...nextauth]/authOptions";
+import { Courses } from "@/data/models/courses";
 
 
 export async function GET() {
   const session: NSession | null = await getServerSession(authOptions);
   if (!session) return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
 
-  const coursesList = await getAllCoursesData({ lecturerId: session.lecturerId });
-  
-  return NextResponse.json(coursesList || []);
+  const coursesList = await Courses.getByLecturerId(session.lecturerId);
+  return NextResponse.json(coursesList);
 }
 
 export async function POST(req: Request) {
@@ -38,10 +37,10 @@ export async function POST(req: Request) {
     courseUnit,
     status,
     semester
-  }).returning({ id: courses.courseId });
+  }).returning({ id: courses.id });
 
   
-  const { addActivity } = await import("@/app/api/dashboard/addActivity");
+  const { addActivity } = await import("@/app/api/v1/admin/api/dashboard/addActivity");
   await addActivity({
     category: "Course Management",
     action: "Created new course",
