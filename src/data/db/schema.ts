@@ -21,20 +21,20 @@ export const users = pgTable("users", {
 })
 
 export const lecturers = pgTable('lecturers', {
-  lecturerId: serial("lecturer_id").primaryKey(),
+  id: serial("lecturer_id").primaryKey(),
   userId: integer("user_id").references(() => users.id).notNull(),
   ...timestamps
 });
 
 export const students = pgTable('students', {
-  studentId: serial('student_id').primaryKey(),
+  id: serial('student_id').primaryKey(),
   userId: integer('user_id').references(() => users.id),
   matricNo: varchar("matric_no", { length: 50 }).notNull(),
   ...timestamps
 });
 
 export const courses = pgTable('courses', {
-  courseId: serial("course_id").primaryKey(),
+  id: serial("course_id").primaryKey(),
   courseName: text('course_name').notNull(),
   courseCode: text('course_code').notNull().unique(),
   courseDesc: text('course_desc').notNull(),
@@ -45,8 +45,8 @@ export const courses = pgTable('courses', {
 });
 
 export const lectureSessions = pgTable('lecture_sessions', {
-  sessionId: serial("session_id").primaryKey(),
-  courseId: integer("course_id").references(() => courses.courseId),
+  id: serial("session_id").primaryKey(),
+  courseId: integer("course_id").references(() => courses.id),
   sessionDatetime: timestamp('session_datetime').defaultNow(),
   duration: integer('duration').notNull(),
   status: text('status'),
@@ -54,9 +54,9 @@ export const lectureSessions = pgTable('lecture_sessions', {
 });
 
 export const attendanceRecords = pgTable('attendance_records', {
-  recordId: serial('record_id').primaryKey(),
-  sessionId: integer('session_id').references(() => lectureSessions.sessionId),
-  studentId: integer('student_id').references(() => students.studentId),
+  id: serial('record_id').primaryKey(),
+  sessionId: integer('session_id').references(() => lectureSessions.id),
+  studentId: integer('student_id').references(() => students.id),
   attendanceRecord: integer('attendance_record').notNull(),
   markedAt: timestamp('marked_at').defaultNow(),
   ...timestamps
@@ -64,36 +64,27 @@ export const attendanceRecords = pgTable('attendance_records', {
 
 export const courseAssignments = pgTable('course_assignments', {
   id: serial('id').primaryKey(),
-  lecturerId: integer('lecturer_id').references(() => lecturers.lecturerId),
-  courseId: integer('course_id').references(() => courses.courseId),
+  lecturerId: integer('lecturer_id').references(() => lecturers.id),
+  courseId: integer('course_id').references(() => courses.id),
   ...timestamps
 });
 
 export const studentEnrollments = pgTable('student_enrollments', {
   id: serial('id').primaryKey(),
-  studentId: integer('student_id').references(() => students.studentId),
-  courseId: integer('course_id').references(() => courses.courseId),
+  studentId: integer('student_id').references(() => students.id),
+  courseId: integer('course_id').references(() => courses.id),
   enrollmentDate: timestamp('enrollment_date').defaultNow(),
   enrollmentStatus: varchar('enrollment_status', {length: 30, enum: ["Ongoing", "Completed"]}),
   ...timestamps
 });
 
 export const authorizedDevices = pgTable('authorized_devices', {
-  deviceId: serial('device_id').primaryKey(),
-  studentId: integer('student_id').references(() => students.studentId),
+  id: serial('device_id').primaryKey(),
+  userId: integer('user_id').references(() => users.id),
   deviceUUID: varchar('device_uuid', {length: 100}).notNull(),
   deviceType: varchar('device_type', {length: 50, enum:["Laptop", "Phone"]}),
   status: varchar('status', {length: 30}).notNull(),
   authorizedAt: timestamp('authorized_at').defaultNow(),
-  ...timestamps
-});
-
-export const lecturerDevices = pgTable('lecturer_devices', {
-  deviceId: serial('device_id').primaryKey(),
-  lecturerId: integer('lecturer_id').references(() => lecturers.lecturerId),
-  deviceUUID: varchar('device_uuid', {length: 100}).notNull(),
-  deviceType: varchar('device_type', {length: 50, enum:["Laptop", "Phone"]}),
-  status: varchar('status', {length: 30}).notNull(),
   ...timestamps
 });
 
@@ -109,7 +100,13 @@ export const activities = pgTable('activities', {
 
 export const attendanceRooms = pgTable('attendance_rooms', {
   id: serial('id').primaryKey(),
-  sessionId: integer('session_id').references(() => lectureSessions.sessionId),
+  sessionId: integer('session_id').references(() => lectureSessions.id),
   deviceUUID: varchar('device_uuid', {length: 100}).notNull(),
   ...timestamps
 });
+
+
+export type User = typeof users.$inferSelect;
+export type Lecturer = typeof lecturers.$inferSelect;
+export type Student = typeof students.$inferSelect;
+export type Course = typeof courses.$inferSelect;

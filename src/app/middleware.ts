@@ -1,7 +1,7 @@
 import { getServerSession } from 'next-auth';
 import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
-import { authOptions } from './api/auth/[...nextauth]/authOptions';
+import { authOptions } from './api/v1/auth/[...nextauth]/authOptions';
 
 
 export async function middleware(request: NextRequest) {

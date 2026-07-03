@@ -34,7 +34,7 @@ export async function GET() {
         ];
 
         const upcomingSessions = await db.select().from(lectureSessions)
-            .leftJoin(courses, eq(lectureSessions.courseId, courses.courseId))
+            .leftJoin(courses, eq(lectureSessions.courseId, courses.id))
             .orderBy(lectureSessions.sessionDatetime)
             .limit(2);
 
@@ -44,8 +44,8 @@ export async function GET() {
         }));
 
         const attendanceHistory = await db.select().from(attendanceRecords)
-            .leftJoin(lectureSessions, eq(attendanceRecords.sessionId, lectureSessions.sessionId))
-            .leftJoin(courses, eq(lectureSessions.courseId, courses.courseId))
+            .leftJoin(lectureSessions, eq(attendanceRecords.sessionId, lectureSessions.id))
+            .leftJoin(courses, eq(lectureSessions.courseId, courses.id))
             .where(eq(attendanceRecords.studentId, studentId))
             .orderBy(lectureSessions.sessionDatetime)
             .limit(4);
