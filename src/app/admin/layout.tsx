@@ -1,6 +1,6 @@
 import { Poppins } from "next/font/google";
 import "../globals.css"; 
-import MainLayoutClientWrapper from "@/components/MainLayoutClientWrapper";
+import MainLayoutClientWrapper from "@/components/admin/components/MainLayoutClientWrapper";
 import { Metadata } from "next";
 
 const poppins = Poppins({

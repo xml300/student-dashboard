@@ -10,6 +10,11 @@ export interface Course {
     status: string;
 }
 
+export type Coursex = Omit<Course, "recentSessions" | "students"| "attendanceRate"> & {
+    students: number;
+    attendanceRate: string | null;
+}
+
 export interface CourseSubmit extends CourseOverview {
     courseCode: string;
     courseName: string;
@@ -146,4 +151,13 @@ export interface CourseDisplay {
     recentSessions: Session[];
     lastAttendance: string;
     nextSession: string;
+}
+
+export interface NSession {
+    courseId: number;
+    lecturerId: number;
+    location: number;
+    sessionDate: Date;
+    sessionEndDate: Date;
+    
 }

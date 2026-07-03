@@ -1,6 +1,6 @@
 import { eq } from "drizzle-orm";
 import { db } from "../db";
-import { Course, courses } from "../db/schema";
+import { Course, courseAssignments, courses } from "../db/schema";
 
 
 export const Courses = {
@@ -11,6 +11,10 @@ export const Courses = {
     getById: async (id: number) => {
         const [course] = await db.select().from(courses).where(eq(courses.id, id)).limit(1);
         return course;
+    },
+    getByLecturerId: async (lecturerId: number) => {
+        const lCourses = await db.select().from(courses).innerJoin(courseAssignments, eq(courseAssignments.courseId, courses.id)).where(eq(courseAssignments.lecturerId, lecturerId));
+        return lCourses
     },
     getByCode: async (code: string) => {
         const [course] = await db.select().from(courses).where(eq(courses.courseCode, code)).limit(1);

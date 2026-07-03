@@ -2,7 +2,7 @@
 import Link from "next/link";
 import Image from "next/image";
 import Logo from "/public/file.svg"; 
-import Sidebar from "@/app/Sidebar";
+import Sidebar from "@/app/admin/Sidebar";
 
 import ThemeToggleButton from "@/app/ThemeToggleButton";
 import { Bars3Icon } from "@heroicons/react/24/outline";
