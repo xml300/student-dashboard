@@ -2,8 +2,7 @@
 import React, { useState } from 'react';
 import { XMarkIcon, MagnifyingGlassIcon } from '@heroicons/react/24/outline';
 
-import { CourseSubmit } from '@/data/types/types';
-import { Coursex } from '@/app/(main)/courses/CourseClient';
+import { CourseSubmit, Coursex } from '@/types/data';
 
 interface AddCourseModalProps {
   isOpen: boolean;

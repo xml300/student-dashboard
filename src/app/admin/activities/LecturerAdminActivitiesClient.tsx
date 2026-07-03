@@ -1,7 +1,7 @@
 "use client";
 import React, { useState } from 'react';
 import { UserIcon, ClockIcon, CalendarDaysIcon, EllipsisVerticalIcon } from '@heroicons/react/24/outline';
-import { Activity } from '@/data/types/types';
+import { Activity } from '@/types/data';
 
 type ExtenActivity = Omit<Activity, 'timestamp'> & {
   timestamp: Date | null;

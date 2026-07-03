@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect } from 'react';
 import { PlusIcon, MagnifyingGlassIcon } from '@heroicons/react/24/outline';
-import { Course, Student } from '@/data/types/types';
+import { Course, Student } from '@/types/data';
 import PageHeading from '@/components/PageHeading';
 
 const CourseStudentsPage = ({ params }: { params: Promise<{ courseId: string }> }) => {

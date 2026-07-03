@@ -1,4 +1,15 @@
 // Dummy data for demonstration
+export interface ScheduleEvent {
+    id: number;
+    title: string;
+    courseCode: string;
+    location: string;
+    date: string;
+    type: string;
+    startTime: string;
+    endTime: string;
+}
+
 
 export interface Course {
     id: string;
@@ -23,6 +34,8 @@ export interface CourseSubmit extends CourseOverview {
     semester: number;
     status: string;
 }
+
+
 
 export interface Device {
     id: number;

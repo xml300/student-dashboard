@@ -91,6 +91,7 @@ export default async function LecturerProfilePage() {
   const lecturerProfile = {
     id: lecturer.id,
     name: user?.username || '',
+    title: '',
     department: '', 
     email: '', 
     phone: '', 

@@ -15,7 +15,7 @@ import {
 } from '@heroicons/react/24/outline';
 import Link from 'next/link';
 import Card from '@/components/Card';
-import { ScheduleEvent } from '@/data/types/types';
+import { ScheduleEvent } from '@/types/data';
 
 interface LecturerScheduleClientProps {
   initialEvents: ScheduleEvent[];

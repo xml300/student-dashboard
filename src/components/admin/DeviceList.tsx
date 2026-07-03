@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Device } from '@/data/types/types';
+import { Device } from '@/types/data';
 import { PhoneIcon, DeviceTabletIcon, ListBulletIcon, ChevronDownIcon } from '@heroicons/react/24/outline';
 
 const DeviceList = ({ devices, className }: {devices: Device[], className: string}) => {

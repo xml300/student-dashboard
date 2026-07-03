@@ -22,7 +22,7 @@ const ScheduleServer = async () => {
 
   const formatted = schedule.map((event) => ({
     ...event,
-    id: event.id.toString(),
+    id: event.id,
     title: event.title ?? '',
     date: event.date?.toISOString().split('T')[0] ?? '',
     startTime: event.startTime?.toISOString().split('T')[1]?.slice(0,5) ?? '',

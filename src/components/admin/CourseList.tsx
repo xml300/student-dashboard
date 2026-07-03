@@ -1,6 +1,6 @@
 "use client";
 import React, { useState } from 'react';
-import { Course } from '@/data/types/types';
+import { Course } from '@/types/data';
 import { ChevronDownIcon } from '@heroicons/react/24/outline';
 
 const CourseList = ({ courses, className }: {courses: Course[], className?: string}) => {

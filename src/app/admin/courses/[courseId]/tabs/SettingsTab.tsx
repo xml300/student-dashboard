@@ -1,6 +1,6 @@
 
 import React, { useState } from 'react'; 
-import { CourseDisplay } from '@/data/types/types';
+import { CourseDisplay } from '@/types/data';
 import { useRouter } from 'next/navigation';
 
 interface CourseSettings {
