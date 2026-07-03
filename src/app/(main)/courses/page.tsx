@@ -42,10 +42,10 @@ export default function CoursesPage() {
     // Fetch courses from API
     const fetchCourses = async () => {
       try {
-        const data = await api.get<CourseOverview[]>('/courses');
+        const data = await api.get<CourseOverview[]>('/me/courses');
         setCourses(data || []);
 
-        const data2 = await api.get<CourseOverview[]>('/courses?isAll=true');
+        const data2 = await api.get<CourseOverview[]>('/courses');
         setAvailableCourses(data2 || []);
       } catch (err) {
         // fallback or error UI could be added here

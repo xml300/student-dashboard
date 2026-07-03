@@ -1,7 +1,8 @@
 @import "tailwindcss";
 @custom-variant dark (&:where(.dark, .dark *));
 
-:root { /* Light mode defaults */
+:root {
+  /* Light mode defaults */
   --background: #F7F9FA;
   --foreground: #4A4A4A;
   --card: #ffffff;
@@ -16,7 +17,8 @@ html {
   color-scheme: light;
 }
 
-html.dark { /* Dark mode overrides */
+html.dark {
+  /* Dark mode overrides */
   color-scheme: dark;
   --background: #09090b;
   --foreground: #F3F4F6;
@@ -35,9 +37,11 @@ body {
   .btn-primary {
     background-image: linear-gradient(to right, var(--primary), var(--secondary));
     color: white;
-    font-weight: 600; /* Semi-bold */
+    font-weight: 600;
+    /* Semi-bold */
     padding: 0.75rem 1.5rem;
-    border-radius: 0.75rem; /* More rounded */
+    border-radius: 0.75rem;
+    /* More rounded */
     box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
     transition: all 0.3s ease-in-out;
     border: none;
@@ -52,9 +56,11 @@ body {
   .btn-secondary {
     background-color: var(--border);
     color: var(--foreground);
-    font-weight: 600; /* Semi-bold */
+    font-weight: 600;
+    /* Semi-bold */
     padding: 0.75rem 1.5rem;
-    border-radius: 0.75rem; /* More rounded */
+    border-radius: 0.75rem;
+    /* More rounded */
     box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.05);
     transition: all 0.3s ease-in-out;
     border: none;
@@ -62,59 +68,343 @@ body {
   }
 
   .btn-secondary:hover {
-    background-color: #D1D5DB; /* Gray 300 */
+    background-color: #D1D5DB;
+    /* Gray 300 */
     box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -4px rgba(0, 0, 0, 0.05);
     transform: translateY(-2px);
   }
 
   html.dark .btn-secondary:hover {
-    background-color: #4B5563; /* Gray 600 */
+    background-color: #4B5563;
+    /* Gray 600 */
   }
 
   .input-field {
     display: block;
     width: 100%;
-    padding: 0.5rem 1rem; /* py-2 px-4 */
-    border: 1px solid var(--border); /* border border-gray-300 */
-    border-radius: 0.5rem; /* rounded-lg */
-    background-color: var(--card); /* bg-white */
-    color: var(--foreground); /* text-gray-900 */
-    transition: all 0.2s ease-in-out; /* transition-all duration-200 ease-in-out */
-    outline: none; /* outline-none */
+    padding: 0.5rem 1rem;
+    /* py-2 px-4 */
+    border: 1px solid var(--border);
+    /* border border-gray-300 */
+    border-radius: 0.5rem;
+    /* rounded-lg */
+    background-color: var(--card);
+    /* bg-white */
+    color: var(--foreground);
+    /* text-gray-900 */
+    transition: all 0.2s ease-in-out;
+    /* transition-all duration-200 ease-in-out */
+    outline: none;
+    /* outline-none */
   }
 
   html.dark .input-field {
-    border-color: var(--border); /* dark:border-gray-600 */
-    background-color: var(--card); /* dark:bg-gray-700 */
-    color: var(--foreground); /* dark:text-white */
+    border-color: var(--border);
+    /* dark:border-gray-600 */
+    background-color: var(--card);
+    /* dark:bg-gray-700 */
+    color: var(--foreground);
+    /* dark:text-white */
   }
 
   .input-field::placeholder {
-    color: #9CA3AF; /* placeholder-gray-400 */
+    color: #9CA3AF;
+    /* placeholder-gray-400 */
     opacity: 1;
   }
 
   html.dark .input-field::placeholder {
-    color: #A3A3A3; /* lighter gray for dark bg */
+    color: #A3A3A3;
+    /* lighter gray for dark bg */
     opacity: 1;
   }
 
   .input-field:focus {
-    box-shadow: 0 0 0 2px var(--primary); /* focus:ring-2 focus:ring-primary */
-    border-color: transparent; /* focus:border-transparent */
+    box-shadow: 0 0 0 2px var(--primary);
+    /* focus:ring-2 focus:ring-primary */
+    border-color: transparent;
+    /* focus:border-transparent */
   }
 
   .card {
-    background-color: var(--card); /* bg-white */
-    border-radius: 0.75rem; /* rounded-xl */
-    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05); /* shadow-lg */
-    border: 1px solid var(--border); /* border border-gray-200 */
+    background-color: var(--card);
+    /* bg-white */
+    border-radius: 0.75rem;
+    /* rounded-xl */
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+    /* shadow-lg */
+    border: 1px solid var(--border);
+    /* border border-gray-200 */
     color: var(--foreground);
   }
 
   html.dark .card {
-    background-color: var(--card); /* dark:bg-gray-800 */
-    border-color: var(--border); /* dark:border-gray-700 */
+    background-color: var(--card);
+    /* dark:bg-gray-800 */
+    border-color: var(--border);
+    /* dark:border-gray-700 */
     color: var(--foreground);
+  }
+}
+
+
+/* High-contrast mode for accessibility */
+[data-theme="high-contrast"] {
+  --background: #000;
+  --foreground: #fff;
+  --card-background: #222;
+  --primary-accent: #FFD700;
+  --secondary-accent: #00FFFF;
+  --accent: #FF00FF;
+  --border-color: #fff;
+  --font-family: 'Poppins';
+}
+
+/* RTL (right-to-left) language support */
+[dir="rtl"] .tab-list,
+[dir="rtl"] .tab,
+[dir="rtl"] .btn {
+  direction: rtl;
+}
+
+[dir="rtl"] .tab {
+  border-radius: 0 0 0.5rem 0.5rem;
+}
+
+@import "tailwindcss";
+
+:root {
+  --background: #F7F9FA;
+  --foreground: #4A4A4A;
+  --card-background: #ffffff;
+  --primary-accent: #4A90E2;
+  --secondary-accent: #50E3C2;
+  --accent: #F5A623;
+  --border-color: #dee2e6;
+  --font-family: 'Poppins';
+}
+
+[data-theme="dark"] {
+  --background: #121212;
+  --foreground: #e9ecef;
+  --card-background: #1e1e1e;
+  --primary-accent: #4A90E2;
+  --secondary-accent: #50E3C2;
+  --accent: #F5A623;
+  --border-color: #495057;
+  --font-family: 'Poppins';
+}
+
+@theme inline {
+  --color-foreground: var(--foreground);
+  --color-background: var(--background);
+  --color-primary-accent: var(--primary-accent);
+  --color-secondary-accent: var(--secondary-accent);
+  --color-border-color: var(--border-color);
+
+  --font-sans: var(--font-family);
+  --font-mono: var(--font-geist-mono);
+}
+
+
+
+@layer base {
+  body {
+    @apply bg-background text-foreground font-sans;
+    /* Apply background and text color from variables */
+  }
+
+  /* Improve default link styles */
+  a {
+    @apply transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-primary-accent;
+    /* Focus ring styling */
+  }
+
+  /* Basic form element styling - you can extend this */
+  input,
+  textarea,
+  select {
+    @apply rounded-md border border-border-color focus:ring-primary-accent focus:outline-none focus:ring-2 transition-shadow duration-200;
+    /* Consistent form element styling */
+  }
+
+  /* Form validation/error state styling */
+  input.error,
+  textarea.error,
+  select.error {
+    border-color: var(--accent);
+    box-shadow: 0 0 0 2px var(--accent);
+  }
+
+  .form-error-message {
+    color: var(--accent);
+    font-size: 0.875rem;
+    margin-top: 0.25rem;
+    font-weight: 500;
+  }
+
+  /* Modern tab styling */
+  .tab-list {
+    display: flex;
+    gap: 0.5rem;
+    border-bottom: 1px solid var(--border-color);
+    margin-bottom: 1rem;
+    /* Accessibility: ARIA role for tablist should be set in HTML/JSX */
+    /* Tab overflow handling: scrollable for many items */
+    overflow-x: auto;
+    scrollbar-width: thin;
+    scrollbar-color: var(--primary-accent) var(--card-background);
+  }
+
+  .tab {
+    padding: 0.5rem 1rem;
+    font-size: 0.875rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background 0.2s, color 0.2s, box-shadow 0.2s;
+    border-radius: 0.5rem 0.5rem 0 0;
+    background: var(--card-background);
+    color: var(--foreground);
+    outline: none;
+    border: none;
+    position: relative;
+    z-index: 1;
+
+    /* Accessibility: Focus-visible for keyboard users */
+    &:focus-visible {
+      box-shadow: 0 0 0 2px var(--primary-accent);
+    }
+  }
+
+  .tab:hover,
+  .tab:focus {
+    background: var(--primary-accent);
+    color: #fff;
+    box-shadow: 0 2px 8px rgba(74, 144, 226, 0.10);
+  }
+
+  /* Accessibility: Disabled tab styling */
+  .tab[aria-disabled="true"],
+  .tab:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    pointer-events: none;
+  }
+
+  .tab-active {
+    border-bottom: 2px solid var(--primary-accent);
+    color: var(--primary-accent);
+    background: var(--card-background);
+    font-weight: 600;
+    box-shadow: none;
+    z-index: 2;
+    /* Active tab indicator animation */
+    transition: border-bottom-color 0.3s, color 0.3s;
+  }
+
+  /* Distinct button styling */
+  .btn {
+    padding: 0.5rem 1rem;
+    border-radius: 0.375rem;
+    font-weight: 600;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04);
+    transition: background 0.2s, color 0.2s;
+    outline: none;
+    border: none;
+    /* Button loading state styling */
+    position: relative;
+  }
+
+  .btn-loading {
+    pointer-events: none;
+    opacity: 0.7;
+  }
+
+  .btn-loading::after {
+    content: '';
+    position: absolute;
+    right: 1rem;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 1em;
+    height: 1em;
+    border: 2px solid #fff;
+    border-top: 2px solid var(--primary-accent);
+    border-radius: 50%;
+    animation: btn-spin 0.8s linear infinite;
+  }
+
+  @keyframes btn-spin {
+    to {
+      transform: translateY(-50%) rotate(360deg);
+    }
+  }
+
+  .btn-primary {
+    background: var(--primary-accent);
+    color: #fff;
+  }
+
+  .btn-primary:hover,
+  .btn-primary:focus {
+    background: #357abd;
+  }
+
+  .btn-secondary {
+    background: var(--secondary-accent);
+    color: #fff;
+  }
+
+  .btn-secondary:hover,
+  .btn-secondary:focus {
+    background: #38c9a9;
+  }
+
+  .btn-outline {
+    border: 1px solid var(--primary-accent);
+    color: var(--primary-accent);
+    background: transparent;
+  }
+
+  .btn-outline:hover,
+  .btn-outline:focus {
+    background: rgba(74, 144, 226, 0.1);
+  }
+
+  /* Responsive adjustments */
+  @media (max-width: 640px) {
+    .tab-list {
+      flex-wrap: wrap;
+      gap: 0.25rem;
+      font-size: 0.75rem;
+    }
+
+    .tab {
+      padding: 0.25rem 0.5rem;
+      font-size: 0.75rem;
+    }
+
+    .btn {
+      padding: 0.25rem 0.5rem;
+      font-size: 0.75rem;
+    }
+  }
+
+  /* Mobile-first tab and button layouts: further responsive tweaks */
+  @media (max-width: 400px) {
+    .tab-list {
+      gap: 0.1rem;
+      font-size: 0.65rem;
+    }
+
+    .tab {
+      padding: 0.15rem 0.3rem;
+      font-size: 0.65rem;
+    }
+
+    .btn {
+      padding: 0.15rem 0.3rem;
+      font-size: 0.65rem;
+    }
   }
 }
