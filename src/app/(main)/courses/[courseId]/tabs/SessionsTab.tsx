@@ -2,9 +2,9 @@ import React from 'react';
 import { PlusIcon, ArrowDownTrayIcon } from '@heroicons/react/24/outline';
 import Link from 'next/link';
 
-import { Course } from '@/data/types/types';
+import { Course } from '@/types/data';
 
-const SessionsTab = ({ course }: {course: Course}) => {
+const SessionsTab = ({ course }: { course: Course }) => {
   // Sample session data
   const sessions = [
     { date: 'Mar 17, 2025', attendees: 124, totalStudents: 142, rate: '87%' },

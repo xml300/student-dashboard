@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
-import { Device } from '@/data/types/types';
+import { Device } from '@/types/data';
 
-const DeviceList = ({ devices, className }: {devices: Device[], className: string}) => {
-  const [expandedDevice, setExpandedDevice] = useState<number|null>(null);
-  
+const DeviceList = ({ devices, className }: { devices: Device[], className: string }) => {
+  const [expandedDevice, setExpandedDevice] = useState<number | null>(null);
+
   const toggleExpand = (index: number) => {
     setExpandedDevice(expandedDevice === index ? null : index);
   };
@@ -13,8 +13,8 @@ const DeviceList = ({ devices, className }: {devices: Device[], className: strin
       {devices.length > 0 ? (
         <div className="space-y-4">
           {devices.map((device, index) => (
-            <div 
-              key={index} 
+            <div
+              key={index}
               className="bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 border border-border-color dark:border-gray-700 rounded-lg p-4"
             >
               {/* Main info row - always visible */}
@@ -54,15 +54,15 @@ const DeviceList = ({ devices, className }: {devices: Device[], className: strin
                     <span className={`w-2 h-2 mr-1 rounded-full ${device.status === 'online' ? 'bg-green-500 dark:bg-green-300' : 'bg-red-500 dark:bg-red-300'}`}></span>
                     {device.status === 'online' ? 'Online' : 'Offline'}
                   </span>
-                  
+
                   <button
                     onClick={() => toggleExpand(index)}
                     className="ml-2 p-1 rounded-full hover:bg-gray-100 dark:hover:bg-gray-800 focus:outline-none"
                   >
-                    <svg 
-                      className={`h-5 w-5 text-gray-500 dark:text-gray-300 transition-transform ${expandedDevice === index ? 'transform rotate-180' : ''}`} 
-                      xmlns="http://www.w3.org/2000/svg" 
-                      viewBox="0 0 20 20" 
+                    <svg
+                      className={`h-5 w-5 text-gray-500 dark:text-gray-300 transition-transform ${expandedDevice === index ? 'transform rotate-180' : ''}`}
+                      xmlns="http://www.w3.org/2000/svg"
+                      viewBox="0 0 20 20"
                       fill="currentColor"
                     >
                       <path fillRule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clipRule="evenodd" />
@@ -70,7 +70,7 @@ const DeviceList = ({ devices, className }: {devices: Device[], className: strin
                   </button>
                 </div>
               </div>
-              
+
               {/* Expanded section */}
               {expandedDevice === index && (
                 <div className="border-t border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-800 px-4 py-3">
@@ -78,11 +78,11 @@ const DeviceList = ({ devices, className }: {devices: Device[], className: strin
                     <div>
                       <p className="text-xs font-medium text-gray-500 dark:text-gray-400">Last Seen</p>
                       <p className="text-sm text-gray-700 dark:text-gray-200">
-                        {device.lastSeen.toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric'}) + " " + 
-                        device.lastSeen.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                        {device.lastSeen.toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' }) + " " +
+                          device.lastSeen.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
                       </p>
                     </div>
-                    
+
                     <div className="flex space-x-2 pt-2">
                       <button className="px-3 py-1 bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 text-gray-700 dark:text-gray-200 text-xs font-medium rounded">
                         Edit

@@ -3,11 +3,13 @@ import Sidebar from "./Sidebar";
 import Header from "./Header";
 import { useState } from "react";
 import { SessionProvider } from "next-auth/react";
+import { AuthenticationCheck } from "./AuthenticationCheck";
 
 const DashboardLayout = ({ children }: { children: React.ReactNode }) => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   return (
     <SessionProvider>
+      <AuthenticationCheck />
       <div className="flex h-screen dark:bg-neutral-950">
         <Sidebar sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen} />
         <div className="flex-1 flex flex-col overflow-hidden">

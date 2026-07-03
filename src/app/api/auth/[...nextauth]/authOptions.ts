@@ -1,7 +1,7 @@
 import { AuthOptions, User } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
-import { db } from "@/db";
-import { users, students } from "@/db/schema";
+import { db } from "@/data/db";
+import { users, students } from "@/data/db/schema";
 import { eq } from "drizzle-orm";
 import bcrypt from "bcryptjs";
 

@@ -1,10 +1,10 @@
 "use client";
 import React, { useState } from 'react';
-import { Course } from '@/data/types/types';
+import { Course } from '@/types/data';
 
-const CourseList = ({ courses, className }: {courses: Course[], className?: string}) => {
-  const [expandedCourse, setExpandedCourse] = useState<number|null>(null);
-  
+const CourseList = ({ courses, className }: { courses: Course[], className?: string }) => {
+  const [expandedCourse, setExpandedCourse] = useState<number | null>(null);
+
   const toggleExpand = (index: number) => {
     setExpandedCourse(expandedCourse === index ? null : index);
   };
@@ -15,12 +15,12 @@ const CourseList = ({ courses, className }: {courses: Course[], className?: stri
         <div className="divide-y divide-gray-200 dark:divide-gray-700">
           <ul className="bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 border border-border-color dark:border-gray-700 rounded-lg">
             {courses.map((course, index) => (
-              <li 
+              <li
                 key={index}
                 className={`${index % 2 === 0 ? 'bg-white dark:bg-gray-900' : 'bg-gray-50 dark:bg-gray-800'}`}
               >
                 {/* Course header - always visible */}
-                <div 
+                <div
                   className="p-4 flex items-center justify-between cursor-pointer"
                   onClick={() => toggleExpand(index)}
                 >
@@ -33,17 +33,17 @@ const CourseList = ({ courses, className }: {courses: Course[], className?: stri
                       <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">{course.credits} Credits</p>
                     </div>
                   </div>
-                  
-                  <svg 
+
+                  <svg
                     className={`h-5 w-5 text-gray-400 dark:text-gray-300 transition-transform ${expandedCourse === index ? 'transform rotate-180' : ''}`}
-                    xmlns="http://www.w3.org/2000/svg" 
-                    viewBox="0 0 20 20" 
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 20 20"
                     fill="currentColor"
                   >
                     <path fillRule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clipRule="evenodd" />
                   </svg>
                 </div>
-                
+
                 {/* Expanded course description */}
                 {expandedCourse === index && (
                   <div className="px-4 pb-4 pt-1">
@@ -51,7 +51,7 @@ const CourseList = ({ courses, className }: {courses: Course[], className?: stri
                       <h4 className="text-xs font-medium text-gray-500 dark:text-gray-400 mb-1">Description</h4>
                       <p className="text-sm text-gray-700 dark:text-gray-200">{course.description || "No description available."}</p>
                     </div>
-                    
+
                     <div className="mt-3 flex space-x-2">
                       <button className="px-3 py-1 bg-blue-100 dark:bg-blue-900 hover:bg-blue-200 dark:hover:bg-blue-800 text-blue-700 dark:text-blue-300 text-xs font-medium rounded">
                         View Details

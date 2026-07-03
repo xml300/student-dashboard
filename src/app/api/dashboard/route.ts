@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server';
-import { db } from '@/db';
+import { db } from '@/data/db';
 import { and, eq, count } from 'drizzle-orm';
-import { attendanceRecords, lectureSessions, courses, students, authorizedDevices, users } from '@/db/schema';
+import { attendanceRecords, lectureSessions, courses, students, authorizedDevices, users } from '@/data/db/schema';
 import { getCurrentUser } from '@/lib/auth';
 
 export async function GET() {

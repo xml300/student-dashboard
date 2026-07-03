@@ -1,8 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { v4 as uuidv4 } from 'uuid';
 import { createCanvas } from 'canvas';
-import { db } from '@/db';
-import { authorizedDevices } from '@/db/schema';
+import { db } from '@/data/db';
+import { authorizedDevices } from '@/data/db/schema';
 import { getCurrentUser } from '@/lib/auth';
 
 import { eq } from 'drizzle-orm';

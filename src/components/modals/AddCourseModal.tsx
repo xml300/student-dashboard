@@ -2,7 +2,7 @@
 import React, { useState } from 'react';
 import { XMarkIcon, MagnifyingGlassIcon } from '@heroicons/react/24/outline';
 
-import { CourseOverview } from '@/data/types/types';
+import { CourseOverview } from '@/types/data';
 
 interface AddCourseModalProps {
   isOpen: boolean;
@@ -47,12 +47,12 @@ const AddCourseModal: React.FC<AddCourseModalProps> = ({ isOpen, onClose, onAddC
   if (!isOpen) return null;
 
   return (
-    <div 
+    <div
       className={`fixed inset-0 z-50 flex justify-center items-center transition-opacity duration-300 ${isOpen ? 'opacity-100' : 'opacity-0'}`}
       onClick={onClose}
     >
       <div className="absolute inset-0 bg-black/30 backdrop-blur-sm"></div>
-      <div 
+      <div
         className={`relative bg-white/10 border border-white/20 rounded-2xl shadow-lg max-w-lg w-full m-4 p-8 text-white transition-transform duration-300 ${isOpen ? 'scale-100' : 'scale-95'}`}
         onClick={e => e.stopPropagation()}
       >
@@ -65,13 +65,13 @@ const AddCourseModal: React.FC<AddCourseModalProps> = ({ isOpen, onClose, onAddC
 
         <div className="mb-6">
           <div className="flex bg-white/10 rounded-lg p-1">
-            <button 
+            <button
               onClick={() => setMode('create')}
               className={`w-1/2 py-2 text-sm font-semibold rounded-md transition-colors ${mode === 'create' ? 'bg-primary-accent text-white' : 'text-white/60 hover:bg-white/10'}`}
             >
               Create New
             </button>
-            <button 
+            <button
               onClick={() => setMode('select')}
               className={`w-1/2 py-2 text-sm font-semibold rounded-md transition-colors ${mode === 'select' ? 'bg-primary-accent text-white' : 'text-white/60 hover:bg-white/10'}`}
             >
@@ -139,8 +139,8 @@ const AddCourseModal: React.FC<AddCourseModalProps> = ({ isOpen, onClose, onAddC
             </div>
             <div className="max-h-64 overflow-y-auto">
               {filteredCourses.map(course => (
-                <div 
-                  key={course.id} 
+                <div
+                  key={course.id}
                   onClick={() => { onSelectCourse(course.id); onClose(); }}
                   className="p-4 rounded-lg hover:bg-white/20 cursor-pointer transition-colors"
                 >

@@ -1,4 +1,4 @@
-import { db } from "@/db/index";
+import { db } from "@/data/db/index";
 import {
   users,
   students,
@@ -6,7 +6,7 @@ import {
   lectureSessions,
   attendanceRecords,
   studentEnrollments,
-} from "@/db/schema";
+} from "@/data/db/schema";
 import { eq, countDistinct, max } from "drizzle-orm";
 
 
@@ -39,7 +39,7 @@ export async function getCourses({ studentId }: { studentId?: number } = {}) {
       )
       .where(eq(studentEnrollments.studentId, studentId));
     return allCourses;
-}
+  }
   const allCourses = db
     .select({
       id: courses.courseCode,
