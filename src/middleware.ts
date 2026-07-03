@@ -6,7 +6,7 @@ export async function middleware(request: NextRequest) {
     const { pathname } = request.nextUrl;
 
     // Skip next-auth api endpoints
-    if (pathname.startsWith('/api/v1/auth')) {
+    if (pathname.startsWith('/api/auth')) {
         return NextResponse.next();
     }
 
@@ -14,9 +14,7 @@ export async function middleware(request: NextRequest) {
         req: request,
         secret: process.env.NEXTAUTH_SECRET,
     });
-
-    console.log(pathname, token);
-
+ 
     if (pathname.startsWith("/api/v1") && !token) {
         return NextResponse.json({
             success: false,
