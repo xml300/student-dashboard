@@ -1,16 +1,18 @@
 import React from 'react';
 import { PlusIcon, ArrowDownTrayIcon } from '@heroicons/react/24/outline';
 import Link from 'next/link';
-
-import { getCourseById } from '@/lib/data/reports';
 import PageHeading from '@/components/PageHeading';
+import { Courses } from '@/data/models/courses';
+import { LectureSessions } from '@/data/models/lecture-sessions';
 
 const CourseSessionsPage = async ({ params }: { params: Promise<{ courseId: string }> }) => {
-  const course = await getCourseById((await params).courseId);
+  const course = await Courses.getById(Number((await params).courseId));
 
   if (!course) {
     return <div>Course not found</div>;
   }
+
+  const recentSessions = await LectureSessions.getByCourseId(course.id);
 
   const options: Intl.DateTimeFormatOptions = {
     year: "numeric",
@@ -47,19 +49,19 @@ const CourseSessionsPage = async ({ params }: { params: Promise<{ courseId: stri
             </tr>
           </thead>
           <tbody>
-            {course.recentSessions.map((session, index) => {
-              const rate = session.rate ? Number(session.rate) : 0;
+            {recentSessions.map((session, index) => {
+              const rate = 0;
               return (
                 <tr key={index} className="border-b border-border-color last:border-0">
                   <td className="py-3 px-4">{session.sessionDatetime ? formatter.format(new Date(session.sessionDatetime)) : 'N/A'}</td>
-                  <td className="py-3 px-4 text-center">{session.attendees} / {session.totalStudents}</td>
+                  <td className="py-3 px-4 text-center">session.attendees / session.totalStudents</td>
                   <td className="py-3 px-4 text-center">
                     <span className={`px-2 py-1 rounded-full text-xs ${rate >= 0.9 ? 'bg-green-500/10 text-green-500' : rate >= 0.7 ? 'bg-yellow-500/10 text-yellow-500' : 'bg-red-500/10 text-red-500'}`}>
                       {(rate * 100).toFixed(2)}%
                     </span>
                   </td>
                   <td className="py-3 px-4 text-right">
-                    <Link href={`/courses/${course.courseCode}/sessions/${session.id}`} className="text-primary-accent hover:underline text-sm">
+                    <Link href={`/admin/courses/${course.courseCode}/sessions/${session.id}`} className="text-primary-accent hover:underline text-sm">
                       View Report
                     </Link>
                   </td>

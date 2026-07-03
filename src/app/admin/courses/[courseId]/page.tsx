@@ -6,7 +6,7 @@ import OverviewTab from './tabs/OverviewTab';
 import SessionsTab from './tabs/SessionsTab';
 import StudentsTab from './tabs/StudentsTab';
 import SettingsTab from './tabs/SettingsTab';
-import { CourseDisplay } from '@/data/types/types';
+import { CourseDisplay } from '@/types/data';
 
 
 const CourseManagementPage = ({ params }: { params: Promise<{ courseId: string }> }) => {
@@ -58,7 +58,7 @@ const CourseManagementPage = ({ params }: { params: Promise<{ courseId: string }
       <div className="flex-1 overflow-auto p-6 bg-background">
         
         <div className="flex items-center text-sm mb-6">
-          <Link href="/courses" className="text-foreground/80 hover:text-primary-accent">Courses</Link>
+          <Link href="/admin/courses" className="text-foreground/80 hover:text-primary-accent">Courses</Link>
           <ChevronRightIcon className="h-4 w-4 mx-2 text-foreground/60" />
           <span className="font-medium">{course.id}</span>
         </div>

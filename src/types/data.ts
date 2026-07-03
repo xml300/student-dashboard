@@ -1,4 +1,5 @@
 // Dummy data for demonstration
+
 export interface Course {
     id: string;
     title: string;
@@ -6,6 +7,16 @@ export interface Course {
     description: string;
     credits: number;
     semester: number;
+    status: string;
+}
+
+export interface CourseSubmit extends CourseOverview {
+    courseCode: string;
+    courseName: string;
+    courseDesc: string;
+    courseUnit: number;
+    semester: number;
+    status: string;
 }
 
 export interface Device {
@@ -15,6 +26,12 @@ export interface Device {
     type: string;
     lastSeen: Date;
     status: string;
+    model: string;
+    owner: string;
+    lastUsed: string;
+    lastSync: string;
+    assignedCourses: string[];
+    recentActivity: Activity[];
 }
 
 export interface Room {
@@ -28,10 +45,12 @@ export interface Room {
 }
 
 export interface Session {
+    id: number;
     date: string;
     attendees: number;
     totalStudents: number;
-    rate: string;
+    rate: number;
+    sessionDatetime: Date;
 }
 
 export interface CourseOverview extends Course {
@@ -82,4 +101,49 @@ export interface Student {
     studentId: number;
     username: string;
     matricNo: string;
+}
+
+export interface Activity {
+    id: number;
+    category: string;
+    action: string;
+    affectedItem: string | null;
+    details: string;
+    timestamp: Date | null;
+    createdAt: Date | null;
+    updatedAt: Date | null;
+}
+
+export interface AttendanceRecord {
+    id: number;
+    date: string;
+    courseId: string;
+    records: Record[];
+    session: number;
+}
+
+export interface Record {
+    id: number;
+    studentId: number;
+    attendance: number;
+    matricNo: string;
+    attendanceRecord: number;
+    time: string;
+}
+
+export interface CourseDisplay {
+    id: number;
+    courseName: string;
+    courseCode: string;
+    courseDesc: string;
+    courseUnit: number;
+    semester: number;
+    status: string;
+    createdAt: Date;
+    updatedAt: Date;
+    students: Student[];
+    attendanceRate: number;
+    recentSessions: Session[];
+    lastAttendance: string;
+    nextSession: string;
 }

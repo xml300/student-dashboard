@@ -8,10 +8,10 @@ import {
 import Link from "next/link";
 import Card from "@/components/Card";
 import DashboardAttendanceTrendLoader from "./DashboardAttendanceTrendLoader";
-import { Activity } from "@/data/types/types";
-import { db } from "@/db";
+import { Activity } from "@/types/data";
+import { db } from "@/data/db";
 import { countDistinct, avg, eq, count, desc } from "drizzle-orm";
-import { activities, students, attendanceRecords, users, lecturers, authorizedDevices } from "@/db/schema";
+import { activities, students, attendanceRecords, users, lecturers, authorizedDevices } from "@/data/db/schema";
 
 interface DashboardData {
   numStudents: number;
@@ -152,7 +152,7 @@ export default async function HomePage() {
             <div className="flex justify-between items-center mb-4">
               <h3 className="text-lg font-semibold">Recent Activities</h3>
               <Link
-                href="/activities"
+                href="/admin/activities"
                 className="text-primary-accent hover:underline text-sm font-medium"
               >
                 View all
@@ -183,7 +183,7 @@ export default async function HomePage() {
             <div className="flex justify-between items-center mb-4">
               <h3 className="text-lg font-semibold">Upcoming Classes</h3>
               <Link
-                href="/schedule"
+                href="/admin/schedule"
                 className="text-primary-accent hover:underline text-sm font-medium"
               >
                 View schedule

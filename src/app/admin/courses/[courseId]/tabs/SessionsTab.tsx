@@ -2,8 +2,8 @@ import React from 'react';
 import { PlusIcon } from '@heroicons/react/24/outline';
 import Link from 'next/link';
 
-import { CourseDisplay } from '@/data/types/types';
-import Pagination from '@/components/Pagination';
+import { CourseDisplay } from '@/types/data';
+import Pagination from '@/components/admin/components/Pagination';
 
 const SessionsTab = ({ course }: {course: CourseDisplay}) => {
   
@@ -54,7 +54,7 @@ const SessionsTab = ({ course }: {course: CourseDisplay}) => {
                   </span>
                 </td>
                 <td className="py-3 px-4 text-right">
-                  <Link href={`/courses/${course.courseCode}/sessions/${session.id}`} className="text-primary-accent hover:underline text-sm">
+                  <Link href={`/admin/courses/${course.courseCode}/sessions/${session.id}`} className="text-primary-accent hover:underline text-sm">
                     View Report
                   </Link>
                 </td>

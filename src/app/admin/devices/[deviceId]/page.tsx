@@ -3,7 +3,7 @@ import React, { JSX, useEffect, useState } from 'react';
 import { DevicePhoneMobileIcon,  ArrowLeftIcon, PencilSquareIcon, CheckCircleIcon, XCircleIcon, ExclamationTriangleIcon, TrashIcon, PowerIcon, BellIcon } from '@heroicons/react/24/outline';
 import Link from 'next/link';
 import { useParams } from 'next/navigation';
-import { Device } from '@/data/types/types';
+import { Device } from '@/types/data';
 
 
 
@@ -166,7 +166,7 @@ const DeviceDetailsPage = () => {
     return (
         <div className="flex-1 p-6 bg-background">
             <div className="flex items-center mb-6">
-                <Link href="/devices" className="text-primary-accent hover:underline flex items-center">
+                <Link href="/admin/devices" className="text-primary-accent hover:underline flex items-center">
                     <ArrowLeftIcon className="h-5 w-5 mr-2" />
                     Back to Devices
                 </Link>
@@ -299,7 +299,7 @@ const DeviceDetailsPage = () => {
                                 {device.assignedCourses.map(course => (
                                     <li key={course} className="flex items-center justify-between p-3 bg-foreground/5 rounded-md">
                                         <span>{course}</span>
-                                        <Link href={`/courses/${course.split('-')[0]}`} className="text-primary-accent hover:underline text-sm">View Course</Link>
+                                        <Link href={`/admin/courses/${course.split('-')[0]}`} className="text-primary-accent hover:underline text-sm">View Course</Link>
                                     </li>
                                 ))}
                             </ul>

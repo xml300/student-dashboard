@@ -1,10 +1,10 @@
 "use client";
 import { useState } from "react";
-import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card';
+import { Card, CardHeader, CardTitle, CardContent } from '@/components/admin/components/ui/card';
 import Link from 'next/link';
 import { PlusIcon, MagnifyingGlassIcon } from '@heroicons/react/24/outline';
-import { Course } from "@/data/types/types";
-import AddCourseModal from "@/components/modals/AddCourseModal";
+import { Course, CourseOverview, CourseSubmit } from "@/types/data";
+import AddCourseModal from "@/components/admin/components/modals/AddCourseModal";
 
 export type Coursex = Omit<Course, "recentSessions" | "students"| "attendanceRate"> & {
     students: number;
@@ -18,7 +18,7 @@ export default function CourseClient({ courses, availableCourses }: { courses: C
     const [modalOpen, setModalOpen] = useState(false);
 
     
-    const handleAddCourse = async (course: import("@/data/types/types").CourseSubmit) => {
+    const handleAddCourse = async (course: CourseSubmit) => {
         try {
             const response = await fetch('/api/courses', {
                 method: 'POST',
@@ -114,7 +114,7 @@ export default function CourseClient({ courses, availableCourses }: { courses: C
                                     <span>Semester: {course.semester}</span>
                                     <span>Status: {course.status}</span>
                                 </div>
-                                <Link href={`/courses/${course.id}`} className="inline-block mt-2 text-primary hover:underline text-sm font-medium">View Details</Link>
+                                <Link href={`/admin/courses/${course.id}`} className="inline-block mt-2 text-primary hover:underline text-sm font-medium">View Details</Link>
                             </CardContent>
                         </Card>
                     ))}

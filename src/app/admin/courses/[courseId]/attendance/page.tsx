@@ -3,15 +3,15 @@ import React, { useEffect, useState, Fragment } from "react";
 import { EllipsisVerticalIcon, PencilSquareIcon } from '@heroicons/react/24/outline';
 import { useParams } from "next/navigation";
 import Link from "next/link";
-import { CourseOverview, AttendaceRecord, Record } from "@/data/types/types";
-import Pagination from '@/components/Pagination';
+import { CourseOverview, AttendanceRecord, Record } from "@/types/data";
+import Pagination from '@/components/admin/components/Pagination';
 
 const AttendancePage = () => {
   const params = useParams();
   const courseId = decodeURI(params?.courseId as string);
   const [course, setCourse] = useState<CourseOverview | null>(null);
   const [loading, setLoading] = useState(true);
-  const [attendanceRecords, setAttendanceRecords] = useState<AttendaceRecord[]>([]);
+  const [attendanceRecords, setAttendanceRecords] = useState<AttendanceRecord[]>([]);
   const [menuOpen, setMenuOpen] = useState<number | null>(null);
   const menuRefs = React.useRef<Array<HTMLDivElement | null>>([]);
   const [modalOpen, setModalOpen] = useState<number | null>(null);
@@ -29,7 +29,7 @@ const AttendancePage = () => {
         const records = await response.json();
 
         const now = Date.now();
-        const recentSession = records.find((s: AttendaceRecord) => {
+        const recentSession = records.find((s: AttendanceRecord) => {
           const sessionTime = new Date(s.date).getTime();
           return now - sessionTime < 3 * 60 * 60 * 1000;
         });
@@ -73,7 +73,7 @@ setLoading(true);
         const records = await response.json();
 
         const now = Date.now();
-        const recentSession = records.find((s: AttendaceRecord) => {
+        const recentSession = records.find((s: AttendanceRecord) => {
           const sessionTime = new Date(s.date).getTime();
           return now - sessionTime < 3 * 60 * 60 * 1000;
         });
@@ -101,7 +101,7 @@ setLoading(true);
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          recordId: attendanceRecords[sessionIndex].recordId,
+          recordId: attendanceRecords[sessionIndex].id,
           attendanceRecord: modalStatus === "Present" ? 1 : modalStatus === "Excused" ? null : 0,
           remarks: modalRemarks,
         }),
@@ -139,7 +139,7 @@ setLoading(true);
               const response = await fetch(`/api/attendance/${courseId}`);
               const records = await response.json();
 
-              const createdSession = records.find((s: AttendaceRecord) => s.id === newSession.sessionId || s.date === newSession.sessionDatetime);
+              const createdSession = records.find((s: AttendanceRecord) => s.id === newSession.sessionId || s.date === newSession.sessionDatetime);
               if (createdSession) {
                 setAttendanceRecords([createdSession]);
                 setNewSessionDisabled(true);
@@ -167,11 +167,11 @@ setLoading(true);
         <>
           <div className="mb-8 p-6 rounded-2xl bg-white/80 dark:bg-zinc-900/80 border border-border-color dark:border-zinc-700 shadow flex flex-col md:flex-row md:items-center md:justify-between gap-4">
             <div>
-              <div className="text-2xl font-bold text-foreground dark:text-white mb-1">{course.courseName}</div>
-              <div className="text-foreground/80 dark:text-zinc-300 text-base mb-1">Course ID: <span className="font-mono font-semibold">{course.courseCode}</span></div>
-              <div className="text-foreground/80 dark:text-zinc-300 text-base">Credits: {course.courseUnit} | Semester: {course.semester === 1 ? '1st' : '2nd'}</div>
+              <div className="text-2xl font-bold text-foreground dark:text-white mb-1">{course.name}</div>
+              <div className="text-foreground/80 dark:text-zinc-300 text-base mb-1">Course ID: <span className="font-mono font-semibold">{course.title}</span></div>
+              <div className="text-foreground/80 dark:text-zinc-300 text-base">Credits: {course.credits} | Semester: {course.semester === 1 ? '1st' : '2nd'}</div>
             </div>
-            <div className="text-foreground/80 dark:text-zinc-400 text-base md:max-w-lg italic">{course.courseDesc}</div>
+            <div className="text-foreground/80 dark:text-zinc-400 text-base md:max-w-lg italic">{course.description}</div>
           </div>
 
           <div className="space-y-12">
@@ -342,7 +342,7 @@ setLoading(true);
         <div className="text-foreground/60">Course not found.</div>
       )}
       <div className="mt-16">
-        <Link href={`/courses/${courseId}`} className="text-primary-accent dark:text-blue-400 hover:underline text-lg font-semibold">Back to Course</Link>
+        <Link href={`/admin/courses/${courseId}`} className="text-primary-accent dark:text-blue-400 hover:underline text-lg font-semibold">Back to Course</Link>
       </div>
     </div>
   );

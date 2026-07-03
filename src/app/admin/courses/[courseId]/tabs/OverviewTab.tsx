@@ -1,7 +1,7 @@
 import React from 'react';
 import { ArrowRightIcon } from '@heroicons/react/24/outline';
 import Link from 'next/link';
-import { Session, CourseDisplay } from '@/data/types/types';
+import { Session, CourseDisplay } from '@/types/data';
 
 const OverviewTab = ({ course }: { course: CourseDisplay }) => {
   const options: Intl.DateTimeFormatOptions = {
@@ -58,7 +58,7 @@ const OverviewTab = ({ course }: { course: CourseDisplay }) => {
                     </span>
                   </td>
                   <td className="py-3 px-4 text-right">
-                    <Link href={`/courses/${course.courseCode}/sessions/${session.id}`} className="text-primary-accent hover:underline text-sm flex items-center">
+                    <Link href={`/admin/courses/${course.courseCode}/sessions/${session.id}`} className="text-primary-accent hover:underline text-sm flex items-center">
                       View details <ArrowRightIcon className="h-4 w-4 ml-1" />
                     </Link>
                   </td>
@@ -93,10 +93,10 @@ const OverviewTab = ({ course }: { course: CourseDisplay }) => {
         <div className="mt-6 bg-primary-accent/10 rounded-lg p-4">
           <h3 className="font-medium text-primary-accent mb-2">Quick Actions</h3>
           <div className="space-y-2 flex flex-col">
-            <Link href={`/courses/${course.courseCode}/attendance`} className="text-center w-full bg-card-background border border-primary-accent text-primary-accent rounded py-2 text-sm hover:bg-primary-accent/5">
+            <Link href={`/admin/courses/${course.courseCode}/attendance`} className="text-center w-full bg-card-background border border-primary-accent text-primary-accent rounded py-2 text-sm hover:bg-primary-accent/5">
               Take Attendance Now
             </Link>
-            <Link href={"/attendance-reports"} className="text-center w-full bg-card-background border border-border-color text-foreground rounded py-2 text-sm hover:bg-foreground/5">
+            <Link href={"/admin/attendance-reports"} className="text-center w-full bg-card-background border border-border-color text-foreground rounded py-2 text-sm hover:bg-foreground/5">
               Generate Attendance Report
             </Link>
           </div>

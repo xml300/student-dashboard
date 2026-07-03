@@ -41,7 +41,7 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, onClose }) => {
         <div className="px-4 pb-6 md:px-4">
           <div className="mb-4 px-2 py-1 pt-8 md:pt-0">
             <Link
-              href="/"
+              href="/admin"
               className="group flex items-center p-2 rounded-md text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-800"
               onClick={onClose}
             >
@@ -50,7 +50,7 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, onClose }) => {
             </Link>
 
             <Link
-              href="/courses"
+              href="/admin/courses"
               className="group flex items-center p-2 rounded-md text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-800"
               onClick={onClose}
             >
@@ -59,7 +59,7 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, onClose }) => {
             </Link>
 
             <Link
-              href="/attendance-reports"
+              href="/admin/attendance-reports"
               className="group flex items-center p-2 rounded-md text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-800"
               onClick={onClose}
             >
@@ -68,7 +68,7 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, onClose }) => {
             </Link>
 
             <Link
-              href="/devices"
+              href="/admin/devices"
               className="group flex items-center p-2 rounded-md text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-800"
               onClick={onClose}
             >

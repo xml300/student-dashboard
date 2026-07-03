@@ -10,9 +10,9 @@ import {
   ExclamationTriangleIcon,
 } from '@heroicons/react/24/outline';
 import Link from 'next/link';
-import Card from '@/components/Card';
-import AddDeviceModal from '@/components/modals/AddDeviceModal';
-import { Device } from '@/data/types/types';
+import {Card} from '@/components/admin/components/ui/card';
+import AddDeviceModal from '@/components/admin/components/modals/AddDeviceModal';
+import { Device } from '@/types/data';
 
 interface DevicesManagementClientProps {
   initialDevices: Device[];
@@ -147,7 +147,7 @@ const DevicesManagementClient: React.FC<DevicesManagementClientProps> = ({ initi
                 
                 <div className="border-t border-border-color p-4 bg-background flex justify-between items-center">
                   <div></div>
-                  <Link href={`/devices/${device.id}`} className="flex items-center text-primary-accent hover:underline text-sm font-medium">
+                  <Link href={`/admin/devices/${device.id}`} className="flex items-center text-primary-accent hover:underline text-sm font-medium">
                     View Details
                     <ChevronRightIcon className="h-4 w-4 ml-1" />
                   </Link>

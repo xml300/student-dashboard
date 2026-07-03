@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import { PlusIcon, MagnifyingGlassIcon } from '@heroicons/react/24/outline';
 
-import { CourseDisplay, Student } from '@/data/types/types';
+import { CourseDisplay, Student } from '@/types/data';
 import Link from 'next/link';
-import Pagination from '@/components/Pagination';
+import Pagination from '@/components/admin/components/Pagination';
 
 const StudentsTab = ({ course }: { course: CourseDisplay }) => {
   const allStudents = course.students || [];
@@ -62,12 +62,12 @@ const StudentsTab = ({ course }: { course: CourseDisplay }) => {
                 <tr key={index} className="border-b border-border-color last:border-0">
                   <td className="py-3 px-4">{student.matricNo}</td>
                   <td className="py-3 px-4 text-center">
-                    <span className={`px-2 py-1 rounded-full text-xs ${student.attendanceRate >= 0.9 ? 'bg-green-500/10 text-green-500' : student.attendanceRate >= 0.7 ? 'bg-yellow-500/10 text-yellow-500' : 'bg-red-500/10 text-red-500'}`}>
-                      {(student.attendanceRate * 100).toFixed(2)}%
+                    <span className={`px-2 py-1 rounded-full text-xs ${0 >= 0.9 ? 'bg-green-500/10 text-green-500' : 0 >= 0.7 ? 'bg-yellow-500/10 text-yellow-500' : 'bg-red-500/10 text-red-500'}`}>
+                      {(0 * 100).toFixed(2)}%
                     </span>
                   </td>
                   <td className="py-3 px-4 text-right">
-                    <Link href={`/courses/${course.courseCode}/students/${student.studentId}`} className="text-primary-accent hover:underline text-sm">
+                    <Link href={`/admin/courses/${course.courseCode}/students/${student.studentId}`} className="text-primary-accent hover:underline text-sm">
                       View Details
                     </Link>
                   </td>
