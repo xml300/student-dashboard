@@ -12,6 +12,10 @@ export const Students = {
         const [student] = await db.select().from(students).innerJoin(users, eq(students.userId, users.id)).where(eq(students.userId, id)).limit(1);
         return student;
     },
+    getByRegNo: async (regNo: string) => {
+        const [student] = await db.select().from(students).innerJoin(users, eq(students.userId, users.id)).where(eq(students.matricNo, regNo)).limit(1);
+        return student;
+    },
     getByUsername: async (username: string) => {
         const [student] = await db.select().from(students).innerJoin(users, eq(students.userId, users.id)).where(eq(users.username, username)).limit(1);
         return student;

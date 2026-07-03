@@ -55,7 +55,7 @@ export async function GET() {
             time: `${new Date(h.lecture_sessions?.sessionDatetime || "").toDateString()}, ${new Date(h.lecture_sessions?.sessionDatetime || "").toLocaleTimeString()}`
         }));
 
-        const authorizedDevice = await db.select().from(authorizedDevices).where(eq(authorizedDevices.studentId, studentId)).limit(1);
+        const authorizedDevice = await db.select().from(authorizedDevices).where(eq(authorizedDevices.userId, (user as any).id)).limit(1);
 
         return NextResponse.json({
             userName: user.name,

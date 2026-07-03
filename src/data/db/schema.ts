@@ -22,13 +22,13 @@ export const users = pgTable("users", {
 
 export const lecturers = pgTable('lecturers', {
   id: serial("lecturer_id").primaryKey(),
-  userId: integer("user_id").references(() => users.id).notNull(),
+  userId: integer("user_id").notNull().references(() => users.id),
   ...timestamps
 });
 
 export const students = pgTable('students', {
   id: serial('student_id').primaryKey(),
-  userId: integer('user_id').references(() => users.id),
+  userId: integer('user_id').notNull().references(() => users.id),
   matricNo: varchar("matric_no", { length: 50 }).notNull(),
   ...timestamps
 });

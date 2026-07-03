@@ -4,6 +4,8 @@ import { db } from "@/data/db";
 import { users, students } from "@/data/db/schema";
 import { eq } from "drizzle-orm";
 import bcrypt from "bcryptjs";
+import { Students } from "@/data/models/students";
+import { Users } from "@/data/models/users";
 
 interface NewUser extends User {
   id: string;
@@ -29,13 +31,7 @@ export const authOptions: AuthOptions = {
         if (!credentials?.matricNo || !credentials?.password) {
           return null;
         }
-
-        const studentQuery = await db
-          .select()
-          .from(students)
-          .where(eq(students.matricNo, credentials.matricNo));
-        let student = studentQuery[0];
-
+        const student = await Students.getByRegNo(credentials.matricNo);
         if (!student) {
           if (credentials.action === "signup") {
             const hashedPassword = await bcrypt.hash(credentials.password, 10);
@@ -59,25 +55,14 @@ export const authOptions: AuthOptions = {
               id: newUser[0].id.toString(),
               name: newUser[0].username,
               email: newUser[0].username,
-              studentId: newStudent[0].studentId,
+              studentId: newStudent[0].id,
               matricNo: newStudent[0].matricNo,
             };
           }
           return null;
         }
 
-        if (!student.userId) {
-          return null;
-        }
-
-        const user = (
-          await db.select().from(users).where(eq(users.id, student.userId))
-        )[0];
-
-        if (!user) {
-          return null;
-        }
-
+        const user = student.users;
         const isPasswordValid = await bcrypt.compare(
           credentials.password,
           user.password
@@ -91,8 +76,8 @@ export const authOptions: AuthOptions = {
           id: user.id.toString(),
           name: user.username,
           email: user.username,
-          studentId: student.studentId,
-          matricNo: student.matricNo,
+          studentId: student.students.id,
+          matricNo: student.students.matricNo,
         };
       },
     }),
