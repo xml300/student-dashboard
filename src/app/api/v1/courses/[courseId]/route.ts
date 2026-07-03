@@ -8,7 +8,7 @@ export async function GET(request: NextRequest, { params }: { params: Promise<{ 
 
     try {
         const courseDetails = await db.select({
-            courseId: courses.courseId,
+            courseId: courses.id,
             courseName: courses.courseName,
             courseCode: courses.courseCode,
             courseDesc: courses.courseDesc,
@@ -17,9 +17,9 @@ export async function GET(request: NextRequest, { params }: { params: Promise<{ 
             students: countDistinct(studentEnrollments.studentId),
         })
             .from(courses)
-            .leftJoin(studentEnrollments, eq(studentEnrollments.courseId, courses.courseId))
+            .leftJoin(studentEnrollments, eq(studentEnrollments.courseId, courses.id))
             .where(eq(courses.courseCode, courseId))
-            .groupBy(courses.courseId);
+            .groupBy(courses.id);
 
         if (courseDetails.length === 0) {
             return NextResponse.json({ error: 'Course not found' }, { status: 404 });
@@ -29,7 +29,7 @@ export async function GET(request: NextRequest, { params }: { params: Promise<{ 
             attendanceRate: sql<number>`avg(${attendanceRecords.attendanceRecord}) * 100`,
         })
             .from(attendanceRecords)
-            .leftJoin(lectureSessions, eq(attendanceRecords.sessionId, lectureSessions.sessionId))
+            .leftJoin(lectureSessions, eq(attendanceRecords.sessionId, lectureSessions.id))
             .where(eq(lectureSessions.courseId, courseDetails[0].courseId));
 
         const lastAttendanceResult = await db.select({
@@ -53,9 +53,9 @@ export async function GET(request: NextRequest, { params }: { params: Promise<{ 
             rate: sql<string>`(CAST(count(DISTINCT ${attendanceRecords.studentId}) AS REAL) / (SELECT count(*) FROM ${studentEnrollments} WHERE ${studentEnrollments.courseId} = ${courseDetails[0].courseId}) * 100) || '%'`,
         })
             .from(lectureSessions)
-            .leftJoin(attendanceRecords, eq(lectureSessions.sessionId, attendanceRecords.sessionId))
+            .leftJoin(attendanceRecords, eq(lectureSessions.id, attendanceRecords.sessionId))
             .where(eq(lectureSessions.courseId, courseDetails[0].courseId))
-            .groupBy(lectureSessions.sessionId)
+            .groupBy(lectureSessions.id)
             .orderBy(desc(lectureSessions.sessionDatetime))
             .limit(3);
 

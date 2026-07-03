@@ -30,7 +30,7 @@ export async function GET(request: NextRequest) {
         if (existingDevice.authorizedAt) {
             etag = existingDevice.authorizedAt.toISOString();
             if (request.headers.get("If-None-Match") === etag) {
-                return new NextResponse(null, { status: 304 });
+                return NextResponse.json({ uuid: existingDevice.deviceUUID }, { status: 304 });
             }
         }
         return NextResponse.json({ uuid: existingDevice.deviceUUID }, {

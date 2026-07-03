@@ -41,22 +41,22 @@ export default function DeviceManagePage() {
     setAuthorizing(true);
     try {
       const data = await api.get<{uuid: string, image: string}>('/device/authorize');
-      if (data.s) {
+      if (data.uuid) {
         alert('Device already authorized.');
         setDeviceInfo({
           name: 'Authorized Device',
           id: data.uuid,
           lastActive: new Date().toLocaleString(),
         });
-      } else if (data) {
-        setAuthImage(data.image); // image should be a base64 string or URL
-        setEtag(res.headers.get('ETag'));
-        setDeviceInfo({
-          name: 'Authorized Device',
-          id: data.uuid,
-          lastActive: new Date().toLocaleString(),
-        });
-        alert('Device authorized successfully!');
+      // } else {
+      //   setAuthImage(data.image); // image should be a base64 string or URL
+      //   setEtag(res.headers.get('ETag'));
+      //   setDeviceInfo({
+      //     name: 'Authorized Device',
+      //     id: data.uuid,
+      //     lastActive: new Date().toLocaleString(),
+      //   });
+      //   alert('Device authorized successfully!');
       } else {
         throw new Error('Failed to authorize device');
       }
@@ -75,7 +75,7 @@ export default function DeviceManagePage() {
       const formData = new FormData();
       formData.append('image', file);
       // Replace with your backend endpoint
-      const data = await api.post('/device/validate', formData);
+      const data = await api.post<{valid: boolean}>('/device/validate', formData);
       if (data.valid) {
         alert('Device authorization validated!');
       } else {

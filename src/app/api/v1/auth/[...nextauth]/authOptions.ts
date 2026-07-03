@@ -85,7 +85,7 @@ export const authOptions: AuthOptions = {
   callbacks: {
     async jwt({ token, user }) {
       if (user) {
-        token.id = user.id;
+        token.id = parseInt(user.id, 10);
         token.studentId = (user as any).studentId;
         token.matricNo = (user as any).matricNo;
       }
@@ -93,9 +93,9 @@ export const authOptions: AuthOptions = {
     },
     async session({ session, token }) {
       if (session.user) {
-        (session.user as any).id = token.id as string;
-        (session.user as any).studentId = token.studentId;
-        (session.user as any).matricNo = token.matricNo;
+        session.user.id = token.id;
+        session.user.studentId = token.studentId;
+        session.user.matricNo = token.matricNo;
       }
       return session;
     },

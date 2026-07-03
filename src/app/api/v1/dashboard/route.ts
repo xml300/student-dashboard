@@ -7,11 +7,11 @@ import { getCurrentUser } from '@/lib/auth';
 export async function GET() {
     try {
         const user = await getCurrentUser();
-        if (!user || !user.name) {
+        if (!user || !user.matricNo) {
             return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
         }
 
-        const studentQuery = await db.select().from(students).innerJoin(users, eq(students.userId, users.id)).where(eq(users.username, user.name)).limit(1);
+        const studentQuery = await db.select().from(students).innerJoin(users, eq(students.userId, users.id)).where(eq(users.username, user.matricNo)).limit(1);
         if (!studentQuery.length) {
             return NextResponse.json({ error: 'Student not found' }, { status: 404 });
         }
@@ -55,10 +55,10 @@ export async function GET() {
             time: `${new Date(h.lecture_sessions?.sessionDatetime || "").toDateString()}, ${new Date(h.lecture_sessions?.sessionDatetime || "").toLocaleTimeString()}`
         }));
 
-        const authorizedDevice = await db.select().from(authorizedDevices).where(eq(authorizedDevices.userId, (user as any).id)).limit(1);
+        const authorizedDevice = await db.select().from(authorizedDevices).where(eq(authorizedDevices.userId, user.id)).limit(1);
 
         return NextResponse.json({
-            userName: user.name,
+            regNo: user.matricNo,
             attendanceStats,
             attendanceNotifications,
             attendanceActivity,

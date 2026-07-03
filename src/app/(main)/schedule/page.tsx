@@ -24,7 +24,7 @@ export default function SchedulePage() {
 
   useEffect(() => {
     const fetchSchedule = async () => {
-      const data = await api.get('/schedule');
+      const data = await api.get<Schedule[]>('/schedule');
       setSchedule(data);
     };
     fetchSchedule();

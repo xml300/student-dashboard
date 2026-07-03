@@ -5,7 +5,7 @@ export interface Course {
     name: string;
     description: string;
     credits: number;
-    semester: string;
+    semester: number;
 }
 
 export interface Device {
@@ -40,10 +40,11 @@ export interface CourseOverview extends Course {
     recentSessions: Session[];
     students: number;
     attendanceRate: string;
-    semester: string; // Keeping semester for now as it's used in the UI
+    semester: number; // Keeping semester for now as it's used in the UI
     title: string; // Keeping title for now as it's used in the UI
+    activeSessionDatetime: Date;
+    activeSessionId: number;
 }
-
 export interface AttendanceSummaryItem {
     courseCode: string;
     courseName: string;

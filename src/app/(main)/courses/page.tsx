@@ -11,7 +11,7 @@ import {
 } from '@heroicons/react/24/outline';
 import Link from 'next/link';
 import AddCourseModal from '@/components/AddCourseModal';
-import { CourseOverview } from '@/types';
+import { CourseOverview } from '@/types/data';
 import { api } from '@/lib/api';
 
 interface Course {

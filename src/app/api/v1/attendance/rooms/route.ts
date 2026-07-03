@@ -1,10 +1,11 @@
-import { db } from "@/data/db";
-import { eq } from "drizzle-orm";
-import { attendanceRooms } from "@/data/db/schema";
 import { NextRequest, NextResponse } from "next/server";
+import { AttendanceRooms } from "@/data/models/attendance-rooms";
 
 export async function POST(request: NextRequest) {
     const { sessionId } = await request.json();
-    const rooms = await db.select().from(attendanceRooms).where(eq(attendanceRooms.sessionId, sessionId));
-    return NextResponse.json({ rooms: rooms.map(room => room.deviceUUID) });
+    const rooms = await AttendanceRooms.getBySessionId(sessionId);
+    return NextResponse.json({
+        success: true,
+        data: rooms.map(room => room.deviceUUID)
+    });
 }
