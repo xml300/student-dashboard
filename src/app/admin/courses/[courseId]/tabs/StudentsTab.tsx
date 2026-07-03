@@ -3,7 +3,7 @@ import { PlusIcon, MagnifyingGlassIcon } from '@heroicons/react/24/outline';
 
 import { CourseDisplay, Student } from '@/types/data';
 import Link from 'next/link';
-import Pagination from '@/components/admin/components/Pagination';
+import Pagination from '@/components/admin/Pagination';
 
 const StudentsTab = ({ course }: { course: CourseDisplay }) => {
   const allStudents = course.students || [];
@@ -52,7 +52,7 @@ const StudentsTab = ({ course }: { course: CourseDisplay }) => {
           <thead>
             <tr className="border-b border-border-color bg-foreground/5">
               <th className="text-left py-3 px-4 font-medium text-foreground/80">Student ID</th>
-             <th className="text-center py-3 px-4 font-medium text-foreground/80">Attendance</th>
+              <th className="text-center py-3 px-4 font-medium text-foreground/80">Attendance</th>
               <th className="text-right py-3 px-4 font-medium text-foreground/80"></th>
             </tr>
           </thead>

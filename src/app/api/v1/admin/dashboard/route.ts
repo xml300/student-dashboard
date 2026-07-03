@@ -1,23 +1,22 @@
-import { db } from "@/db";
-import { attendanceRecords, lecturerDevices, lecturers, students, users } from "@/db/schema";
+import { db } from "@/data/db";
+import { attendanceRecords, authorizedDevices, lecturers, students, users, activities } from "@/data/db/schema";
 import { avg, count, countDistinct, eq, desc } from "drizzle-orm";
-import { activities } from "@/db/schema";
 import { NextResponse } from "next/server";
 
 export async function GET() {
     const dashboardData = (await db.select({ 
-        numStudents: countDistinct(students.studentId),
+        numStudents: countDistinct(students.id),
         attendanceRate: avg(attendanceRecords.attendanceRecord),
      }).from(users)
      .innerJoin(students, eq(students.userId, users.id))
-     .leftJoin(attendanceRecords, eq(attendanceRecords.studentId, students.studentId)))[0];
+     .leftJoin(attendanceRecords, eq(attendanceRecords.studentId, students.id)))[0];
 
     const deviceData = (await db.select({
-        numDevices: count(lecturerDevices.deviceId)
+        numDevices: count(authorizedDevices.id)
     }).from(users)
     .innerJoin(lecturers, eq(lecturers.userId, users.id))
-    .leftJoin(lecturerDevices, eq(lecturerDevices.lecturerId, lecturers.lecturerId))
-    .where(eq(lecturers.lecturerId, 1)))[0];
+    .leftJoin(authorizedDevices, eq(authorizedDevices.userId, lecturers.userId))
+    .where(eq(lecturers.id, 1)))[0];
     
   
     const recentActivities = await db.select()

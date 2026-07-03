@@ -25,7 +25,7 @@ export interface CourseSubmit extends CourseOverview {
 }
 
 export interface Device {
-    id: string;
+    id: number;
     name: string;
     location: string;
     type: string;

@@ -1,19 +1,20 @@
-import { db } from '@/db';
+import { db } from '@/data/db';
 import { getServerSession } from 'next-auth';
 import { authOptions } from '@/app/api/auth/[...nextauth]/authOptions';
-import { lecturers, users, courses, courseAssignments, lectureSessions, lecturerDevices, studentEnrollments } from '@/db/schema';
+import { lecturers, users, courses, courseAssignments, lectureSessions, authorizedDevices, studentEnrollments } from '@/data/db/schema';
 import LecturerProfileClient from './LecturerProfileClient';
 import { desc, inArray, eq } from 'drizzle-orm'; 
+import { NSession } from '@/types/data';
 
 export default async function LecturerProfilePage() {
-  const session = await getServerSession(authOptions);
+  const session: NSession | null = await getServerSession(authOptions);
   if (!session || !session.lecturerId) {
     return <div>Unauthorized</div>;
   }
   const lecturerId = session.lecturerId;
 
   
-  const lecturerRow = await db.select().from(lecturers).where(eq(lecturers.lecturerId, lecturerId)).limit(1);
+  const lecturerRow = await db.select().from(lecturers).where(eq(lecturers.id, lecturerId)).limit(1);
   const lecturer = lecturerRow[0];
   
   if (!lecturer) {
@@ -26,14 +27,14 @@ export default async function LecturerProfilePage() {
   
   const courseRows = await db.select({ course: courses, assignment: courseAssignments })
     .from(courses)
-    .innerJoin(courseAssignments, eq(courseAssignments.courseId, courses.courseId))
+    .innerJoin(courseAssignments, eq(courseAssignments.courseId, courses.id))
     .where(eq(courseAssignments.lecturerId, lecturerId));
 
   
   const coursesData = await Promise.all(courseRows.map(async ({ course }) => {
-    const enrollments = await db.select().from(studentEnrollments).where(eq(studentEnrollments.courseId, course.courseId));
+    const enrollments = await db.select().from(studentEnrollments).where(eq(studentEnrollments.courseId, course.id));
     const students = enrollments.length;
-    const sessions = await db.select().from(lectureSessions).orderBy(desc(lectureSessions.sessionDatetime)).where(eq(lectureSessions.courseId, course.courseId));
+    const sessions = await db.select().from(lectureSessions).orderBy(desc(lectureSessions.sessionDatetime)).where(eq(lectureSessions.courseId, course.id));
     const attendanceRate = 0; 
     let nextSession;
     if (sessions.length > 0 && sessions[0].sessionDatetime) {
@@ -41,7 +42,7 @@ export default async function LecturerProfilePage() {
         nextSession.setDate(nextSession.getDate() + 7);
     }
     const recentSessionsData = sessions.map(s => ({
-      id: s.sessionId.toString(),
+      id: s.id.toString(),
       course: course.courseName,
       date: s.sessionDatetime?.toDateString() || '',
       time: s.sessionDatetime?.toTimeString() || '',
@@ -67,16 +68,16 @@ export default async function LecturerProfilePage() {
     };
   }));
   
-  const devices = await db.select().from(lecturerDevices).where(eq(lecturerDevices.lecturerId, lecturerId));
+  const devices = await db.select().from(authorizedDevices).where(eq(authorizedDevices.userId, lecturerId));
 
   
-  const courseIds = courseRows.map(c => c.course.courseId);
+  const courseIds = courseRows.map(c => c.course.id);
   const recentSessionsRaw = courseIds.length > 0 
     ? await db.select().from(lectureSessions).where(inArray(lectureSessions.courseId, courseIds)).orderBy(desc(lectureSessions.sessionDatetime)).limit(5)
     : [];
   const recentSessions = recentSessionsRaw.map(s => ({
-    id: s.sessionId.toString(),
-    course: courseRows.find(c => c.course.courseId === s.courseId)?.course.courseName || '',
+    id: s.id.toString(),
+    course: courseRows.find(c => c.course.id === s.courseId)?.course.courseName || '',
     date: s.sessionDatetime?.toDateString() || '',
     time: s.sessionDatetime?.toTimeString() || '',
     attendance: '0%', 
@@ -88,7 +89,7 @@ export default async function LecturerProfilePage() {
 
   
   const lecturerProfile = {
-    id: lecturer.lecturerId,
+    id: lecturer.id,
     name: user?.username || '',
     department: '', 
     email: '', 

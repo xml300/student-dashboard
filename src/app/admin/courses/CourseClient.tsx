@@ -1,12 +1,12 @@
 "use client";
 import { useState } from "react";
-import { Card, CardHeader, CardTitle, CardContent } from '@/components/admin/components/ui/card';
+import { Card, CardHeader, CardTitle, CardContent } from '@/components/admin/ui/card';
 import Link from 'next/link';
 import { PlusIcon, MagnifyingGlassIcon } from '@heroicons/react/24/outline';
 import { Course, CourseOverview, CourseSubmit } from "@/types/data";
-import AddCourseModal from "@/components/admin/components/modals/AddCourseModal";
+import AddCourseModal from "@/components/admin/modals/AddCourseModal";
 
-export type Coursex = Omit<Course, "recentSessions" | "students"| "attendanceRate"> & {
+export type Coursex = Omit<Course, "recentSessions" | "students" | "attendanceRate"> & {
     students: number;
     attendanceRate: string | null;
 }
@@ -17,7 +17,7 @@ export default function CourseClient({ courses, availableCourses }: { courses: C
     const [availableCourses_] = useState<Coursex[]>(availableCourses);
     const [modalOpen, setModalOpen] = useState(false);
 
-    
+
     const handleAddCourse = async (course: CourseSubmit) => {
         try {
             const response = await fetch('/api/courses', {
@@ -27,20 +27,20 @@ export default function CourseClient({ courses, availableCourses }: { courses: C
                 },
                 body: JSON.stringify(course),
             });
-            
+
             const savedCourse: Coursex = await response.json();
             setCourses(prev => [...prev, savedCourse]);
             setModalOpen(false);
         } catch (error) {
-            
+
             console.error(error);
         }
     };
 
-    
+
     const handleSelectCourse = async (courseId: string) => {
         try {
-            
+
             const response = await fetch('/api/courses/assign', {
                 method: 'POST',
                 headers: {
@@ -49,7 +49,7 @@ export default function CourseClient({ courses, availableCourses }: { courses: C
                 body: JSON.stringify({ courseId }),
             });
             if (!response.ok) throw new Error('Failed to assign course to lecturer');
-            
+
         } catch (error) {
             console.error(error);
         }

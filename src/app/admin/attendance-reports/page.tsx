@@ -1,4 +1,4 @@
-import LecturerReportContainer from "@/components/reports/lecturer/LecturerReportContainer";
+import LecturerReportContainer from "@/components/admin/reports/lecturer/LecturerReportContainer";
 
 export default async function LecturerReportsPage({ searchParams }: { searchParams?: Promise<{ [key: string]: string | string[] | undefined }> }) {
   return (

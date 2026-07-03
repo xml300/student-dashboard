@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server';
-import { db } from '@/db';
+import { db } from '@/data/db';
 import { and, desc, eq } from 'drizzle-orm';
-import { attendanceRecords, courses, lectureSessions, students, users } from '@/db/schema';
+import { attendanceRecords, courses, lectureSessions, students, users } from '@/data/db/schema';
 
 interface AttendanceRecord {
   studentId: number | null;
@@ -16,9 +16,9 @@ export async function GET(_req: Request, { params }: { params: Promise<{courseId
 
   
   const latestSession = await db
-    .select({ sessionId: lectureSessions.sessionId })
+    .select({ sessionId: lectureSessions.id })
     .from(lectureSessions)
-    .innerJoin(courses, eq(lectureSessions.courseId, courses.courseId))
+    .innerJoin(courses, eq(lectureSessions.courseId, courses.id))
     .where(eq(courses.courseCode, courseId))
     .orderBy(desc(lectureSessions.sessionDatetime))
     .limit(1);
@@ -30,7 +30,7 @@ export async function GET(_req: Request, { params }: { params: Promise<{courseId
 
   const attendance = await db
     .select({
-      recordId: attendanceRecords.recordId,
+      recordId: attendanceRecords.id,
       sessionId: attendanceRecords.sessionId,
       studentId: attendanceRecords.studentId,
       attendanceRecord: attendanceRecords.attendanceRecord,
@@ -42,11 +42,11 @@ export async function GET(_req: Request, { params }: { params: Promise<{courseId
     .from(attendanceRecords)
     .innerJoin(
       lectureSessions,
-      eq(attendanceRecords.sessionId, lectureSessions.sessionId)
+      eq(attendanceRecords.sessionId, lectureSessions.id)
     )
-    .innerJoin(students, eq(attendanceRecords.studentId, students.studentId))
+    .innerJoin(students, eq(attendanceRecords.studentId, students.id))
     .innerJoin(users, eq(students.userId, users.id))
-    .innerJoin(courses, eq(lectureSessions.courseId, courses.courseId))
+    .innerJoin(courses, eq(lectureSessions.courseId, courses.id))
     .where(and(eq(courses.courseCode, courseId), eq(attendanceRecords.sessionId, latestSessionId)));
 
   
@@ -92,10 +92,10 @@ export async function POST(req: Request, { params }: { params: Promise<{courseId
     sessionId, 
     studentId,
     attendanceRecord,
-  }).returning({ recordId: attendanceRecords.recordId });
+  }).returning({ recordId: attendanceRecords.id });
 
   
-  const { addActivity } = await import("@/app/api/dashboard/addActivity");
+  const { addActivity } = await import("@/app/api/v1/admin/dashboard/addActivity");
   await addActivity({
     category: "User Management",
     action: "Attendance recorded",

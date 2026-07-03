@@ -1,5 +1,5 @@
-import { db } from '@/db';
-import { attendanceRecords, lectureSessions } from '@/db/schema';
+import { db } from '@/data/db';
+import { attendanceRecords, lectureSessions } from '@/data/db/schema';
 import { avg, desc, eq, between } from 'drizzle-orm';
 import { NextResponse } from 'next/server';
 
@@ -18,7 +18,7 @@ export async function GET(request: Request) {
 
   const sessions = await db
     .select({
-      sessionId: lectureSessions.sessionId,
+      sessionId: lectureSessions.id,
       date: lectureSessions.sessionDatetime,
     })
     .from(lectureSessions)

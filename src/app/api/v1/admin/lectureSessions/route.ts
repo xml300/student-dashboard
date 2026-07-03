@@ -1,28 +1,26 @@
 import { NextResponse } from 'next/server';
-import { db } from '@/db';
-import { attendanceRecords, attendanceRooms, courses, lecturerDevices, lectureSessions, studentEnrollments } from '@/db/schema';
+import { db } from '@/data/db';
+import { attendanceRecords, attendanceRooms, courses, authorizedDevices, lectureSessions, studentEnrollments } from '@/data/db/schema';
 import { eq } from 'drizzle-orm';
-import { getServerSession } from 'next-auth';
-import { authOptions } from '../auth/[...nextauth]/authOptions';
+import { getCurrentUser } from '@/lib/auth';
+import { Courses } from '@/data/models/courses';
 
 export async function POST(req: Request) {
-    const session = await getServerSession(authOptions);
-    if(!session) return NextResponse.json({error: 'Unauthorized'}, {status: 401});
+    const user = await getCurrentUser();
+    if(!user) return NextResponse.json({error: 'Unauthorized'}, {status: 401});
     
-    const lecturerId = session.lecturerId;
+    const userId = user.userId;
     try {
         const { courseId } = await req.json();
-        
         if (!courseId) {
             return NextResponse.json({ error: 'Missing courseId' }, { status: 400 });
         }
 
-        const course = (await db.select().from(courses).where(eq(courses.courseCode, courseId)).limit(1))[0];
-
+        const course = await Courses.getByCode(courseId);
         const [newSession] = await db
             .insert(lectureSessions)
             .values({
-                courseId: course.courseId,
+                courseId: course.id,
                 duration: 2
             })
             .returning();
@@ -32,37 +30,37 @@ export async function POST(req: Request) {
         }
 
         
-        const { addActivity } = await import("@/app/api/dashboard/addActivity");
+        const { addActivity } = await import("@/app/api/v1/admin/dashboard/addActivity");
         await addActivity({
             category: "Course Management",
             action: "Created new lecture session",
             affectedItem: courseId,
-            details: `Session ${newSession.sessionId} created for course ${courseId}`
+            details: `Session ${newSession.id} created for course ${courseId}`
         });
 
-        const students = await db.select().from(studentEnrollments).innerJoin(courses, eq(courses.courseId, studentEnrollments.courseId))
+        const students = await db.select().from(studentEnrollments).innerJoin(courses, eq(courses.id, studentEnrollments.courseId))
         .where(eq(courses.courseCode, courseId));
         
 
         for (const student of students) {
             await db.insert(attendanceRecords)
                 .values({
-                    sessionId: newSession.sessionId,
+                    sessionId: newSession.id,
                     studentId: student.student_enrollments.studentId,
                     attendanceRecord: 0,
                 });
         }
 
-        const devices = await db.select().from(lecturerDevices).where(eq(lecturerDevices.lecturerId, lecturerId))
+        const devices = await db.select().from(authorizedDevices).where(eq(authorizedDevices.userId, userId))
         for(const device of devices){
         await db.insert(attendanceRooms).values({
-            sessionId: newSession.sessionId,
+            sessionId: newSession.id,
             deviceUUID: device.deviceUUID,
         })
         }
 
         return NextResponse.json({
-            sessionId: newSession.sessionId,
+            sessionId: newSession.id,
             sessionDatetime: newSession.sessionDatetime,
             courseId: newSession.courseId,
         });

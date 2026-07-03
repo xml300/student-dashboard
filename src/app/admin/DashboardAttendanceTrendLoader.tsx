@@ -1,5 +1,5 @@
 "use client";
-import DashboardAttendanceTrend, { AttendanceTrendPoint } from "@/components/admin/components/DashboardAttendanceTrend";
+import DashboardAttendanceTrend, { AttendanceTrendPoint } from "@/components/admin/DashboardAttendanceTrend";
 import React, { useEffect, useState } from "react";
 
 const DashboardAttendanceTrendLoader: React.FC = () => {
@@ -29,26 +29,26 @@ const DashboardAttendanceTrendLoader: React.FC = () => {
                 <h3 className="text-lg font-semibold mb-2 sm:mb-0">
                     Attendance Trend
                 </h3>
-            <div className="flex items-center space-x-2 mb-2 justify-end">
-                <button
-                    className={`text-xs sm:text-sm px-2 py-1 rounded ${range === 'weekly' ? 'bg-primary-accent text-white' : 'bg-primary-accent/20 text-primary-accent'}`}
-                    onClick={() => setRange('weekly')}
-                >
-                    Weekly
-                </button>
-                <button
-                    className={`text-xs sm:text-sm px-2 py-1 rounded ${range === 'monthly' ? 'bg-primary-accent text-white' : 'bg-primary-accent/20 text-primary-accent'}`}
-                    onClick={() => setRange('monthly')}
-                >
-                    Monthly
-                </button>
-                <button
-                    className={`text-xs sm:text-sm px-2 py-1 rounded ${range === 'semester' ? 'bg-primary-accent text-white' : 'bg-primary-accent/20 text-primary-accent'}`}
-                    onClick={() => setRange('semester')}
-                >
-                    Semester
-                </button>
-            </div>
+                <div className="flex items-center space-x-2 mb-2 justify-end">
+                    <button
+                        className={`text-xs sm:text-sm px-2 py-1 rounded ${range === 'weekly' ? 'bg-primary-accent text-white' : 'bg-primary-accent/20 text-primary-accent'}`}
+                        onClick={() => setRange('weekly')}
+                    >
+                        Weekly
+                    </button>
+                    <button
+                        className={`text-xs sm:text-sm px-2 py-1 rounded ${range === 'monthly' ? 'bg-primary-accent text-white' : 'bg-primary-accent/20 text-primary-accent'}`}
+                        onClick={() => setRange('monthly')}
+                    >
+                        Monthly
+                    </button>
+                    <button
+                        className={`text-xs sm:text-sm px-2 py-1 rounded ${range === 'semester' ? 'bg-primary-accent text-white' : 'bg-primary-accent/20 text-primary-accent'}`}
+                        onClick={() => setRange('semester')}
+                    >
+                        Semester
+                    </button>
+                </div>
             </div>
             {loading ? (
                 <div className="text-foreground/60">Loading attendance trend...</div>

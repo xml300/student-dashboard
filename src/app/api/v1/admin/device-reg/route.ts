@@ -1,8 +1,8 @@
 
 
 import { randomUUID } from 'crypto';
-import { db } from '@/db';
-import { users, lecturers, lecturerDevices } from '@/db/schema';
+import { db } from '@/data/db';
+import { users, lecturers, authorizedDevices } from '@/data/db/schema';
 import { eq } from 'drizzle-orm';
 import { NextResponse } from 'next/server';
 
@@ -22,20 +22,13 @@ export async function POST(req: Request) {
   if (lecturerRows.length === 0) {
     return new Response(JSON.stringify({ error: 'Lecturer not found' }), { status: 404 });
   }
-  const lecturerId = lecturerRows[0].lecturerId;
-
-
   const deviceUuid = randomUUID();
-  const secretKey = randomUUID();
-  await db.insert(lecturerDevices).values({
-    lecturerId,
+  await db.insert(authorizedDevices).values({
+    userId: userId,
     deviceUUID: deviceUuid,
-    secretKey: secretKey,
     deviceType,
     status: 'active',
   });
 
-  console.log(deviceUuid, secretKey);
-
-  return NextResponse.json({ deviceUuid, secretKey }, { status: 201});
+  return NextResponse.json({ deviceUuid }, { status: 201});
 }

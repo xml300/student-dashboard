@@ -1,5 +1,5 @@
-import { db } from "@/db";
-import { activities } from "@/db/schema";
+import { db } from "@/data/db";
+import { activities } from "@/data/db/schema";
 
 export async function addActivity({ category, action, affectedItem, details }: {
   category: string;

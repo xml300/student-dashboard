@@ -1,16 +1,16 @@
 import { NextResponse } from 'next/server';
-import { db } from '@/db';
+import { db } from '@/data/db';
 import { eq, desc } from 'drizzle-orm';
-import { attendanceRecords, courses, lectureSessions, students, users } from '@/db/schema';
+import { attendanceRecords, courses, lectureSessions, students, users } from '@/data/db/schema';
 
 export async function GET(_req: Request, { params }: { params: Promise<{courseId: string}> }) {
   const courseId = (await params).courseId;
 
   
   const sessions = await db
-    .select({ sessionId: lectureSessions.sessionId, sessionDatetime: lectureSessions.sessionDatetime })
+    .select({ sessionId: lectureSessions.id, sessionDatetime: lectureSessions.sessionDatetime })
     .from(lectureSessions)
-    .innerJoin(courses, eq(lectureSessions.courseId, courses.courseId))
+    .innerJoin(courses, eq(lectureSessions.courseId, courses.id))
     .where(eq(courses.courseCode, courseId))
     .orderBy(desc(lectureSessions.sessionDatetime));
 
@@ -21,7 +21,7 @@ export async function GET(_req: Request, { params }: { params: Promise<{courseId
   
   const attendance = await db
     .select({
-      recordId: attendanceRecords.recordId,
+      recordId: attendanceRecords.id,
       sessionId: attendanceRecords.sessionId,
       studentId: attendanceRecords.studentId,
       attendanceRecord: attendanceRecords.attendanceRecord,
@@ -31,10 +31,10 @@ export async function GET(_req: Request, { params }: { params: Promise<{courseId
       matricNo: students.matricNo,
     })
     .from(attendanceRecords)
-    .innerJoin(lectureSessions, eq(attendanceRecords.sessionId, lectureSessions.sessionId))
-    .innerJoin(students, eq(attendanceRecords.studentId, students.studentId))
+    .innerJoin(lectureSessions, eq(attendanceRecords.sessionId, lectureSessions.id))
+    .innerJoin(students, eq(attendanceRecords.studentId, students.id))
     .innerJoin(users, eq(students.userId, users.id))
-    .innerJoin(courses, eq(lectureSessions.courseId, courses.courseId))
+    .innerJoin(courses, eq(lectureSessions.courseId, courses.id))
     .where(eq(courses.courseCode, courseId));
 
   

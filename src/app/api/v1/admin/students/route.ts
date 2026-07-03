@@ -1,12 +1,12 @@
 import { NextResponse } from "next/server";
-import { db } from "@/db";
-import { users, students } from "@/db/schema";
+import { db } from "@/data/db";
+import { users, students } from "@/data/db/schema";
 import { eq } from "drizzle-orm";
 
 async function getStudents() {
   const allStudents = await db
     .select({
-      studentId: students.studentId,
+      studentId: students.id,
       username: users.username,
       matricNo: students.matricNo,
     })
@@ -18,5 +18,5 @@ async function getStudents() {
 
 export async function GET(){
     const students = await getStudents();
-    return NextResponse.json(students || []);
+    return NextResponse.json(students);
 }

@@ -15,7 +15,7 @@ import {
   Legend,
   Cell,
 } from "recharts";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/admin/ui/card";
 import { AttendanceData } from "./LecturerReportContainer";
 
 interface DataVisualizationsProps {

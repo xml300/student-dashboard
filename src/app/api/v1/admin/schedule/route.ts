@@ -1,13 +1,13 @@
 import { NextResponse } from "next/server";
-import { db } from "@/db";
-import { lectureSessions, courses } from "@/db/schema";
+import { db } from "@/data/db";
+import { lectureSessions, courses } from "@/data/db/schema";
 import { eq } from "drizzle-orm";
 
 
 export async function GET() {
   const schedule = await db
     .select({
-      id: lectureSessions.sessionId,
+      id: lectureSessions.id,
       title: courses.courseName,
       date: lectureSessions.sessionDatetime,
       startTime: lectureSessions.sessionDatetime,
@@ -17,7 +17,7 @@ export async function GET() {
       courseCode: courses.courseCode,
     })
     .from(lectureSessions)
-    .leftJoin(courses, eq(lectureSessions.courseId, courses.courseId));
+    .leftJoin(courses, eq(lectureSessions.courseId, courses.id));
 
   
   const formatted = schedule.map((event) => ({
@@ -58,7 +58,7 @@ export async function PUT(req: Request) {
       ...(sessionDatetime && { sessionDatetime: new Date(sessionDatetime) }),
       ...(duration && { duration }),
     })
-    .where(eq(lectureSessions.sessionId, sessionId))
+    .where(eq(lectureSessions.id, sessionId))
     .returning();
   return NextResponse.json(updated[0] || {});
 }
@@ -70,6 +70,6 @@ export async function DELETE(req: Request) {
   if (!sessionId) {
     return NextResponse.json({ error: 'Missing sessionId' }, { status: 400 });
   }
-  await db.delete(lectureSessions).where(eq(lectureSessions.sessionId, sessionId));
+  await db.delete(lectureSessions).where(eq(lectureSessions.id, sessionId));
   return NextResponse.json({ success: true });
 }

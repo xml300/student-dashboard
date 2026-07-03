@@ -4,7 +4,7 @@ import { EllipsisVerticalIcon, PencilSquareIcon } from '@heroicons/react/24/outl
 import { useParams } from "next/navigation";
 import Link from "next/link";
 import { CourseOverview, AttendanceRecord, Record } from "@/types/data";
-import Pagination from '@/components/admin/components/Pagination';
+import Pagination from '@/components/admin/Pagination';
 
 const AttendancePage = () => {
   const params = useParams();
@@ -65,8 +65,8 @@ const AttendancePage = () => {
     fetchCourse();
   }, [courseId]);
 
-useEffect(() =>{
-setLoading(true);
+  useEffect(() => {
+    setLoading(true);
     async function fetchAttendanceRecords() {
       try {
         const response = await fetch(`/api/attendance/${courseId}`);
@@ -93,10 +93,10 @@ setLoading(true);
     fetchAttendanceRecords();
   }, [courseId]);
 
-  async function handleAttendanceEdit(recordId: number){
+  async function handleAttendanceEdit(recordId: number) {
     console.log(attendanceRecords, recordId)
     const sessionIndex = attendanceRecords.findIndex(s => s.id === recordId);
-      if (sessionIndex !== -1) {
+    if (sessionIndex !== -1) {
       fetch('/api/attendance/edit', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -121,7 +121,7 @@ setLoading(true);
   return (
     <div className="max-w-6xl mx-auto p-8 bg-gradient-to-br from-white via-blue-50 to-blue-100 dark:from-[#18181b] dark:via-[#232336] dark:to-[#1e293b] min-h-screen rounded-2xl shadow-xl">
       <h1 className="text-4xl font-extrabold mb-8 text-primary-accent dark:text-blue-400 tracking-tight drop-shadow">Attendance Records</h1>
-      
+
       <div className="mb-6 flex justify-end">
         <button
           className="px-6 py-3 rounded-lg bg-primary-accent text-white font-semibold shadow hover:bg-primary-accent/90 transition"
@@ -326,7 +326,7 @@ setLoading(true);
                         ))}
                       </tbody>
                     </table>
-                    
+
                     <Pagination
                       currentPage={currentPage}
                       totalPages={totalPages}

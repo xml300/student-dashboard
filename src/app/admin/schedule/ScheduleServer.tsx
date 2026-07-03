@@ -1,14 +1,14 @@
 import React from "react";
-import { db } from "@/db";
-import { lectureSessions, courses } from "@/db/schema";
+import { db } from "@/data/db";
+import { lectureSessions, courses } from "@/data/db/schema";
 import { eq } from "drizzle-orm";
-import LecturerScheduleClient from "@/app/(main)/schedule/LecturerScheduleClient";
+import LecturerScheduleClient from "./LecturerScheduleClient";
 
 
 const ScheduleServer = async () => {
   const schedule = await db
     .select({
-      id: lectureSessions.sessionId,
+      id: lectureSessions.id,
       title: courses.courseName,
       date: lectureSessions.sessionDatetime,
       startTime: lectureSessions.sessionDatetime,
@@ -18,7 +18,7 @@ const ScheduleServer = async () => {
       courseCode: courses.courseCode,
     })
     .from(lectureSessions)
-    .leftJoin(courses, eq(lectureSessions.courseId, courses.courseId));
+    .leftJoin(courses, eq(lectureSessions.courseId, courses.id));
 
   const formatted = schedule.map((event) => ({
     ...event,

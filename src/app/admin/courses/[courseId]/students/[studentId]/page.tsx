@@ -1,10 +1,36 @@
 import React from 'react';
-import PageHeading from '@/components/admin/components/PageHeading';
+import PageHeading from '@/components/admin/PageHeading';
+
+async function fetchData(studentId: string, courseId: string) {
+  return {
+    student: {
+      username: "John Doe",
+      matricNo: "123456789",
+      attendanceRate: 0.8,
+    },
+    course: {
+      courseName: "Introduction to Computer Science",
+      courseCode: "CSC101",
+    },
+    sessions: [
+      {
+        sessionId: 1,
+        sessionDatetime: new Date(),
+        attended: true,
+      },
+      {
+        sessionId: 2,
+        sessionDatetime: new Date(),
+        attended: false,
+      },
+    ],
+  };
+}
+
 
 const StudentDetailsPage = async ({ params }: { params: Promise<{ courseId: string, studentId: string }> }) => {
-  const {studentId, courseId} = await params;
-  const studentData = {student: null, course: null, sessions: []};
-  
+  const { studentId, courseId } = await params;
+  const studentData = await fetchData(studentId, courseId);
 
   if (!studentData) {
     return <div>Student not found</div>;
@@ -12,11 +38,11 @@ const StudentDetailsPage = async ({ params }: { params: Promise<{ courseId: stri
 
   const { student, course, sessions } = studentData;
 
-  if(!student) {
+  if (!student) {
     return <p>Student not found</p>;
   }
-  
-  if(!course) {
+
+  if (!course) {
     return <p>Course not found</p>;
   }
 
@@ -48,9 +74,9 @@ const StudentDetailsPage = async ({ params }: { params: Promise<{ courseId: stri
             </tr>
           </thead>
           <tbody>
-            {sessions.map((session: {sessionId: number, sessionDatetime: Date | null, attended: boolean}) => (
+            {sessions.map((session: { sessionId: number, sessionDatetime: Date | null, attended: boolean }) => (
               <tr key={session.sessionId} className="border-b border-border-color last:border-0">
-                <td className="py-3 px-4">{new Date(session.sessionDatetime || "").toLocaleDateString('en-US', {year: 'numeric', month: 'long', day: 'numeric'})}</td>
+                <td className="py-3 px-4">{new Date(session.sessionDatetime || "").toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}</td>
                 <td className="py-3 px-4 text-center">
                   <span className={`px-2 py-1 rounded-full text-xs ${session.attended ? 'bg-green-500/10 text-green-500' : 'bg-red-500/10 text-red-500'}`}>
                     {session.attended ? 'Present' : 'Absent'}

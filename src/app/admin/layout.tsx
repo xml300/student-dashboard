@@ -1,6 +1,6 @@
 import { Poppins } from "next/font/google";
-import "../globals.css"; 
-import MainLayoutClientWrapper from "@/components/admin/components/MainLayoutClientWrapper";
+import "../globals.css";
+import MainLayoutClientWrapper from "@/components/admin/MainLayoutClientWrapper";
 import { Metadata } from "next";
 
 const poppins = Poppins({
@@ -23,9 +23,9 @@ export default function RootLayout({
       <body
         className={`${poppins.className} bg-background text-foreground antialiased min-h-screen min-w-fit`}
       >
-          <MainLayoutClientWrapper>
-            {children}
-          </MainLayoutClientWrapper>
+        <MainLayoutClientWrapper>
+          {children}
+        </MainLayoutClientWrapper>
       </body>
     </html>
   );

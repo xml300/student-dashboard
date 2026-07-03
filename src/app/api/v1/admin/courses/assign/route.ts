@@ -1,16 +1,15 @@
-import { getServerSession } from 'next-auth';
 import { NextRequest, NextResponse } from 'next/server';
-import { authOptions } from '../../auth/[...nextauth]/authOptions';
-import { db } from '@/db';
-import { activities, courseAssignments, courses } from '@/db/schema';
+import { db } from '@/data/db';
+import { activities, courseAssignments, courses } from '@/data/db/schema';
 import { and, eq } from 'drizzle-orm';
+import { getCurrentUser } from '@/lib/auth';
 
 
 export async function POST(req: NextRequest) {
-  const session = await getServerSession(authOptions);
-  if (!session) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+  const user = await getCurrentUser();
+  if (!user) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
 
-  const lecturerId = session.lecturerId;
+  const lecturerId = user.lecturerId;
   try {
     const { courseId } = await req.json();
     if (!courseId || !lecturerId) {
@@ -20,7 +19,7 @@ export async function POST(req: NextRequest) {
     const course = await db.select().from(courses).where(eq(courses.courseCode, courseId));
     const existingAssignment = await db.select().from(courseAssignments)
       .where(and(
-        eq(courseAssignments.courseId, course[0].courseId),
+        eq(courseAssignments.courseId, course[0].id),
         eq(courseAssignments.lecturerId, lecturerId)
       ));
 
@@ -29,7 +28,7 @@ export async function POST(req: NextRequest) {
     }
 
     await db.insert(courseAssignments).values({
-      courseId: course[0].courseId,
+      courseId: course[0].id,
       lecturerId,
     });
 

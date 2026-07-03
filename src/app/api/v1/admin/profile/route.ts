@@ -1,10 +1,10 @@
 import { NextResponse } from 'next/server';
-import { db } from '@/db';
-import { lecturers, users, courses, courseAssignments, lectureSessions, lecturerDevices, studentEnrollments } from '@/db/schema';
+import { db } from '@/data/db';
+import { lecturers, users, courses, courseAssignments, lectureSessions, authorizedDevices, studentEnrollments } from '@/data/db/schema';
 import { eq, inArray, desc } from 'drizzle-orm';
 import { getServerSession } from 'next-auth';
 import { authOptions } from '../auth/[...nextauth]/authOptions';
-import { NSession } from '@/data/types/types';
+import { NSession } from '@/types/data';
 
 
 export async function GET() {
@@ -13,9 +13,10 @@ export async function GET() {
   if(!session) return NextResponse.json({message: "Unauthorized"}, {status: 401});
 
   const lecturerId = session.lecturerId;
+  const userId = (session as any).userId;
 
   
-  const lecturerRow = await db.select().from(lecturers).where(eq(lecturers.lecturerId, lecturerId)).limit(1);
+  const lecturerRow = await db.select().from(lecturers).where(eq(lecturers.id, lecturerId)).limit(1);
   const lecturer = lecturerRow[0];
   let user = null;
   if (lecturer) {
@@ -29,20 +30,20 @@ export async function GET() {
     assignment: courseAssignments,
   })
     .from(courses)
-    .innerJoin(courseAssignments, eq(courses.courseId, courseAssignments.courseId))
+    .innerJoin(courseAssignments, eq(courses.id, courseAssignments.courseId))
     .where(eq(courseAssignments.lecturerId, lecturerId));
 
   
   const coursesData = await Promise.all(courseRows.map(async ({ course }) => {
     
-    const enrollments = await db.select().from(studentEnrollments).where(eq(studentEnrollments.courseId, course.courseId));
+    const enrollments = await db.select().from(studentEnrollments).where(eq(studentEnrollments.courseId, course.id));
     const students = enrollments.length;
     
-    const sessions = await db.select().from(lectureSessions).where(eq(lectureSessions.courseId, course.courseId));
+    const sessions = await db.select().from(lectureSessions).where(eq(lectureSessions.courseId, course.id));
     
     const attendanceRate = 0;
     return {
-      id: course.courseId,
+      id: course.id,
       name: course.courseName,
       students,
       sessions: sessions.length,
@@ -51,9 +52,9 @@ export async function GET() {
   }));
 
   
-  const deviceRows = await db.select().from(lecturerDevices).where(eq(lecturerDevices.lecturerId, lecturerId));
+  const deviceRows = await db.select().from(authorizedDevices).where(eq(authorizedDevices.userId, userId));
   const devicesData = deviceRows.map(device => ({
-    id: device.deviceId,
+    id: device.id,
     name: device.deviceUUID,
     type: device.deviceType,
     lastUsed: device.updatedAt,
@@ -62,13 +63,13 @@ export async function GET() {
   }));
 
   
-  const courseIds = courseRows.map(({ course }) => course.courseId);
+  const courseIds = courseRows.map(({ course }) => course.id);
   const recentSessionsRows = await db.select().from(lectureSessions)
     .where(inArray(lectureSessions.courseId, courseIds))
     .orderBy(desc(lectureSessions.sessionDatetime))
     .limit(5);
   const recentSessions = recentSessionsRows.map(session => ({
-    id: session.sessionId,
+    id: session.id,
     course: session.courseId,
     date: session.sessionDatetime,
     time: session.sessionDatetime,
@@ -78,12 +79,12 @@ export async function GET() {
 
   
   const response = {
-    id: lecturer?.lecturerId ?? '',
+    id: lecturer.id,
     name: user?.username ?? '',
     department: '', 
     email: '', 
     phone: '', 
-    joinDate: lecturer?.createdAt ?? '',
+    joinDate: lecturer.createdAt,
     profileImage: '/default-profile.png',
     courses: coursesData,
     devices: devicesData,
@@ -103,7 +104,7 @@ export async function POST(request: Request) {
     const lecturerId = session.lecturerId;
     const { name } = await request.json(); 
 
-    const lecturerRow = await db.select().from(lecturers).where(eq(lecturers.lecturerId, lecturerId)).limit(1);
+    const lecturerRow = await db.select().from(lecturers).where(eq(lecturers.id, lecturerId)).limit(1);
     const lecturer = lecturerRow[0];
 
     if (!lecturer) {
@@ -115,7 +116,7 @@ export async function POST(request: Request) {
     }).where(eq(users.id, lecturer.userId));
 
     
-    const { addActivity } = await import("@/app/api/dashboard/addActivity");
+    const { addActivity } = await import("@/app/api/v1/admin/dashboard/addActivity");
     await addActivity({
       category: "User Management",
       action: "Profile updated",

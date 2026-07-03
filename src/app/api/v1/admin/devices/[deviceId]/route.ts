@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
-import { db } from "@/db";
-import { lecturerDevices, courseAssignments, courses, lectureSessions, activities } from "@/db/schema";
+import { db } from "@/data/db";
+import { authorizedDevices, courseAssignments, courses, lectureSessions, activities, lecturers } from "@/data/db/schema";
 import { eq, inArray, desc } from "drizzle-orm";
 
 interface NewActivity {
@@ -16,7 +16,7 @@ export async function GET(req: Request, context: { params: Promise<{ deviceId: s
   }
   try {
     
-    const found = await db.select().from(lecturerDevices).where(eq(lecturerDevices.deviceId, Number(deviceId)));
+    const found = await db.select().from(authorizedDevices).where(eq(authorizedDevices.id, Number(deviceId)));
     if (!found.length) {
       return NextResponse.json({ error: "Device not found" }, { status: 404 });
     }
@@ -25,18 +25,18 @@ export async function GET(req: Request, context: { params: Promise<{ deviceId: s
 
     
     let assignedCourses: string[] = [];
-    if (device.lecturerId) {
+    if (device.userId) {
       
       const assignments = await db.select({ courseId: courseAssignments.courseId })
         .from(courseAssignments)
-        .where(eq(courseAssignments.lecturerId, device.lecturerId));
+        .where(eq(courseAssignments.lecturerId, device.userId));
       if (assignments.length) {
         const courseIds = assignments.map(a => a.courseId).filter((id): id is number => typeof id === 'number');
         
         const courseRows = courseIds.length > 0
           ? await db.select({ name: courses.courseName, code: courses.courseCode })
             .from(courses)
-            .where(inArray(courses.courseId, courseIds))
+            .where(inArray(courses.id, courseIds))
           : [];
         assignedCourses = courseRows.map(c => `${c.code} - ${c.name}`);
       }
@@ -58,15 +58,17 @@ export async function GET(req: Request, context: { params: Promise<{ deviceId: s
         details: a.details,
         category: a.category
       }));
-    } else if (device.lecturerId) {
+    } else if (device.userId) {
       
       const sessions = await db.select({
         event: lectureSessions.sessionDatetime,
         courseId: lectureSessions.courseId,
-        sessionId: lectureSessions.sessionId
+        sessionId: lectureSessions.id
       })
         .from(lectureSessions)
-        .where(eq(lectureSessions.courseId, device.lecturerId))
+        .leftJoin(courseAssignments, eq(courseAssignments.courseId, lectureSessions.courseId))
+        .leftJoin(lecturers, eq(lecturers.id, courseAssignments.lecturerId))
+        .where(eq(lecturers.userId, device.userId))
         .orderBy(desc(lectureSessions.sessionDatetime))
         .limit(5);
       recentActivity = sessions.map(s => ({
@@ -79,7 +81,7 @@ export async function GET(req: Request, context: { params: Promise<{ deviceId: s
 
     
     const response = {
-      id: device.deviceId,
+      id: device.id,
       name: device.deviceUUID,
       type: device.deviceType || "Tablet",
       model: device.deviceUUID,

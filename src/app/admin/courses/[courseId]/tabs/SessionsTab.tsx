@@ -3,10 +3,10 @@ import { PlusIcon } from '@heroicons/react/24/outline';
 import Link from 'next/link';
 
 import { CourseDisplay } from '@/types/data';
-import Pagination from '@/components/admin/components/Pagination';
+import Pagination from '@/components/admin/Pagination';
 
-const SessionsTab = ({ course }: {course: CourseDisplay}) => {
-  
+const SessionsTab = ({ course }: { course: CourseDisplay }) => {
+
   const sessions = course.recentSessions || [];
   const sessionsPerPage = 10;
   const [currentPage, setCurrentPage] = React.useState(1);
