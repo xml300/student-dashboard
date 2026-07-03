@@ -1,5 +1,5 @@
 "use client";
-import DashboardAttendanceTrend, { AttendanceTrendPoint } from "@/components/DashboardAttendanceTrend";
+import DashboardAttendanceTrend, { AttendanceTrendPoint } from "@/components/admin/components/DashboardAttendanceTrend";
 import React, { useEffect, useState } from "react";
 
 const DashboardAttendanceTrendLoader: React.FC = () => {

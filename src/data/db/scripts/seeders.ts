@@ -1,19 +1,11 @@
 import { drizzle } from 'drizzle-orm/node-postgres';
 import { Pool } from 'pg';
-import * as all from './schema';
+import { Student, User, users, Course, students, courses, lectureSessions, attendanceRecords, studentEnrollments, authorizedDevices } from '../schema';
 import { faker } from '@faker-js/faker';
 import * as bcrypt from 'bcryptjs';
 import { eq } from 'drizzle-orm';
 
-const {
-    users,
-    students,
-    courses,
-    lectureSessions,
-    attendanceRecords,
-    studentEnrollments,
-    authorizedDevices,
-} = all;
+
 
 const main = async () => {
     const client = new Pool({
@@ -23,18 +15,16 @@ const main = async () => {
 
     console.log('Seeding started... 🚀');
     
-
-    
-    const userList: (typeof users.$inferInsert)[] = [];
-    const studentList: (typeof students.$inferInsert)[] = [];
+    const userList: User[] = [];
+    const studentList: Student[] = [];
     const saltRounds = 10;
-    
+
     for (let i = 0; i < 20; i++) {
         const hashedPassword = await bcrypt.hash('password123', saltRounds);
         const newUser = await db.insert(users).values({
-            username: faker.internet.userName(),
+            username: faker.internet.username(),
             password: hashedPassword,
-            userType: 0, 
+            userType: 0,
         }).returning();
         userList.push(newUser[0]);
 
@@ -46,8 +36,7 @@ const main = async () => {
     }
     console.log('✔ Users, Lecturers, and Students created.');
 
-    
-    const courseList: (typeof courses.$inferInsert)[] = [];
+    const courseList: Course[] = [];
     const courseData = [
         { name: 'Introduction to Computer Science', code: 'CSC101', unit: 3, semester: 1 },
         { name: 'Data Structures and Algorithms', code: 'CSC201', unit: 4, semester: 2 },
@@ -68,59 +57,47 @@ const main = async () => {
         courseList.push(newCourse[0]);
     }
     console.log('✔ Courses created.');
-
-    
     console.log('✔ Lecturers assigned to courses.');
 
-
-    
     for (const student of studentList) {
-        
         const coursesToEnroll = faker.helpers.arrayElements(courseList, faker.number.int({ min: 2, max: 4 }));
         for (const course of coursesToEnroll) {
             await db.insert(studentEnrollments).values({
-                studentId: student.studentId,
-                courseId: course.courseId,
+                studentId: student.id,
+                courseId: course.id,
                 enrollmentStatus: 'Ongoing',
             });
         }
     }
     console.log('✔ Students enrolled in courses.');
 
-
-    
     for (const course of courseList) {
-        
         for (let i = 0; i < 5; i++) {
             const newSession = await db.insert(lectureSessions).values({
-                courseId: course.courseId,
+                courseId: course.id,
                 sessionDatetime: faker.date.recent({ days: 30 }),
-                duration: faker.number.int({ min: 60, max: 120 }), 
+                duration: faker.number.int({ min: 60, max: 120 }),
             }).returning();
 
-            
             const enrolledStudents = await db.select()
                 .from(studentEnrollments)
-                .where(eq(studentEnrollments.courseId, course.courseId!))
-                .innerJoin(students, eq(students.studentId, studentEnrollments.studentId));
+                .where(eq(studentEnrollments.courseId, course.id!))
+                .innerJoin(students, eq(students.id, studentEnrollments.studentId));
 
-
-            
             for (const enrollment of enrolledStudents) {
                 await db.insert(attendanceRecords).values({
-                    sessionId: newSession[0].sessionId,
-                    studentId: enrollment.students.studentId,
-                    attendanceRecord: faker.helpers.arrayElement([0, 1]), 
+                    sessionId: newSession[0].id,
+                    studentId: enrollment.students.id,
+                    attendanceRecord: faker.helpers.arrayElement([0, 1]),
                 });
             }
         }
     }
     console.log('✔ Lecture sessions and attendance records created.');
 
-    
     for (const student of studentList) {
         await db.insert(authorizedDevices).values({
-            studentId: student.studentId,
+            userId: student.userId,
             deviceUUID: faker.string.uuid(),
             deviceType: faker.helpers.arrayElement(['Laptop', 'Phone']),
             status: 'Authorized',
@@ -128,8 +105,6 @@ const main = async () => {
     }
 
     console.log('✔ Authorized devices for students and lecturers created.');
-
-
     console.log('Seeding finished successfully! 🌱');
     process.exit(0);
 };
