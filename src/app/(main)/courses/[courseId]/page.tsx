@@ -7,6 +7,7 @@ import Link from 'next/link';
 import OverviewTab from './tabs/OverviewTab';
 import AttendanceRecordsTab from './tabs/AttendanceRecordsTab';
 import StudentsTab from './tabs/StudentsTab';
+import { api } from '@/lib/api';
 
 interface CourseOverview {
   courseId: number;
@@ -35,11 +36,7 @@ const CourseManagementPage = () => {
 
       try {
         setLoading(true);
-        const response = await fetch(`/api/courses/${courseId}`);
-        if (!response.ok) {
-          throw new Error('Failed to fetch course details');
-        }
-        const data = await response.json();
+        const data = await api.get<CourseOverview>(`/courses/${courseId}`);
         setCourse(data);
       } catch (err) {
         setError(err instanceof Error ? err.message : 'An unknown error occurred');

@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import { PlusCircleIcon, CalendarDaysIcon, ClockIcon, BookOpenIcon } from '@heroicons/react/24/outline';
+import { api } from '@/lib/api';
 
 interface Schedule {
   id: number;
@@ -23,8 +24,7 @@ export default function SchedulePage() {
 
   useEffect(() => {
     const fetchSchedule = async () => {
-      const res = await fetch('/api/schedule');
-      const data = await res.json();
+      const data = await api.get('/schedule');
       setSchedule(data);
     };
     fetchSchedule();
@@ -32,28 +32,20 @@ export default function SchedulePage() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    const res = await fetch('/api/schedule', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        courseId: parseInt(courseId),
-        dayOfWeek: parseInt(dayOfWeek),
-        startTime,
-        endTime,
-      }),
+    const newSchedule = await api.post<Schedule>('/schedule', {
+      courseId: parseInt(courseId),
+      dayOfWeek: parseInt(dayOfWeek),
+      startTime,
+      endTime,
     });
 
-    if (res.ok) {
-      const newSchedule = await res.json();
-      setSchedule([...schedule, newSchedule]);
-      setCourseId('');
-      setDayOfWeek('');
-      setStartTime('');
-      setEndTime('');
-      setIsModalOpen(false);
-    }
+    setSchedule([...schedule, newSchedule]);
+    setCourseId('');
+    setDayOfWeek('');
+    setStartTime('');
+    setEndTime('');
+    setIsModalOpen(false);
+
   };
 
   return (

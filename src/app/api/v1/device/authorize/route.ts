@@ -9,14 +9,20 @@ import { eq } from 'drizzle-orm';
 
 export async function GET(request: NextRequest) {
     const user = await getCurrentUser();
-    const studentId = (user as any)?.studentId;
+    const studentId = (user as any).studentId;
 
     if (!studentId) {
-        return new NextResponse('Unauthorized', { status: 401 });
+        return NextResponse.json({
+            success: false,
+            error: {
+                code: 401,
+                message: 'Unauthorized'
+            }
+        }, { status: 401 });
     }
 
     const existingDevice = await db.query.authorizedDevices.findFirst({
-        where: eq(authorizedDevices.studentId, studentId),
+        where: eq(authorizedDevices.userId, (user as any).id),
     });
 
     if (existingDevice) {
@@ -53,7 +59,7 @@ export async function GET(request: NextRequest) {
     const image = canvas.toDataURL();
 
     const newDeviceResult = await db.insert(authorizedDevices).values({
-        studentId: studentId,
+        userId: (user as any).id,
         deviceUUID: uuid,
         deviceType: 'Laptop',
         status: 'active',
@@ -62,7 +68,13 @@ export async function GET(request: NextRequest) {
     const newDevice = newDeviceResult[0];
 
     if (!newDevice || !newDevice.authorizedAt) {
-        return new NextResponse('Failed to create device', { status: 500 });
+        return NextResponse.json({
+            success: false,
+            error: {
+                code: 500,
+                message: 'Failed to create device'
+            }
+        }, { status: 500 });
     }
 
     const etag = newDevice.authorizedAt.toISOString();

@@ -1,4 +1,5 @@
 "use client"
+import { api } from '@/lib/api';
 import {
   AcademicCapIcon,
   CalendarDaysIcon,
@@ -42,11 +43,7 @@ const DashboardPage = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const res = await fetch('/api/dashboard');
-        if (!res.ok) {
-          throw new Error('Failed to fetch dashboard data');
-        }
-        const data = await res.json();
+        const data = await api.get<{ userName: string; attendanceStats: AttendanceStat[]; attendanceNotifications: Notification[]; attendanceActivity: Activity[]; deviceInfo: DeviceInfo | null }>('/dashboard');
         setUserName(data.userName);
         setAttendanceStats(data.attendanceStats.map((stat: any, index: number) => ({ ...stat, icon: [AcademicCapIcon, ClipboardDocumentCheckIcon, CalendarDaysIcon, ClockIcon][index] })));
         setAttendanceNotifications(data.attendanceNotifications);

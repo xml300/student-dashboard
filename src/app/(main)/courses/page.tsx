@@ -12,6 +12,7 @@ import {
 import Link from 'next/link';
 import AddCourseModal from '@/components/AddCourseModal';
 import { CourseOverview } from '@/types';
+import { api } from '@/lib/api';
 
 interface Course {
   id: string;
@@ -41,14 +42,10 @@ export default function CoursesPage() {
     // Fetch courses from API
     const fetchCourses = async () => {
       try {
-        const res = await fetch('/api/courses');
-        if (!res.ok) throw new Error('Failed to fetch courses');
-        const data = await res.json();
+        const data = await api.get<CourseOverview[]>('/courses');
         setCourses(data || []);
 
-        const res2 = await fetch('/api/courses?isAll=true');
-        if (!res2.ok) throw new Error('Failed to fetch courses');
-        const data2 = await res2.json();
+        const data2 = await api.get<CourseOverview[]>('/courses?isAll=true');
         setAvailableCourses(data2 || []);
       } catch (err) {
         // fallback or error UI could be added here
@@ -74,14 +71,8 @@ export default function CoursesPage() {
   };
 
   const handleSelectCourse = async (courseId: string) => {
-    const res = await fetch('/api/courses/add', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ courseId }),
-    });
-    if (!res.ok) return alert('Failed to add course');
+    const data = await api.post<{success: boolean}>('/courses/add', { courseId });
+    if (!data.success) return alert('Failed to add course');
     const courseToAdd = availableCourses.find(c => c.id === courseId);
     if (courseToAdd) {
       setCourses((prevCourses) => [...prevCourses, courseToAdd]);

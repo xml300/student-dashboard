@@ -2,6 +2,7 @@
 import React, { useState, useEffect } from 'react';
 import { ArrowLeftIcon, DevicePhoneMobileIcon, CheckBadgeIcon } from '@heroicons/react/24/outline';
 import Link from 'next/link';
+import { api } from '@/lib/api';
 
 type DeviceInfo = {
   name: string;
@@ -19,9 +20,8 @@ export default function DeviceManagePage() {
   useEffect(() => {
     const fetchDeviceStatus = async () => {
       try {
-        const res = await fetch('/api/device/authorize');
-        if (res.ok) {
-          const data = await res.json();
+        const data = await api.get<{uuid: string}>('/device/authorize');
+        if (data) {
           setDeviceInfo({
             name: 'Authorized Device',
             id: data.uuid,
@@ -40,17 +40,15 @@ export default function DeviceManagePage() {
   const handleAuthorizeDevice = async () => {
     setAuthorizing(true);
     try {
-      const res = await fetch('/api/device/authorize');
-      if (res.status === 304) {
+      const data = await api.get<{uuid: string, image: string}>('/device/authorize');
+      if (data.s) {
         alert('Device already authorized.');
-        const data = await res.json();
         setDeviceInfo({
           name: 'Authorized Device',
           id: data.uuid,
           lastActive: new Date().toLocaleString(),
         });
-      } else if (res.ok) {
-        const data = await res.json();
+      } else if (data) {
         setAuthImage(data.image); // image should be a base64 string or URL
         setEtag(res.headers.get('ETag'));
         setDeviceInfo({
@@ -77,12 +75,7 @@ export default function DeviceManagePage() {
       const formData = new FormData();
       formData.append('image', file);
       // Replace with your backend endpoint
-      const res = await fetch('/api/device/validate', {
-        method: 'POST',
-        body: formData,
-      });
-      if (!res.ok) throw new Error('Validation failed');
-      const data = await res.json();
+      const data = await api.post('/device/validate', formData);
       if (data.valid) {
         alert('Device authorization validated!');
       } else {

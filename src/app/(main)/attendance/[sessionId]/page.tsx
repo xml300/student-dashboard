@@ -3,6 +3,7 @@ import { useEffect, useState, useRef } from 'react';
 import { useParams } from 'next/navigation';
 import { CheckCircleIcon, ExclamationCircleIcon } from '@heroicons/react/24/outline';
 import { useRouter } from 'next/navigation';
+import { api } from '@/lib/api';
 
 const validateDeviceAuthorization = async (imageData: string) => {
       try {
@@ -12,19 +13,14 @@ const validateDeviceAuthorization = async (imageData: string) => {
         if (!file) return;
         const formData = new FormData();
         formData.append('image', file);
-        const res = await fetch('/api/device/validate', {
-          method: 'POST',
-          body: formData,
-        });
-        if (!res.ok) throw new Error('Validation failed');
-        const data = await res.json();
+        const data = await api.post<{valid: boolean; uuid: string}>('/device/validate', formData);
         if (data.valid) {
-          return [true, data.uuid];
+          return {success: true, uuid: data.uuid};
         } else {
-          return [false, null];
+          return {success: false, uuid: null};
         }
       } catch (error) {
-        alert('Failed to validate device.');
+        console.error(error);
       }
   };
 
@@ -32,7 +28,7 @@ export default function AttendancePage() {
     const router = useRouter();
     const params = useParams();
     const sessionId = params?.sessionId as string;
-    const [deviceUUID, setDeviceUUID] = useState(null);
+    const [deviceUUID, setDeviceUUID] = useState<string | null>(null);
     const [currentRoom, setCurrentRoom] = useState<{id: string, name: string, status: string} | null>(null);
     const [currentSession, setCurrentSession] = useState<{id: string, name: string, time: string, status: string} | null>(null);
     const intervalRef = useRef<number | null>(null);
@@ -42,9 +38,7 @@ export default function AttendancePage() {
     async function fetchAttendanceData() {
       if (!sessionId) return;
       try {
-        const res = await fetch(`/api/attendance-summary?attendID=${sessionId}`);
-        if (!res.ok) throw new Error('Failed to fetch attendance data');
-        const data = await res.json();
+        const data = await api.get<{room: {id: string, name: string, status: string}, session: {id: string, name: string, time: string, status: string}}>(`/attendance-summary?attendID=${sessionId}`);
         setCurrentRoom(data.room);
         setCurrentSession(data.session);
       } catch (err) {
@@ -56,17 +50,16 @@ export default function AttendancePage() {
 
 
     // Device authorization
-    fetch('/api/device/authorize')
-      .then(res => res.json())
+    api.get<{image: string}>('/device/authorize')
       .then(json => {
         return validateDeviceAuthorization(json.image);
-      }).then( arr => {
-        if(arr){
-        const [isValid, deviceUUID] = arr;
-        if(!isValid){
+      }).then( obj => {
+        if(obj){
+        const { success, uuid } = obj;
+        if(!success){
           router.push("/dashboard");
         }
-        setDeviceUUID(deviceUUID);
+        setDeviceUUID(uuid);
       }
       });
     
@@ -90,12 +83,9 @@ export default function AttendancePage() {
         return;
       }
 
-      const uuids = await fetch("/api/attendance-rooms", {
-        method: "POST",
-        headers: {'Content-Type': 'application/json'},
-        body: JSON.stringify({sessionId: sessionId})
-      }).then(res => res.json());
-      console.log(deviceUUID);
+      const uuids = await api.post<{
+        rooms: string[];
+      }>("/attendance-rooms", { sessionId: sessionId });
 
       const SERVICE_UUIDs = uuids.rooms;
       const CHARACTERISTIC_UUID = "bfc0c92f-317d-4ba9-976b-cc11ce77b4ca";
@@ -124,13 +114,10 @@ export default function AttendancePage() {
       const uuidValue = decoder.decode(value);
 
 
-      const res = await fetch('/api/attendance/mark', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ uuid: deviceUUID, sessionId: currentSession?.id }),
+      const data = await api.post<{success: boolean}>('/attendance/mark', {
+        uuid: deviceUUID, 
+        sessionId: currentSession?.id 
       });
-      if (!res.ok) throw new Error('Attendance marking failed');
-      const data = await res.json();
       if (data.success) {
         alert('Attendance marked successfully!');
         router.push('/dashboard');

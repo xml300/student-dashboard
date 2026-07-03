@@ -15,6 +15,8 @@ export async function middleware(request: NextRequest) {
         secret: process.env.NEXTAUTH_SECRET,
     });
 
+    console.log(pathname, token);
+
     if (pathname.startsWith("/api/v1") && !token) {
         return NextResponse.json({
             success: false,
