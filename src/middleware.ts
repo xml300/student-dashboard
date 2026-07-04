@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
 import { getToken } from 'next-auth/jwt';
+import { UserRole } from './types/auth';
 
 export async function middleware(request: NextRequest) {
     const { pathname } = request.nextUrl;
@@ -14,7 +15,7 @@ export async function middleware(request: NextRequest) {
         req: request,
         secret: process.env.NEXTAUTH_SECRET,
     });
- 
+
     if (pathname.startsWith("/api/v1") && !token) {
         return NextResponse.json({
             success: false,
@@ -29,6 +30,26 @@ export async function middleware(request: NextRequest) {
         return NextResponse.redirect(new URL('/login', request.url));
     }
 
+    const roleId = token.roleId;
+    if (roleId === UserRole.STUDENT) {
+        if (pathname.startsWith('/admin') || pathname.startsWith('/api/v1/admin') || pathname === '/') {
+            return NextResponse.redirect(new URL('/dashboard', request.url));
+        }
+    } else if (roleId === UserRole.LECTURER || roleId === UserRole.ADMIN) {
+        const studentRoutes = [
+            '/dashboard',
+            '/courses',
+            '/device',
+            '/attendance',
+            '/profile',
+            '/schedule',
+            '/settings'
+        ]; 
+        const isStudentRoute = studentRoutes.some(route => pathname.startsWith(route));
+        if (isStudentRoute || pathname === '/') {
+            return NextResponse.redirect(new URL('/admin', request.url));
+        }
+    }
     return NextResponse.next();
 }
 

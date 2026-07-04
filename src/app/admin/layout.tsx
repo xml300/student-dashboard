@@ -21,10 +21,6 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const user = await getCurrentUser();
-  if (user?.roleId !== 1) {
-    return redirect("/");
-  }
   return (
     <html lang="en">
       <body

@@ -17,3 +17,9 @@ export interface SessionUser {
     matricNo?: string;
     lecturerId?: number;
 }
+
+export enum UserRole {
+    STUDENT = 0,
+    LECTURER = 1,
+    ADMIN = 2
+}

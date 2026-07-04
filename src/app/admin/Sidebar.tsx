@@ -9,6 +9,7 @@ import {
   DevicePhoneMobileIcon,
   ArrowRightOnRectangleIcon,
 } from "@heroicons/react/24/outline";
+import { signOut } from "next-auth/react";
 
 interface SidebarProps {
   isOpen: boolean;
@@ -79,13 +80,13 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, onClose }) => {
         </div>
         
         <div className="absolute left-0 bottom-0 w-full p-4">
-          <Link
-            href="/logout"
+          <button
+            onClick={() => signOut({callbackUrl: "/login"})}
             className="flex items-center justify-center gap-2 px-4 py-2 rounded-lg bg-red-100 dark:bg-red-900 text-red-700 dark:text-red-300 font-semibold hover:bg-red-200 dark:hover:bg-red-800 transition w-full"
           >
             <ArrowRightOnRectangleIcon className="h-5 w-5" />
             Logout
-          </Link>
+          </button>
         </div>
       </aside>
     </>

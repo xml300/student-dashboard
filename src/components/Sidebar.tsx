@@ -9,6 +9,7 @@ import {
   XMarkIcon,
 } from '@heroicons/react/24/outline';
 import { usePathname } from "next/navigation";
+import { signOut } from "next-auth/react";
 
 type Props = {
   sidebarOpen: boolean;
@@ -79,7 +80,7 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: Props) => {
         </div>
         <button
           className="flex items-center gap-3 py-2 px-4 rounded-lg text-neutral-300 hover:bg-neutral-800 hover:text-white transition-all duration-200 w-full font-semibold"
-          onClick={() => alert('Logout functionality coming soon!')}
+          onClick={() => signOut({callbackUrl: "/login"})}
         >
           <ArrowLeftEndOnRectangleIcon className="h-6 w-6 text-neutral-400 group-hover:text-white transition-colors duration-200" />
           <span>Logout</span>

@@ -26,7 +26,7 @@ export default function SignupForm() {
     if (result?.error) {
       setError(result.error);
     } else {
-      router.push(redirectUrl);
+      router.push('/');
     }
   };
 
