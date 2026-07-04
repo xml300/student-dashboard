@@ -1,16 +1,19 @@
-import CourseClient from './CourseClient';
-import { getServerSession } from 'next-auth';
-import { authOptions } from '@/app/api/auth/[...nextauth]/authOptions';
-import { Coursex, NSession } from '@/types/data';
+import CourseClient from './CourseClient'; 
+import { Coursex } from '@/types/data';
 import { Courses } from '@/data/models/courses';
+import { getCurrentUser } from '@/lib/auth';
 
 export default async function CoursesPage() {
-  const session: NSession | null = await getServerSession(authOptions);
-  if (!session){
+  const user = await getCurrentUser();
+  if (!user){
     return (<p>Unauthorized</p>)
   }
+
+  if(!user.lecturerId){
+    return (<p>No Lecturer Assigned</p>)
+  }
   
-  const courseRows = await Courses.getByLecturerId(session.lecturerId);
+  const courseRows = await Courses.getByLecturerId(user.lecturerId);
   const availableCourses = await Courses.get();
 
   return (

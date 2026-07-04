@@ -1,17 +1,15 @@
-import { db } from '@/data/db';
-import { getServerSession } from 'next-auth';
-import { authOptions } from '@/app/api/auth/[...nextauth]/authOptions';
+import { db } from '@/data/db'; 
 import { lecturers, users, courses, courseAssignments, lectureSessions, authorizedDevices, studentEnrollments } from '@/data/db/schema';
 import LecturerProfileClient from './LecturerProfileClient';
 import { desc, inArray, eq } from 'drizzle-orm'; 
-import { NSession } from '@/types/data';
+import { getCurrentUser } from '@/lib/auth';
 
 export default async function LecturerProfilePage() {
-  const session: NSession | null = await getServerSession(authOptions);
-  if (!session || !session.lecturerId) {
+  const userSession = await getCurrentUser();
+  if (!userSession || !userSession.lecturerId) {
     return <div>Unauthorized</div>;
-  }
-  const lecturerId = session.lecturerId;
+  } 
+  const lecturerId = userSession.lecturerId;
 
   
   const lecturerRow = await db.select().from(lecturers).where(eq(lecturers.id, lecturerId)).limit(1);

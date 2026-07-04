@@ -1,24 +1,30 @@
 import { NextResponse } from "next/server";
 import { db } from "@/data/db";
 import { courses, courseAssignments } from "@/data/db/schema";
-import { eq } from "drizzle-orm";
-import { getServerSession } from "next-auth";
-import { NSession } from "@/types/data";
-import { authOptions } from "../auth/[...nextauth]/authOptions";
+import { eq } from "drizzle-orm"; 
 import { Courses } from "@/data/models/courses";
+import { getCurrentUser } from "@/lib/auth";
 
 
 export async function GET() {
-  const session: NSession | null = await getServerSession(authOptions);
-  if (!session) return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
+  const user = await getCurrentUser();
+  if (!user) return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
 
-  const coursesList = await Courses.getByLecturerId(session.lecturerId);
+  if(!user.lecturerId){
+    return NextResponse.json({ message: "No Lecturer Assigned" }, { status: 401 });
+  }
+
+  const coursesList = await Courses.getByLecturerId(user.lecturerId);
   return NextResponse.json(coursesList);
 }
 
 export async function POST(req: Request) {
-  const session: NSession | null = await getServerSession(authOptions);
-  if (!session) return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
+  const user = await getCurrentUser();
+  if (!user) return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
+
+  if(!user.lecturerId){
+    return NextResponse.json({ message: "No Lecturer Assigned" }, { status: 401 });
+  }
 
   const { courseName, courseCode, courseDesc, courseUnit, semester, status } = await req.json();
   if (!courseName || !courseCode || !courseDesc) {
@@ -45,11 +51,11 @@ export async function POST(req: Request) {
     category: "Course Management",
     action: "Created new course",
     affectedItem: courseCode,
-    details: `Course '${courseName}' created by lecturer ${session!.lecturerId}`
+    details: `Course '${courseName}' created by lecturer ${user.lecturerId}`
   });
 
   await db.insert(courseAssignments).values({
-    lecturerId: session.lecturerId,
+    lecturerId: user.lecturerId,
     courseId: course[0].id,
   });
 

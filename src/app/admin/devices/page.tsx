@@ -1,22 +1,19 @@
-
-import { getServerSession } from 'next-auth';
 import { db } from '@/data/db';
 import { authorizedDevices } from '@/data/db/schema';
 import DevicesManagementClient from './DevicesManagementClient';
-import { Device, NSession } from '@/types/data';
-import { authOptions } from '@/app/api/auth/[...nextauth]/authOptions';
+import { Device, NSession } from '@/types/data'; 
 import { eq } from 'drizzle-orm';
+import { getCurrentUser } from '@/lib/auth';
 
 export default async function DevicesManagementPage() {
-  const session: NSession | null = await getServerSession(authOptions);
-  if(!session) return <p>Unauthorized</p>;
+  const user = await getCurrentUser();
+  if(!user) return <p>Unauthorized</p>;
 
-  const lecturerId = session.lecturerId;
-  if (!lecturerId) {
+  if(!user.lecturerId){
     return <div className="p-8">No lecturer session found.</div>;
   }
   
-  const dbDevices = await db.select().from(authorizedDevices).where(eq(authorizedDevices.userId, (session as any).id));
+  const dbDevices = await db.select().from(authorizedDevices).where(eq(authorizedDevices.userId, user.id));
   const devices: Device[] = dbDevices.map((dbDevice) => ({
     id: dbDevice.id,
     name: `Device ${dbDevice.id}`,
