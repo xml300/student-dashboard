@@ -11,6 +11,7 @@ export function AuthenticationCheck() {
         if(!session) router.push("/login"); // Redirect if not authenticated
     }, [session, status, router]);
 
+
     return (
         <></>
     );

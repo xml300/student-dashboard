@@ -1,7 +1,12 @@
 import { eq } from "drizzle-orm";
 import { db } from "../db";
 import { Student, students, users } from "../db/schema";
+import bcrypt from "bcryptjs";
 
+interface StudentEntity {
+    matricNo: string;
+    password: string;
+}
 
 export const Students = {
     get: async () => {
@@ -12,9 +17,22 @@ export const Students = {
         const [student] = await db.select().from(students).innerJoin(users, eq(students.userId, users.id)).where(eq(students.userId, id)).limit(1);
         return student;
     },
-    create: async (data: typeof students.$inferInsert) => {
-        const [newStudent] = await db.insert(students).values(data).returning();
-        return newStudent;
+    create: async (data: StudentEntity) => {
+        const trxResult = await db.transaction(async (tx) => {
+            const hashedPassword = await bcrypt.hash(data.password, 10);
+            const [newUser] = await tx.insert(users).values({
+                username: data.matricNo,
+                password: hashedPassword,
+                userType: 0
+            }).returning();
+            const [newStudent] = await tx.insert(students).values({
+                userId: newUser.id,
+                matricNo: data.matricNo
+            }).returning();
+            return {newUser, newStudent};
+        });
+        console.log(trxResult);
+        return trxResult;
     },
     getByRegNo: async (regNo: string) => {
         const [student] = await db.select().from(students).innerJoin(users, eq(students.userId, users.id)).where(eq(students.matricNo, regNo)).limit(1);

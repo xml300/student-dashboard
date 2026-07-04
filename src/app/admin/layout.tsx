@@ -2,6 +2,9 @@ import { Poppins } from "next/font/google";
 import "../globals.css";
 import MainLayoutClientWrapper from "@/components/MainLayoutClientWrapper";
 import { Metadata } from "next";
+import { useSession } from "next-auth/react";
+import { getCurrentUser } from "@/lib/auth";
+import { redirect } from "next/navigation";
 
 const poppins = Poppins({
   weight: ["300", "400", "500", "600", "700"],
@@ -13,11 +16,15 @@ export const metadata: Metadata = {
 }
 
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const user = await getCurrentUser();
+  if (user?.roleId !== 1) {
+    return redirect("/");
+  }
   return (
     <html lang="en">
       <body

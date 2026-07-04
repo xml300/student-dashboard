@@ -20,10 +20,12 @@ export default function LoginForm() {
       password,
     });
 
+    console.log(result);
+
     if (result?.error) {
       setError(result.error);
     } else {
-      router.push('/dashboard');
+      router.push('/');
     }
   };
 
@@ -43,7 +45,7 @@ export default function LoginForm() {
             className="input-field pl-10"
           />
           <span className="absolute left-3 top-1/2 -translate-y-1/2 text-neutral-500">
-            <svg width="18" height="18" fill="none" viewBox="0 0 24 24"><path stroke="currentColor" strokeWidth="1.5" d="M12 3v18m9-9H3"/></svg>
+            <svg width="18" height="18" fill="none" viewBox="0 0 24 24"><path stroke="currentColor" strokeWidth="1.5" d="M12 3v18m9-9H3" /></svg>
           </span>
         </div>
       </div>
@@ -62,7 +64,7 @@ export default function LoginForm() {
             className="input-field pl-10"
           />
           <span className="absolute left-3 top-1/2 -translate-y-1/2 text-neutral-500">
-            <svg width="18" height="18" fill="none" viewBox="0 0 24 24"><path stroke="currentColor" strokeWidth="1.5" d="M16.5 10.5V8.25A4.5 4.5 0 0 0 12 3.75a4.5 4.5 0 0 0-4.5 4.5v2.25m9 0H7.5m9 0a2.25 2.25 0 0 1 2.25 2.25v4.5A2.25 2.25 0 0 1 16.5 19.5h-9A2.25 2.25 0 0 1 5.25 17.25v-4.5A2.25 2.25 0 0 1 7.5 10.5m0 0V8.25A4.5 4.5 0 0 1 12 3.75a4.5 4.5 0 0 1 4.5 4.5v2.25"/></svg>
+            <svg width="18" height="18" fill="none" viewBox="0 0 24 24"><path stroke="currentColor" strokeWidth="1.5" d="M16.5 10.5V8.25A4.5 4.5 0 0 0 12 3.75a4.5 4.5 0 0 0-4.5 4.5v2.25m9 0H7.5m9 0a2.25 2.25 0 0 1 2.25 2.25v4.5A2.25 2.25 0 0 1 16.5 19.5h-9A2.25 2.25 0 0 1 5.25 17.25v-4.5A2.25 2.25 0 0 1 7.5 10.5m0 0V8.25A4.5 4.5 0 0 1 12 3.75a4.5 4.5 0 0 1 4.5 4.5v2.25" /></svg>
           </span>
         </div>
       </div>

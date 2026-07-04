@@ -116,3 +116,14 @@ export type Activity = typeof activities.$inferSelect;
 export type AttendanceRecord = typeof attendanceRecords.$inferSelect;
 export type StudentEnrollment = typeof studentEnrollments.$inferSelect;
 export type AttendanceRoom = typeof attendanceRooms.$inferSelect;
+
+export type NewUser = typeof users.$inferInsert;
+export type NewLecturer = typeof lecturers.$inferInsert;
+export type NewStudent = typeof students.$inferInsert;
+export type NewCourse = typeof courses.$inferInsert;
+export type NewLectureSession = typeof lectureSessions.$inferInsert;
+export type NewAuthorizedDevice = typeof authorizedDevices.$inferInsert;
+export type NewActivity = typeof activities.$inferInsert;
+export type NewAttendanceRecord = typeof attendanceRecords.$inferInsert;
+export type NewStudentEnrollment = typeof studentEnrollments.$inferInsert;
+export type NewAttendanceRoom = typeof attendanceRooms.$inferInsert;

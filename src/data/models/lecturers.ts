@@ -1,6 +1,12 @@
 import { eq, and } from "drizzle-orm";
 import { db } from "../db";
 import { courseAssignments, courses, Lecturer, lecturers, users } from "../db/schema";
+import bcrypt from "bcryptjs";
+
+interface LecturerEntity {
+    username: string;
+    password: string;
+}
 
 export const Lecturers = {
     get: async () => {
@@ -11,9 +17,21 @@ export const Lecturers = {
         const [lecturer] = await db.select().from(lecturers).innerJoin(users, eq(lecturers.userId, users.id)).where(eq(lecturers.id, id)).limit(1);
         return lecturer;
     },
-    create: async (data: typeof lecturers.$inferInsert) => {
-        const [newLecturer] = await db.insert(lecturers).values(data).returning();
-        return newLecturer;
+    create: async (data: LecturerEntity) => {
+        const trxResult = await db.transaction(async (tx) => {
+            const hashedPassword = await bcrypt.hash(data.password, 10);
+            const [newUser] = await tx.insert(users).values({
+                username: data.username,
+                password: hashedPassword,
+                userType: 1
+            }).returning();
+            const [newLecturer] = await tx.insert(lecturers).values({
+                userId: newUser.id,
+                
+            }).returning();
+            return {newUser, newLecturer};
+        });
+        return trxResult;
     },
     getByUserId: async (userId: number) => {
         const [lecturer] = await db.select().from(lecturers).innerJoin(users, eq(lecturers.userId, users.id)).where(eq(lecturers.userId, userId)).limit(1);

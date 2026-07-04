@@ -7,6 +7,7 @@ import { useRouter } from 'next/navigation';
 export default function SignupForm() {
   const [password, setPassword] = useState('');
   const [matricNo, setMatricNo] = useState('');
+  const [accountType, setAccountType] = useState('');
   const [error, setError] = useState('');
   const router = useRouter();
 
@@ -16,20 +17,37 @@ export default function SignupForm() {
 
     const result = await signIn('credentials', {
       redirect: false,
+      username: matricNo,
       password,
-      matricNo,
+      accountType,
       action: 'signup',
     });
 
     if (result?.error) {
       setError(result.error);
     } else {
-      router.push('/login');
+      router.push(redirectUrl);
     }
   };
 
   return (
     <form onSubmit={handleSubmit} className="space-y-6">
+      <div>
+        <label htmlFor="accountType" className="block text-sm font-medium text-neutral-200 mb-1">Account Type</label>
+        <div className="relative mt-1">
+          <select
+            id="accountType"
+            name="accountType"
+            value={accountType}
+            onChange={(e) => setAccountType(e.target.value)}
+            className="input-field pl-10"
+          >
+            <option value="">Select Account Type</option>
+            <option value="student">Student</option>
+            <option value="staff">Staff</option>
+          </select>
+        </div>
+      </div>
       <div>
         <label htmlFor="matricNo" className="block text-sm font-medium text-neutral-200 mb-1">Matriculation Number</label>
         <div className="relative mt-1">
@@ -44,7 +62,7 @@ export default function SignupForm() {
             className="input-field pl-10"
           />
           <span className="absolute left-3 top-1/2 -translate-y-1/2 text-neutral-500">
-            <svg width="18" height="18" fill="none" viewBox="0 0 24 24"><path stroke="currentColor" strokeWidth="1.5" d="M12 3v18m9-9H3"/></svg>
+            <svg width="18" height="18" fill="none" viewBox="0 0 24 24"><path stroke="currentColor" strokeWidth="1.5" d="M12 3v18m9-9H3" /></svg>
           </span>
         </div>
       </div>
@@ -63,7 +81,7 @@ export default function SignupForm() {
             className="input-field pl-10"
           />
           <span className="absolute left-3 top-1/2 -translate-y-1/2 text-neutral-500">
-            <svg width="18" height="18" fill="none" viewBox="0 0 24 24"><path stroke="currentColor" strokeWidth="1.5" d="M16.5 10.5V8.25A4.5 4.5 0 0 0 12 3.75a4.5 4.5 0 0 0-4.5 4.5v2.25m9 0H7.5m9 0a2.25 2.25 0 0 1 2.25 2.25v4.5A2.25 2.25 0 0 1 16.5 19.5h-9A2.25 2.25 0 0 1 5.25 17.25v-4.5A2.25 2.25 0 0 1 7.5 10.5m0 0V8.25A4.5 4.5 0 0 1 12 3.75a4.5 4.5 0 0 1 4.5 4.5v2.25"/></svg>
+            <svg width="18" height="18" fill="none" viewBox="0 0 24 24"><path stroke="currentColor" strokeWidth="1.5" d="M16.5 10.5V8.25A4.5 4.5 0 0 0 12 3.75a4.5 4.5 0 0 0-4.5 4.5v2.25m9 0H7.5m9 0a2.25 2.25 0 0 1 2.25 2.25v4.5A2.25 2.25 0 0 1 16.5 19.5h-9A2.25 2.25 0 0 1 5.25 17.25v-4.5A2.25 2.25 0 0 1 7.5 10.5m0 0V8.25A4.5 4.5 0 0 1 12 3.75a4.5 4.5 0 0 1 4.5 4.5v2.25" /></svg>
           </span>
         </div>
       </div>
