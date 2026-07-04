@@ -1,5 +1,6 @@
 "use client";
 import DashboardAttendanceTrend, { AttendanceTrendPoint } from "@/components/admin/DashboardAttendanceTrend";
+import { api } from "@/lib/api";
 import React, { useEffect, useState } from "react";
 
 const DashboardAttendanceTrendLoader: React.FC = () => {
@@ -11,8 +12,7 @@ const DashboardAttendanceTrendLoader: React.FC = () => {
         async function fetchTrend() {
             setLoading(true);
             try {
-                const res = await fetch(`/api/dashboard/attendance-trend?range=${range}`);
-                const data = await res.json();
+                const data = await api.get<AttendanceTrendPoint[]>(`/admin/dashboard/attendance-trend?range=${range}`);
                 setTrendData(data);
             } catch (e) {
                 console.error(e);

@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server';
 import { db } from '@/data/db';
 import { and, desc, eq } from 'drizzle-orm';
 import { attendanceRecords, courses, lectureSessions, students, users } from '@/data/db/schema';
+import { Activities } from '@/data/models/activities';
 
 interface AttendanceRecord {
   studentId: number | null;
@@ -94,9 +95,7 @@ export async function POST(req: Request, { params }: { params: Promise<{courseId
     attendanceRecord,
   }).returning({ recordId: attendanceRecords.id });
 
-  
-  const { addActivity } = await import("@/app/api/v1/admin/dashboard/addActivity");
-  await addActivity({
+  await Activities.create({
     category: "User Management",
     action: "Attendance recorded",
     affectedItem: courseId,

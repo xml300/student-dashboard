@@ -3,6 +3,7 @@ import { db } from "@/data/db";
 import { authorizedDevices, users } from "@/data/db/schema";
 import { eq } from "drizzle-orm"; 
 import { getCurrentUser } from "@/lib/auth";
+import { Activities } from "@/data/models/activities";
 
 export async function GET() {
   const user = await getCurrentUser();
@@ -40,8 +41,7 @@ export async function POST(req: Request) {
   }).returning({ deviceId: authorizedDevices.id });
 
   
-  const { addActivity } = await import("@/app/api/v1/admin/dashboard/addActivity");
-  await addActivity({
+  await Activities.create({
     category: "Device Management",
     action: "Registered new device",
     affectedItem: deviceUUID,

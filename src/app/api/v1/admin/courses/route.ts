@@ -4,6 +4,7 @@ import { courses, courseAssignments } from "@/data/db/schema";
 import { eq } from "drizzle-orm"; 
 import { Courses } from "@/data/models/courses";
 import { getCurrentUser } from "@/lib/auth";
+import { Activities } from "@/data/models/activities";
 
 
 export async function GET() {
@@ -46,8 +47,7 @@ export async function POST(req: Request) {
   }).returning({ id: courses.id });
 
   
-  const { addActivity } = await import("@/app/api/v1/admin/dashboard/addActivity");
-  await addActivity({
+  await Activities.create({
     category: "Course Management",
     action: "Created new course",
     affectedItem: courseCode,

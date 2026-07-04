@@ -140,7 +140,7 @@ export default async function HomePage() {
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-8">
           <Card className="lg:col-span-2">
 
-            
+
             <div className="h-64 bg-background rounded flex items-center justify-center">
               <DashboardAttendanceTrendLoader />
             </div>

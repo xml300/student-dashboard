@@ -28,10 +28,8 @@ export async function POST(req: Request) {
         if (!newSession) {
             return NextResponse.json({ error: 'Failed to create session' }, { status: 500 });
         }
-
-        
-        const { addActivity } = await import("@/app/api/v1/admin/dashboard/addActivity");
-        await addActivity({
+ 
+        await Activities.create({
             category: "Course Management",
             action: "Created new lecture session",
             affectedItem: courseId,

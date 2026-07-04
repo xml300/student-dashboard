@@ -13,6 +13,7 @@ import Link from 'next/link';
 import { Card } from '@/components/ui/card';
 import AddDeviceModal from '@/components/admin/modals/AddDeviceModal';
 import { Device } from '@/types/data';
+import { api } from '@/lib/api';
 
 interface DevicesManagementClientProps {
   initialDevices: Device[];
@@ -60,12 +61,7 @@ const DevicesManagementClient: React.FC<DevicesManagementClientProps> = ({ initi
   };
 
   const handleAddDevice = async (device: { deviceName: string; deviceType: string; deviceUUID: string; status: string }) => {
-    await fetch('/api/devices', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(device),
-    });
-
+    await api.post('/admin/devices', device);
   };
 
   return (

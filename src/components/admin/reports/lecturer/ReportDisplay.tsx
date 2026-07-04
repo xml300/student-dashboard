@@ -23,6 +23,7 @@ import * as XLSX from "xlsx";
 import jsPDF from "jspdf";
 import jsPDFAutoTable from "jspdf-autotable";
 import { AttendanceData, Summary } from "./LecturerReportContainer";
+import { api } from "@/lib/api";
 
 const getStatusBadgeVariant = (status: string) => {
   switch (status) {
@@ -111,9 +112,7 @@ export default function ReportDisplay({ courseId, filters, attendanceData, summa
     setError(null);
     async function fetchReport() {
       try {
-        const res = await fetch(`/api/reports/${courseId}`);
-        if (!res.ok) throw new Error("Failed to fetch attendance data");
-        
+        await api.get(`/admin/reports/${courseId}`);
        } catch (err) {
         if(err instanceof Error){
         setError(err.message || "Unknown error");

@@ -2,8 +2,9 @@
 
 import React, { useState, useEffect } from 'react';
 import { PlusIcon, MagnifyingGlassIcon } from '@heroicons/react/24/outline';
-import { Course, Student } from '@/types/data';
+import { Course, CourseDisplay, Student } from '@/types/data';
 import PageHeading from '@/components/PageHeading';
+import { api } from '@/lib/api';
 
 const CourseStudentsPage = ({ params }: { params: Promise<{ courseId: string }> }) => {
   const [course, setCourse] = useState<Course | null>(null);
@@ -15,8 +16,7 @@ const CourseStudentsPage = ({ params }: { params: Promise<{ courseId: string }> 
     params
       .then(params => params.courseId)
       .then(courseId => {
-        fetch(`/api/courses/${courseId}`)
-          .then(res => res.json())
+        api.get<Course>(`/admin/courses/${courseId}`)
           .then(course => setCourse(course));
       });
   }, [params]);

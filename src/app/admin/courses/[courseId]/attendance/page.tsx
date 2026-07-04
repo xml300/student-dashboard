@@ -5,6 +5,8 @@ import { useParams } from "next/navigation";
 import Link from "next/link";
 import { CourseOverview, AttendanceRecord, Record } from "@/types/data";
 import Pagination from '@/components/admin/Pagination';
+import { api } from "@/lib/api";
+import { LectureSession } from "@/data/db/schema";
 
 const AttendancePage = () => {
   const params = useParams();
@@ -25,9 +27,7 @@ const AttendancePage = () => {
     setLoading(true);
     async function fetchAttendanceRecords() {
       try {
-        const response = await fetch(`/api/attendance/${courseId}`);
-        const records = await response.json();
-
+        const records = await api.get<AttendanceRecord[]>(`/admin/attendance/${courseId}`);
         const now = Date.now();
         const recentSession = records.find((s: AttendanceRecord) => {
           const sessionTime = new Date(s.date).getTime();
@@ -53,8 +53,7 @@ const AttendancePage = () => {
     setLoading(true);
     async function fetchCourse() {
       try {
-        const courseRes = await fetch(`/api/courses/${courseId}`);
-        const courseData = await courseRes.json();
+        const courseData = await api.get<CourseOverview>(`/admin/courses/${courseId}`);
         setCourse(courseData);
       } catch (e) {
         console.error(e)
@@ -69,9 +68,7 @@ const AttendancePage = () => {
     setLoading(true);
     async function fetchAttendanceRecords() {
       try {
-        const response = await fetch(`/api/attendance/${courseId}`);
-        const records = await response.json();
-
+        const records = await api.get<AttendanceRecord[]>(`/admin/attendance/${courseId}`);
         const now = Date.now();
         const recentSession = records.find((s: AttendanceRecord) => {
           const sessionTime = new Date(s.date).getTime();
@@ -97,14 +94,10 @@ const AttendancePage = () => {
     console.log(attendanceRecords, recordId)
     const sessionIndex = attendanceRecords.findIndex(s => s.id === recordId);
     if (sessionIndex !== -1) {
-      fetch('/api/attendance/edit', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          recordId: attendanceRecords[sessionIndex].id,
-          attendanceRecord: modalStatus === "Present" ? 1 : modalStatus === "Excused" ? null : 0,
-          remarks: modalRemarks,
-        }),
+      await api.post(`/admin/attendance/edit`, {
+        recordId: attendanceRecords[sessionIndex].id,
+        attendanceRecord: modalStatus === "Present" ? 1 : modalStatus === "Excused" ? null : 0,
+        remarks: modalRemarks,
       });
     }
     setModalOpen(null);
@@ -128,18 +121,10 @@ const AttendancePage = () => {
           onClick={async () => {
             setLoading(true);
             try {
-              const res = await fetch(`/api/lectureSessions`, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ courseId }),
-              });
-              if (!res.ok) throw new Error('Failed to create session');
-              const newSession = await res.json();
+              const newSession = await api.post<LectureSession>(`/admin/lectureSessions`, { courseId });
+              const records = await api.get<AttendanceRecord[]>(`/admin/attendance/${courseId}`);
 
-              const response = await fetch(`/api/attendance/${courseId}`);
-              const records = await response.json();
-
-              const createdSession = records.find((s: AttendanceRecord) => s.id === newSession.sessionId || s.date === newSession.sessionDatetime);
+              const createdSession = records.find((s: AttendanceRecord) => s.id === newSession.id || s.date === newSession.sessionDatetime?.toISOString());
               if (createdSession) {
                 setAttendanceRecords([createdSession]);
                 setNewSessionDisabled(true);

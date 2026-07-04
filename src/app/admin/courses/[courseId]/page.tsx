@@ -7,6 +7,7 @@ import SessionsTab from './tabs/SessionsTab';
 import StudentsTab from './tabs/StudentsTab';
 import SettingsTab from './tabs/SettingsTab';
 import { CourseDisplay } from '@/types/data';
+import { api } from '@/lib/api';
 
 
 const CourseManagementPage = ({ params }: { params: Promise<{ courseId: string }> }) => {
@@ -18,8 +19,7 @@ const CourseManagementPage = ({ params }: { params: Promise<{ courseId: string }
     params.then(p => p.courseId)
       .then(courseId => {
         if (courseId) {
-          fetch(`/api/courses/${courseId}`)
-            .then(res => res.json())
+          api.get<CourseDisplay>(`/admin/courses/${courseId}`)
             .then(data => setCourse(data));
         }
       })

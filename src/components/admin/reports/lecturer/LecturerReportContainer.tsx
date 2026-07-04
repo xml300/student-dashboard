@@ -14,6 +14,7 @@ import {
   SelectItem,
 } from "@/components/ui/select";
 import { Course } from "@/types/data";
+import { api } from "@/lib/api";
 
 interface LecturerReportContainerProps {
   searchParam: { [key: string]: string | string[] | undefined };
@@ -51,9 +52,8 @@ export default function LecturerReportContainer({
 
   useEffect(() => {
     if (!selectedCourse) return;
-    fetch(`/api/reports/${selectedCourse}`)
-      .then(res => res.json())
-      .then(data => {
+    api.get<{records: AttendanceData[], summary: Summary}>(`/admin/reports/${selectedCourse}`)
+    .then(data => {
         setAttendanceData(data.records || []);
         setSummary(data.summary || {});
       });
@@ -115,12 +115,11 @@ export default function LecturerReportContainer({
   });
 
   useEffect(() => {
-    fetch('/api/courses')
-      .then(res => res.json())
+    api.get<Course[]>('/admin/courses')
       .then(data => {
         setCourses(data);
         if (data.length > 0) {
-          setSelectedCourse((searchParam?.courseId as string) || data[0]?.id);
+          setSelectedCourse((searchParam.courseId as string) || data[0]?.id);
         }
       });
   }, [searchParam?.courseId]);

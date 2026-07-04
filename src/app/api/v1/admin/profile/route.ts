@@ -4,6 +4,7 @@ import { lecturers, users, courses, courseAssignments, lectureSessions, authoriz
 import { eq, inArray, desc } from 'drizzle-orm'; 
 import { getCurrentUser } from '@/lib/auth';
 import { NSession } from '@/types/data';
+import { Activities } from '@/data/models/activities';
 
 
 export async function GET() {
@@ -122,8 +123,7 @@ export async function POST(request: Request) {
     }).where(eq(users.id, lecturer.userId));
 
     
-    const { addActivity } = await import("@/app/api/v1/admin/dashboard/addActivity");
-    await addActivity({
+    await Activities.create({
       category: "User Management",
       action: "Profile updated",
       affectedItem: lecturerId?.toString(),

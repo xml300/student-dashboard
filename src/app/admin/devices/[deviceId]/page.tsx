@@ -4,6 +4,7 @@ import { DevicePhoneMobileIcon,  ArrowLeftIcon, PencilSquareIcon, CheckCircleIco
 import Link from 'next/link';
 import { useParams } from 'next/navigation';
 import { Device } from '@/types/data';
+import { api } from '@/lib/api';
 
 
 
@@ -17,11 +18,7 @@ const DeviceDetailsPage = () => {
         if (!deviceId) return;
         setLoading(true);
         setError(null);
-        fetch(`/api/devices/${deviceId}`)
-            .then(res => {
-                if (!res.ok) throw new Error('Failed to fetch device');
-                return res.json();
-            })
+        api.get<Device>(`/admin/devices/${deviceId}`)
             .then(data => {
                 setDevice(data);
                 setLoading(false);
@@ -46,13 +43,7 @@ const DeviceDetailsPage = () => {
         setActionLoading("ping");
         setActionMessage(null);
         try {
-            const res = await fetch(`/api/devices/${deviceId}/actions`, {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ action: "ping" })
-            });
-            const data = await res.json();
-            if (!res.ok) throw new Error(data.error || "Failed to ping device.");
+            const data = await api.post<{message: string}>(`/admin/devices/${deviceId}/actions`, { action: "ping" });
             setActionMessage(data.message);
         } catch (err) {
             if(err instanceof Error){
@@ -67,13 +58,7 @@ const DeviceDetailsPage = () => {
         setActionLoading("restart");
         setActionMessage(null);
         try {
-            const res = await fetch(`/api/devices/${deviceId}/actions`, {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ action: "restart" })
-            });
-            const data = await res.json();
-            if (!res.ok) throw new Error(data.error || "Failed to restart device.");
+            const data = await api.post<{message: string}>(`/admin/devices/${deviceId}/actions`, { action: "restart" });
             setActionMessage(data.message);
         } catch (err) {
             if(err instanceof Error){
@@ -96,13 +81,9 @@ const DeviceDetailsPage = () => {
         setActionLoading("edit");
         setActionMessage(null);
         try {
-            const res = await fetch(`/api/devices/${deviceId}/actions`, {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ action: "edit", data: { name: editName, type: editType, model: editModel } })
+            const data = await api.post<{message: string}>(`/admin/devices/${deviceId}/actions`, {
+                action: "edit", data: { name: editName, type: editType, model: editModel } 
             });
-            const data = await res.json();
-            if (!res.ok) throw new Error(data.error || "Failed to update device.");
             setDevice(prev => prev ? { ...prev, name: editName, type: editType, model: editModel } : prev);
             setShowEdit(false);
             setActionMessage(data.message);
@@ -119,13 +100,7 @@ const DeviceDetailsPage = () => {
         setActionLoading("delete");
         setActionMessage(null);
         try {
-            const res = await fetch(`/api/devices/${deviceId}/actions`, {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ action: "delete" })
-            });
-            const data = await res.json();
-            if (!res.ok) throw new Error(data.error || "Failed to delete device.");
+            const data = await api.post<{message: string}>(`/admin/devices/${deviceId}/actions`, { action: "delete" });
             setDevice(null);
             setShowDeleteConfirm(false);
             setActionMessage(data.message);

@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { PlusIcon, MagnifyingGlassIcon } from '@heroicons/react/24/outline';
 import { Coursex, CourseSubmit } from "@/types/data";
 import AddCourseModal from "@/components/AddCourseModal";
+import { api } from "@/lib/api";
 
 
 export default function CourseClient({ courses, availableCourses }: { courses: Coursex[], availableCourses: Coursex[] }) {
@@ -16,15 +17,7 @@ export default function CourseClient({ courses, availableCourses }: { courses: C
 
     const handleAddCourse = async (course: CourseSubmit) => {
         try {
-            const response = await fetch('/api/courses', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(course),
-            });
-
-            const savedCourse: Coursex = await response.json();
+            const savedCourse = await api.post<Coursex>('/admin/courses', course);
             setCourses(prev => [...prev, savedCourse]);
             setModalOpen(false);
         } catch (error) {
@@ -36,16 +29,9 @@ export default function CourseClient({ courses, availableCourses }: { courses: C
 
     const handleSelectCourse = async (courseId: string) => {
         try {
-
-            const response = await fetch('/api/courses/assign', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({ courseId }),
-            });
-            if (!response.ok) throw new Error('Failed to assign course to lecturer');
-
+            const data = await api.post('/admin/courses/assign', { courseId });
+            if (!data) throw new Error('Failed to assign course to lecturer');
+            setModalOpen(false);
         } catch (error) {
             console.error(error);
         }

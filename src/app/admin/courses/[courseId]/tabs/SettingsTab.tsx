@@ -2,6 +2,7 @@
 import React, { useState } from 'react'; 
 import { CourseDisplay } from '@/types/data';
 import { useRouter } from 'next/navigation';
+import { api } from '@/lib/api';
 
 interface CourseSettings {
   allowLateAttendance: boolean;
@@ -31,12 +32,7 @@ const SettingsTab = ({ course }: { course: CourseDisplay }) => {
     setError(null);
     setSuccess(false);
     try {
-      const res = await fetch(`/api/courses/${course.courseCode}/settings`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(settings),
-      });
-      if (!res.ok) throw new Error('Failed to save settings');
+      await api.post(`/admin/courses/${course.courseCode}/settings`, settings);
       setSuccess(true);
     } catch (err) {
       if (err instanceof Error) {
@@ -56,10 +52,7 @@ const SettingsTab = ({ course }: { course: CourseDisplay }) => {
     setDeleteError(null);
     setDeleteSuccess(false);
     try {
-      const res = await fetch(`/api/courses/${course.courseCode}`, {
-        method: 'DELETE',
-      });
-      if (!res.ok) throw new Error('Failed to delete course');
+      await api.delete(`/admin/courses/${course.courseCode}`);
       setDeleteSuccess(true);
       
       if (router) {

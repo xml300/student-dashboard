@@ -4,7 +4,7 @@ import LecturerAdminActivitiesClient, { ExtenActivity } from './LecturerAdminAct
 
 export default async function LecturerAdminActivitiesPage() {
   const activityRows = await db.select().from(activities);
-  
+
   const formattedActivities = activityRows.map(activity => ({
     ...activity,
     id: activity.id,
