@@ -26,7 +26,7 @@ export type Coursex = Omit<Course, "recentSessions" | "students"| "attendanceRat
     attendanceRate: string | null;
 }
 
-export interface CourseSubmit extends CourseOverview {
+export interface CourseSubmit {
     courseCode: string;
     courseName: string;
     courseDesc: string;
@@ -36,6 +36,14 @@ export interface CourseSubmit extends CourseOverview {
 }
 
 
+
+export interface DeviceActivity {
+    event: string;
+    timestamp: string | Date | null;
+    status: string;
+    details?: string;
+    category?: string;
+}
 
 export interface Device {
     id: number;
@@ -49,7 +57,7 @@ export interface Device {
     lastUsed: string;
     lastSync: string;
     assignedCourses: string[];
-    recentActivity: Activity[];
+    recentActivity: DeviceActivity[];
 }
 
 export interface Room {
@@ -147,6 +155,7 @@ export interface Record {
     matricNo: string;
     attendanceRecord: number;
     time: string;
+    remarks?: string | null;
 }
 
 export interface CourseDisplay {

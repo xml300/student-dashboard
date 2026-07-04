@@ -37,8 +37,11 @@ const AddCourseModal: React.FC<AddCourseModalProps> = ({ isOpen, onClose, onAddC
       recentSessions: [], // Default empty array
       students: 0, // Default value
       attendanceRate: '0%', // Default value
-      semester: 'N/A', // Default value
+      semester: 0, // Default value
       title: courseName, // Using courseName as title for now
+      status: 'active',
+      activeSessionDatetime: new Date(),
+      activeSessionId: 0,
     };
     onAddCourse(newCourse);
     onClose();

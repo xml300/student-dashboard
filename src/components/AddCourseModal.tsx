@@ -2,7 +2,7 @@
 import React, { useState } from 'react';
 import { XMarkIcon, MagnifyingGlassIcon } from '@heroicons/react/24/outline';
 
-import { CourseOverview } from '../types';
+import { CourseOverview } from '@/types/data';
 
 interface AddCourseModalProps {
   isOpen: boolean;

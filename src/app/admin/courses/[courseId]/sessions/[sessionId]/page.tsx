@@ -16,6 +16,7 @@ const SessionDetailsPage = async ({ params }: { params: Promise<{ courseId: stri
   if (!session) {
     return <div>Session not found</div>;
   }
+  const sStudents:SessionStudent[] = [];
 
   const options: Intl.DateTimeFormatOptions = {
     year: "numeric",
@@ -36,8 +37,8 @@ const SessionDetailsPage = async ({ params }: { params: Promise<{ courseId: stri
         </div>
         <div className="bg-card-background p-4 rounded-lg border border-border-color">
           <h3 className="text-lg font-medium mb-2">Attendance Summary</h3>
-          <p><strong>Attendees:</strong> {session.attendees} / {session.totalStudents}</p>
-          <p><strong>Attendance Rate:</strong> {session.rate ? (Number(session.rate) * 100).toFixed(2) : 0}%</p>
+          <p><strong>Attendees:</strong> session.attendees / session.totalStudents</p>
+          <p><strong>Attendance Rate:</strong>0%</p>
         </div>
       </div>
       <div className="bg-card-background rounded-lg border border-border-color overflow-hidden">
@@ -49,7 +50,7 @@ const SessionDetailsPage = async ({ params }: { params: Promise<{ courseId: stri
             </tr>
           </thead>
           <tbody>
-            {session.students.map((student: SessionStudent) => (
+            {(sStudents || []).map((student: SessionStudent) => (
               <tr key={student.studentId} className="border-b border-border-color last:border-0">
                 <td className="py-3 px-4">{student.matricNo}</td>
                 <td className="py-3 px-4 text-center">

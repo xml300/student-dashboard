@@ -3,19 +3,21 @@ import React, { useState } from 'react';
 import { UserIcon, ClockIcon, CalendarDaysIcon, EllipsisVerticalIcon } from '@heroicons/react/24/outline';
 import { Activity } from '@/types/data';
 
-type ExtenActivity = Omit<Activity, 'timestamp'> & {
-  timestamp: Date | null;
-  createdAt: Date | null;
-  updatedAt: Date | null;
+export type ExtenActivity = Omit<Activity, 'timestamp'> & {
+    user: string | undefined;
+    userName: string | undefined;
+    timestamp: Date | null;
+    createdAt: Date | null;
+    updatedAt: Date | null;
 }
 
 const LecturerAdminActivitiesClient = ({ initialActivities }: { initialActivities: ExtenActivity[] }) => {
     const [activities] = useState<ExtenActivity[]>(initialActivities);
     const [searchQuery, setSearchQuery] = useState('');
     const [filterCategory, setFilterCategory] = useState('all');
-    const [sortBy, setSortBy] = useState('timestamp-desc'); 
+    const [sortBy, setSortBy] = useState('timestamp-desc');
 
-    const categories = ['all', 'Device Management', 'User Management', 'Course Management', 'Reporting']; 
+    const categories = ['all', 'Device Management', 'User Management', 'Course Management', 'Reporting'];
 
     const filteredActivities = activities.filter(activity => {
         const textMatch = (activity.userName?.toLowerCase() || '').includes(searchQuery.toLowerCase()) ||
@@ -28,9 +30,9 @@ const LecturerAdminActivitiesClient = ({ initialActivities }: { initialActivitie
 
     const sortedActivities = [...filteredActivities].sort((a, b) => {
         if (sortBy === 'timestamp-desc') {
-            return b.timestamp!.getTime() - a.timestamp!.getTime(); 
+            return b.timestamp!.getTime() - a.timestamp!.getTime();
         } else if (sortBy === 'timestamp-asc') {
-            return a.timestamp!.getTime() - b.timestamp!.getTime(); 
+            return a.timestamp!.getTime() - b.timestamp!.getTime();
         } else if (sortBy === 'user-asc') {
             return (a.userName || '').localeCompare(b.userName || '');
         } else if (sortBy === 'user-desc') {
@@ -38,12 +40,12 @@ const LecturerAdminActivitiesClient = ({ initialActivities }: { initialActivitie
         }
         return 0;
     });
-    
+
     return (
         <div>
-            
+
             <div className="mb-4 flex flex-col md:flex-row justify-between items-center">
-                
+
                 <input
                     type="text"
                     placeholder="Search activities..."
@@ -51,7 +53,7 @@ const LecturerAdminActivitiesClient = ({ initialActivities }: { initialActivitie
                     onChange={(e) => setSearchQuery(e.target.value)}
                     className="input input-bordered w-full md:w-auto mb-2 md:mb-0"
                 />
-                
+
                 <div className="flex items-center space-x-2">
                     <select
                         value={filterCategory}
@@ -75,7 +77,7 @@ const LecturerAdminActivitiesClient = ({ initialActivities }: { initialActivitie
                 </div>
             </div>
 
-            
+
             <div className="hidden md:block">
                 <table className="min-w-full bg-card-background border border-border-color">
                     <thead>
@@ -84,7 +86,7 @@ const LecturerAdminActivitiesClient = ({ initialActivities }: { initialActivitie
                             <th className="py-2 px-3 border-b text-left text-foreground/80">Details</th>
                             <th className="py-2 px-3 border-b text-left text-foreground/80">Category</th>
                             <th className="py-2 px-3 border-b text-left text-foreground/80">Timestamp</th>
-                            <th className="py-2 px-3 border-b text-right text-foreground/80"></th> 
+                            <th className="py-2 px-3 border-b text-right text-foreground/80"></th>
                         </tr>
                     </thead>
                     <tbody>
@@ -122,7 +124,7 @@ const LecturerAdminActivitiesClient = ({ initialActivities }: { initialActivitie
                 </table>
             </div>
 
-            
+
             <div className="md:hidden space-y-4">
                 {sortedActivities.length > 0 ? (
                     sortedActivities.map(activity => (

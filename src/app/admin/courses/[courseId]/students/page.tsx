@@ -25,7 +25,7 @@ const CourseStudentsPage = ({ params }: { params: Promise<{ courseId: string }> 
     return <div>Loading...</div>;
   }
 
-  const allStudents = course.students || [];
+  const allStudents: Student[] = [];
 
   const filteredStudents = allStudents.filter((student: Student) =>
     student.username.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -76,7 +76,7 @@ const CourseStudentsPage = ({ params }: { params: Promise<{ courseId: string }> 
           <tbody>
             {currentStudents.length > 0 ? (
               currentStudents.map((student: Student, index: number) => {
-                const rate = student.attendanceRate ? Number(student.attendanceRate) : 0;
+                const rate = 0;
                 return (
                   <tr key={index} className="border-b border-border-color last:border-0">
                     <td className="py-3 px-4">{student.matricNo}</td>

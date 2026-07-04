@@ -316,7 +316,9 @@ const DeviceDetailsPage = () => {
                                     </div>
                                     <div>
                                         <p className="font-medium">{activity.event}</p>
-                                        <p className="text-xs text-foreground/60">{activity.timestamp}</p>
+                                        <p className="text-xs text-foreground/60">
+                                            {activity.timestamp ? new Date(activity.timestamp).toLocaleString() : ''}
+                                        </p>
                                     </div>
                                 </div>
                             ))}

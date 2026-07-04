@@ -1,13 +1,6 @@
 import { db } from '@/data/db';
 import { activities } from '@/data/db/schema';
-import LecturerAdminActivitiesClient from './LecturerAdminActivitiesClient';
-import { Activity } from '@/types/data';
-
-type ExtenActivity = Omit<Activity, 'timestamp'> & {
-  timestamp: Date | null;
-  createdAt: Date | null;
-  updatedAt: Date | null;
-}
+import LecturerAdminActivitiesClient, { ExtenActivity } from './LecturerAdminActivitiesClient';
 
 export default async function LecturerAdminActivitiesPage() {
   const activityRows = await db.select().from(activities);

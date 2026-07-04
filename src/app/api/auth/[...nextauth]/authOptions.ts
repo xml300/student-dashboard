@@ -93,7 +93,7 @@ export const authOptions: AuthOptions = {
     },
     async session({ session, token }) {
       if (session.user) {
-        session.user.id = token.id;
+        session.user.id = token.id ?? 0;
         session.user.studentId = token.studentId;
         session.user.matricNo = token.matricNo;
       }

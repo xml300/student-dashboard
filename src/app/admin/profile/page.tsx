@@ -55,6 +55,7 @@ export default async function LecturerProfilePage() {
     return {
       id: course.courseCode,
       name: course.courseName,
+      title: course.courseName,
       students,
       semester: course.semester,
       description: course.courseDesc,
@@ -76,13 +77,13 @@ export default async function LecturerProfilePage() {
     ? await db.select().from(lectureSessions).where(inArray(lectureSessions.courseId, courseIds)).orderBy(desc(lectureSessions.sessionDatetime)).limit(5)
     : [];
   const recentSessions = recentSessionsRaw.map(s => ({
-    id: s.id.toString(),
+    id: s.id,
     course: courseRows.find(c => c.course.id === s.courseId)?.course.courseName || '',
     date: s.sessionDatetime?.toDateString() || '',
     time: s.sessionDatetime?.toTimeString() || '',
     attendance: '0%', 
     rate: 0, 
-    sessionDatetime: s.sessionDatetime?.toISOString() || '',
+    sessionDatetime: s.sessionDatetime ? new Date(s.sessionDatetime) : new Date(),
     attendees: 0, 
     totalStudents: 0, 
   }));
