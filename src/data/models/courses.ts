@@ -12,6 +12,10 @@ export const Courses = {
         const [course] = await db.select().from(courses).where(eq(courses.id, id)).limit(1);
         return course;
     },
+    create: async (data: typeof courses.$inferInsert) => {
+        const [newCourse] = await db.insert(courses).values(data).returning();
+        return newCourse;
+    },
     getByLecturerId: async (lecturerId: number) => {
         const lCourses = await db.select().from(courses).innerJoin(courseAssignments, eq(courseAssignments.courseId, courses.id)).where(eq(courseAssignments.lecturerId, lecturerId));
         return lCourses

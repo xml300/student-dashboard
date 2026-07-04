@@ -12,6 +12,10 @@ export const AuthorizedDevices = {
         const [device] = await db.select().from(authorizedDevices).where(eq(authorizedDevices.id, id)).limit(1);
         return device;
     },
+    create: async (data: typeof authorizedDevices.$inferInsert) => {
+        const [newDevice] = await db.insert(authorizedDevices).values(data).returning();
+        return newDevice;
+    },
     update: async (id: number, data: Partial<AuthorizedDevice>) => {
         const [updatedDevice] = await db.update(authorizedDevices).set(data).where(eq(authorizedDevices.id, id)).returning();
         return updatedDevice;

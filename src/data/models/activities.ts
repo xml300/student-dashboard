@@ -11,6 +11,10 @@ export const Activities = {
         const [activity] = await db.select().from(activities).where(eq(activities.id, id)).limit(1);
         return activity;
     },
+    create: async (data: typeof activities.$inferInsert) => {
+        const [newActivity] = await db.insert(activities).values(data).returning();
+        return newActivity;
+    },
     update: async (id: number, data: Partial<Activity>) => {
         const [updatedActivity] = await db.update(activities).set(data).where(eq(activities.id, id)).returning();
         return updatedActivity;

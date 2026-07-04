@@ -13,6 +13,10 @@ export const AttendanceRecords = {
         const [record] = await db.select().from(attendanceRecords).where(eq(attendanceRecords.id, id)).limit(1);
         return record;
     },
+    create: async (data: typeof attendanceRecords.$inferInsert) => {
+        const [newRecord] = await db.insert(attendanceRecords).values(data).returning();
+        return newRecord;
+    },
     update: async (id: number, data: Partial<AttendanceRecord>) => {
         const [updatedRecord] = await db.update(attendanceRecords).set(data).where(eq(attendanceRecords.id, id)).returning();
         return updatedRecord;

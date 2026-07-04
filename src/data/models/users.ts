@@ -11,6 +11,10 @@ export const Users = {
         const [user] = await db.select().from(users).where(eq(users.id, id)).limit(1);
         return user;
     },
+    create: async (data: typeof users.$inferInsert) => {
+        const [newUser] = await db.insert(users).values(data).returning();
+        return newUser;
+    },
     getByUsername: async (username: string) => {
         const [user] = await db.select().from(users).where(eq(users.username, username)).limit(1);
         return user;

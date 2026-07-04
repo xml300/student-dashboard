@@ -12,6 +12,10 @@ export const LectureSessions = {
         const [session] = await db.select().from(lectureSessions).where(eq(lectureSessions.id, id)).limit(1);
         return session;
     },
+    create: async (data: typeof lectureSessions.$inferInsert) => {
+        const [newSession] = await db.insert(lectureSessions).values(data).returning();
+        return newSession;
+    },
     getByCourseId: async (courseId: number) => {
         const courseSessions = await db.select().from(lectureSessions).where(eq(lectureSessions.courseId, courseId));
         return courseSessions;

@@ -11,6 +11,10 @@ export const AttendanceRooms = {
         const [room] = await db.select().from(attendanceRooms).where(eq(attendanceRooms.id, id)).limit(1);
         return room;
     },
+    create: async (data: typeof attendanceRooms.$inferInsert) => {
+        const [newRoom] = await db.insert(attendanceRooms).values(data).returning();
+        return newRoom;
+    },
     getBySessionId: async (sessionId: number) => {
         const sRooms = await db.select().from(attendanceRooms).where(eq(attendanceRooms.sessionId, sessionId));
         return sRooms;
