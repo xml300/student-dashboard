@@ -16,6 +16,9 @@ export const GET = withErrorHandling(async () => {
         return NextResponse.json({ error: 'Student not found' }, { status: 404 });
     }
     const studentId = user.studentId;
+    if(!studentId){
+        return NextResponse.json({error: 'Student not found'}, {status: 404});
+    }
 
     const totalClassesResult = await db.select({ value: count() }).from(lectureSessions);
     const attendedClassesResult = await db.select({ value: count() }).from(attendanceRecords).where(and(eq(attendanceRecords.studentId, studentId), eq(attendanceRecords.attendanceRecord, 1)));

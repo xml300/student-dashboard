@@ -1,20 +1,22 @@
 import { NextResponse } from 'next/server';
 import { db } from '@/data/db';
 import { lecturers, users, courses, courseAssignments, lectureSessions, authorizedDevices, studentEnrollments } from '@/data/db/schema';
-import { eq, inArray, desc } from 'drizzle-orm';
-import { getServerSession } from 'next-auth';
-import { authOptions } from '../auth/[...nextauth]/authOptions';
+import { eq, inArray, desc } from 'drizzle-orm'; 
+import { getCurrentUser } from '@/lib/auth';
 import { NSession } from '@/types/data';
 
 
 export async function GET() {
   
-  const session: NSession | null = await getServerSession(authOptions);
-  if(!session) return NextResponse.json({message: "Unauthorized"}, {status: 401});
+  const userSession = await getCurrentUser();
+  if(!userSession) return NextResponse.json({message: "Unauthorized"}, {status: 401});
 
-  const lecturerId = session.lecturerId;
-  const userId = (session as any).userId;
+  const lecturerId = userSession.lecturerId;
+  const userId = userSession.id;
 
+  if(!lecturerId){
+    return NextResponse.json({message: "No Lecturer Assigned"}, {status: 404});
+  }
   
   const lecturerRow = await db.select().from(lecturers).where(eq(lecturers.id, lecturerId)).limit(1);
   const lecturer = lecturerRow[0];
@@ -96,13 +98,17 @@ export async function GET() {
 
 export async function POST(request: Request) {
   try {
-    const session: NSession | null = await getServerSession(authOptions);
-    if (!session) {
+    const userSession = await getCurrentUser();
+    if (!userSession) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
-    const lecturerId = session.lecturerId;
+    const lecturerId = userSession.lecturerId;
     const { name } = await request.json(); 
+
+    if(!lecturerId){
+      return NextResponse.json({error: 'No Lecturer Assigned'}, {status: 404});
+    }
 
     const lecturerRow = await db.select().from(lecturers).where(eq(lecturers.id, lecturerId)).limit(1);
     const lecturer = lecturerRow[0];

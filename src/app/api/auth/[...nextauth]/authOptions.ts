@@ -6,14 +6,10 @@ import { eq } from "drizzle-orm";
 import bcrypt from "bcryptjs";
 import { Students } from "@/data/models/students";
 import { Users } from "@/data/models/users";
+import { Lecturers } from "@/data/models/lecturers";
+import { JWT } from "next-auth/jwt";
+import { AuthUser } from "@/types/auth";
 
-interface NewUser extends User {
-  id: string;
-  name: string;
-  email: string;
-  studentId: number;
-  matricNo: string;
-}
 
 export const authOptions: AuthOptions = {
   pages: {
@@ -23,31 +19,30 @@ export const authOptions: AuthOptions = {
     CredentialsProvider({
       name: "Credentials",
       credentials: {
+        username: { label: "Username", type: "text" },
         password: { label: "Password", type: "password" },
-        matricNo: { label: "Matriculation Number", type: "text" },
         action: { label: "Action", type: "text" },
       },
-      async authorize(credentials): Promise<NewUser | null> {
-        if (!credentials?.matricNo || !credentials?.password) {
+      async authorize(credentials): Promise<AuthUser | null> {
+        if (!credentials?.username || !credentials?.password) {
           return null;
         }
-        const student = await Students.getByRegNo(credentials.matricNo);
-        if (!student) {
-          if (credentials.action === "signup") {
-            const hashedPassword = await bcrypt.hash(credentials.password, 10);
-            const newUser = await db
-              .insert(users)
-              .values({
-                username: credentials.matricNo,
-                password: hashedPassword,
-              })
-              .returning();
+
+        if (credentials.action === "signup") {
+          const hashedPassword = await bcrypt.hash(credentials.password, 10);
+          const newUser = await db
+            .insert(users)
+            .values({
+              username: credentials.username,
+              password: hashedPassword,
+            })
+            .returning();
 
             const newStudent = await db
               .insert(students)
               .values({
                 userId: newUser[0].id,
-                matricNo: credentials.matricNo,
+                matricNo: credentials.username,
               })
               .returning();
 
@@ -55,39 +50,44 @@ export const authOptions: AuthOptions = {
               id: newUser[0].id.toString(),
               name: newUser[0].username,
               email: newUser[0].username,
+              roleId: newUser[0].userType,
               studentId: newStudent[0].id,
               matricNo: newStudent[0].matricNo,
             };
           }
-          return null;
-        }
 
-        const user = student.users;
-        const isPasswordValid = await bcrypt.compare(
-          credentials.password,
-          user.password
-        );
+        const user = await Users.getByUsername(credentials.username);
+        if(!user) return null;
+        
+        const valid = await bcrypt.compare(credentials.password, user.password);
+        if (!valid) return null;
 
-        if (!isPasswordValid) {
-          return null;
-        }
-
-        return {
+        const authResponse: AuthUser = {
           id: user.id.toString(),
           name: user.username,
-          email: user.username,
-          studentId: student.students.id,
-          matricNo: student.students.matricNo,
+          email: user.username, 
+          roleId: user.userType
         };
+        if (user.userType === 0) {
+          const student = await Students.getByRegNo(user.username);
+          authResponse.studentId = student.students.id;
+          authResponse.matricNo = student.students.matricNo;
+        }else if(user.userType === 1) {
+          const lecturer = await Lecturers.getByUsername(user.username);
+          authResponse.lecturerId = lecturer.lecturers.id;
+        }
+        return authResponse;
       },
     }),
   ],
   callbacks: {
     async jwt({ token, user }) {
       if (user) {
-        token.id = parseInt(user.id, 10);
-        token.studentId = (user as any).studentId;
-        token.matricNo = (user as any).matricNo;
+        token.id = parseInt(user.id);
+        token.roleId = user.roleId;
+        token.studentId = user.studentId;
+        token.matricNo = user.matricNo;
+        token.lecturerId = user.lecturerId;
       }
       return token;
     },
@@ -102,3 +102,55 @@ export const authOptions: AuthOptions = {
   },
   secret: process.env.NEXTAUTH_SECRET,
 };
+
+
+// import { User, Session} from "next-auth";
+// import CredentialsProvider from "next-auth/providers/credentials";
+// import { JWT } from "next-auth/jwt";
+// import { AdapterUser } from "next-auth/adapters";
+// import { Lecturers } from "@/data/models/lecturers";
+
+// interface NewUser extends User {
+//   roleId: number;
+//   lecturerId: number;
+// }
+
+
+//       credentials: {
+//         username: { label: "Username", type: "text" },
+//         password: { label: "Password", type: "password" },
+//       },
+//       async authorize(credentials) {
+        
+//         if (!credentials?.username || !credentials?.password) {
+//           return null;
+//         }
+//         const bcrypt = await import("bcryptjs");
+        
+
+//     }),
+//   ],
+//   callbacks: {
+//     async jwt({ token, user }: { token: JWT; user: User | AdapterUser }) {
+      
+//       if (user) {
+//         token.userId = Number(user.id);
+//         const u = user as NewUser; 
+//         token.name = u.name;
+//         token.roleId = u.roleId;
+//         token.lecturerId = u.lecturerId;
+//       }
+//       return token;
+//     },
+//     async session({ session, token }: { session: Session; token: JWT }) {
+//       if (token) {
+//         session.user.username = token.name ?? "";
+//         session.user.userId = token.userId;
+//         session.user.roleId = token.roleId;
+//         session.user.lecturerId = token.lecturerId;
+//       }
+//       return session;
+//     },
+//   },
+//   secret: process.env.NEXTAUTH_SECRET,
+// };

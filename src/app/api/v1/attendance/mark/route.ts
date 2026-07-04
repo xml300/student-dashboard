@@ -13,6 +13,14 @@ export async function POST(req: Request) {
                 error: 'Unauthorized'
             }, { status: 401 });
         }
+
+        if(!user.studentId){
+            return NextResponse.json({
+                success: false,
+                error: 'Unauthorized'
+            }, { status: 401 });
+        }
+
         const { uuid, sessionId } = await req.json();
         if (!uuid || !sessionId) {
             return NextResponse.json({ success: false, error: 'Missing uuid or sessionId' }, { status: 400 });
