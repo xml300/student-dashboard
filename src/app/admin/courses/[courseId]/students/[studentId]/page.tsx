@@ -1,5 +1,5 @@
 import React from 'react';
-import PageHeading from '@/components/admin/PageHeading';
+import PageHeading from '@/components/PageHeading';
 
 async function fetchData(studentId: string, courseId: string) {
   return {

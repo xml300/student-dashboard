@@ -7,9 +7,9 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from "@/components/admin/ui/table";
-import { Badge } from "@/components/admin/ui/badge";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/admin/ui/card";
+} from "@/components/ui/table";
+import { Badge } from "@/components/ui/badge";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import {
   Users,
   Calendar,

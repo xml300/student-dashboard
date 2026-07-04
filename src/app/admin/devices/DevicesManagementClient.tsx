@@ -10,7 +10,7 @@ import {
   ExclamationTriangleIcon,
 } from '@heroicons/react/24/outline';
 import Link from 'next/link';
-import { Card } from '@/components/admin/ui/card';
+import { Card } from '@/components/ui/card';
 import AddDeviceModal from '@/components/admin/modals/AddDeviceModal';
 import { Device } from '@/types/data';
 

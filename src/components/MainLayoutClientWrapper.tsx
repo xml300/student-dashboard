@@ -2,7 +2,8 @@
 import Link from "next/link";
 import Image from "next/image";
 import Logo from "/public/file.svg"; // Make sure this path is correct
-import Sidebar from "@/app/Sidebar";
+import StudentSidebar from "@/app/Sidebar";
+import AdminSidebar from "@/app/admin/Sidebar";
 
 import ThemeToggleButton from "@/app/ThemeToggleButton";
 import { Bars3Icon } from "@heroicons/react/24/outline";
@@ -11,8 +12,15 @@ import { ReactNode, useState } from "react";
 import { ThemeProvider } from "@/app/ThemeProvider";
 import { AuthenticationCheck } from "./AuthenticationCheck";
 
-export default function MainLayoutClientWrapper({ children }: { children: ReactNode }) {
+export default function MainLayoutClientWrapper({ 
+  children,
+  isAdmin = false 
+}: { 
+  children: ReactNode;
+  isAdmin?: boolean;
+}) {
   const [isSidebarOpen, setSidebarOpen] = useState(false);
+  const Sidebar = isAdmin ? AdminSidebar : StudentSidebar;
   return (
     <>
       <ThemeProvider>
@@ -49,15 +57,23 @@ export default function MainLayoutClientWrapper({ children }: { children: ReactN
             <div className="flex items-center space-x-4">
               <ThemeToggleButton />
               <div className="flex items-center">
-                <Link href="/profile" className="flex items-center">
-                  <div className="w-8 h-8 rounded-full bg-green-900/70 text-green-400 flex justify-center items-center mr-2 border border-border-color dark:border-gray-700">
-                    <p>J</p>
-                  </div>
-                </Link>
+                {isAdmin ? (
+                  <button className="flex items-center">
+                    <div className="w-8 h-8 rounded-full bg-green-900/70 text-green-400 flex justify-center items-center mr-2 border border-border-color dark:border-gray-700">
+                      <p>CSC</p>
+                    </div>
+                  </button>
+                ) : (
+                  <Link href="/profile" className="flex items-center">
+                    <div className="w-8 h-8 rounded-full bg-green-900/70 text-green-400 flex justify-center items-center mr-2 border border-border-color dark:border-gray-700">
+                      <p>J</p>
+                    </div>
+                  </Link>
+                )}
               </div>
             </div>
           </header>
-          <div className="flex h-screen pt-16 bg-background text-foreground">
+          <div className={`flex h-screen bg-background text-foreground ${isAdmin ? "pt-15" : "pt-16"}`}>
             <Sidebar
               isOpen={isSidebarOpen}
               onClose={() => setSidebarOpen(false)}

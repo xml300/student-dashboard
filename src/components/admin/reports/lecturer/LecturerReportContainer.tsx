@@ -5,14 +5,14 @@ import FilterPanel, { FilterType } from "./FilterPanel";
 import ReportDisplay from "./ReportDisplay";
 import DataVisualizations from "./DataVisualizations";
 import StudentInsights from "./StudentInsights";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/admin/ui/tabs";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import {
   Select,
   SelectTrigger,
   SelectValue,
   SelectContent,
   SelectItem,
-} from "@/components/admin/ui/select";
+} from "@/components/ui/select";
 import { Course } from "@/types/data";
 
 interface LecturerReportContainerProps {

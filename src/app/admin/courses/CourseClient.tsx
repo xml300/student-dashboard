@@ -1,10 +1,10 @@
 "use client";
 import { useState } from "react";
-import { Card, CardHeader, CardTitle, CardContent } from '@/components/admin/ui/card';
+import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card';
 import Link from 'next/link';
 import { PlusIcon, MagnifyingGlassIcon } from '@heroicons/react/24/outline';
 import { Coursex, CourseSubmit } from "@/types/data";
-import AddCourseModal from "@/components/admin/modals/AddCourseModal";
+import AddCourseModal from "@/components/AddCourseModal";
 
 
 export default function CourseClient({ courses, availableCourses }: { courses: Coursex[], availableCourses: Coursex[] }) {
@@ -124,10 +124,11 @@ export default function CourseClient({ courses, availableCourses }: { courses: C
 
             <AddCourseModal
                 isOpen={modalOpen}
-                availableCourses={availableCourses_}
+                courses={availableCourses_}
                 onSelectCourse={handleSelectCourse}
                 onClose={() => setModalOpen(false)}
-                onAddCourse={handleAddCourse} />
+                onAddCourse={handleAddCourse}
+                allowCreate={true} />
         </>
     );
 }

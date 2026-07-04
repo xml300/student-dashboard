@@ -54,7 +54,7 @@ export const authOptions: AuthOptions = {
               studentId: newStudent[0].id,
               matricNo: newStudent[0].matricNo,
             };
-          }
+        }
 
         const user = await Users.getByUsername(credentials.username);
         if(!user) return null;
@@ -74,7 +74,7 @@ export const authOptions: AuthOptions = {
           authResponse.matricNo = student.students.matricNo;
         }else if(user.userType === 1) {
           const lecturer = await Lecturers.getByUsername(user.username);
-          authResponse.lecturerId = lecturer.lecturers.id;
+          if(lecturer) authResponse.lecturerId = lecturer.lecturers.id;
         }
         return authResponse;
       },
@@ -102,55 +102,4 @@ export const authOptions: AuthOptions = {
   },
   secret: process.env.NEXTAUTH_SECRET,
 };
-
-
-// import { User, Session} from "next-auth";
-// import CredentialsProvider from "next-auth/providers/credentials";
-// import { JWT } from "next-auth/jwt";
-// import { AdapterUser } from "next-auth/adapters";
-// import { Lecturers } from "@/data/models/lecturers";
-
-// interface NewUser extends User {
-//   roleId: number;
-//   lecturerId: number;
-// }
-
-
-//       credentials: {
-//         username: { label: "Username", type: "text" },
-//         password: { label: "Password", type: "password" },
-//       },
-//       async authorize(credentials) {
-        
-//         if (!credentials?.username || !credentials?.password) {
-//           return null;
-//         }
-//         const bcrypt = await import("bcryptjs");
-        
-
-//     }),
-//   ],
-//   callbacks: {
-//     async jwt({ token, user }: { token: JWT; user: User | AdapterUser }) {
-      
-//       if (user) {
-//         token.userId = Number(user.id);
-//         const u = user as NewUser; 
-//         token.name = u.name;
-//         token.roleId = u.roleId;
-//         token.lecturerId = u.lecturerId;
-//       }
-//       return token;
-//     },
-//     async session({ session, token }: { session: Session; token: JWT }) {
-//       if (token) {
-//         session.user.username = token.name ?? "";
-//         session.user.userId = token.userId;
-//         session.user.roleId = token.roleId;
-//         session.user.lecturerId = token.lecturerId;
-//       }
-//       return session;
-//     },
-//   },
-//   secret: process.env.NEXTAUTH_SECRET,
-// };
+ 

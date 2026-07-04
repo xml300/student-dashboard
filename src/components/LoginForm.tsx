@@ -16,7 +16,7 @@ export default function LoginForm() {
 
     const result = await signIn('credentials', {
       redirect: false,
-      matricNo,
+      username: matricNo,
       password,
     });
 
