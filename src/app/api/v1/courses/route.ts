@@ -14,26 +14,3 @@ export async function GET() {
         data: courses
     });
 }
-
-export async function POST(request: NextRequest) {
-    const { courseId } = await request.json();
-    const course = await Courses.getByCode(courseId);
-    if (!course) {
-        return NextResponse.json({
-            success: false,
-            error: {
-                code: 404,
-                message: "Course not found"
-            }
-        });
-    }
-
-    const user = await getCurrentUser();
-    await db.insert(studentEnrollments).values({
-        studentId: user?.studentId,
-        courseId: course.id,
-    });
-    return NextResponse.json({
-        success: true,
-    });
-}

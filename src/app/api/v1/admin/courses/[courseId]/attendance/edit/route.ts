@@ -3,9 +3,9 @@ import { attendanceRecords } from "@/data/db/schema";
 import { eq } from "drizzle-orm";
 import { NextRequest, NextResponse } from "next/server";
 
-export async function POST(request: NextRequest){
+export async function PATCH(request: NextRequest){
     const body = await request.json();
-    const {recordId, attendanceRecord, remarks} = body;    
+    const {recordId, attendanceRecord} = body;    
 
     const record = await db.select().from(attendanceRecords).where(eq(attendanceRecords.id, recordId));
     if(!record) return NextResponse.json({error: "Record not Found"},{status: 404});

@@ -37,14 +37,14 @@ export async function POST(req: Request) {
     return NextResponse.json({ error: "Course already exists" }, { status: 409 });
   }
   
-  const course = await db.insert(courses).values({
+  const course = await Courses.create({
     courseName,
     courseCode,
     courseDesc,
     courseUnit,
     status,
     semester
-  }).returning({ id: courses.id });
+  });
 
   
   await Activities.create({
@@ -56,7 +56,7 @@ export async function POST(req: Request) {
 
   await db.insert(courseAssignments).values({
     lecturerId: user.lecturerId,
-    courseId: course[0].id,
+    courseId: course.id,
   });
 
   return NextResponse.json({ success: true, course: { name: courseName, id: courseCode, description: courseDesc, credits: courseUnit, status, semester } });

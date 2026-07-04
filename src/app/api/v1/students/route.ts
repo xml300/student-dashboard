@@ -1,9 +1,7 @@
-import { getStudents } from "@/lib/reports";
+import { Students } from "@/data/models/students";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function GET(request: NextRequest) {
-    console.log(request)
-    const students = await getStudents();
-    console.log(students);
-    return NextResponse.json(students || []);
+    const students = await Students.get();
+    return NextResponse.json(students);
 }

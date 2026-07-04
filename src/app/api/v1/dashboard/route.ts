@@ -4,21 +4,23 @@ import { and, eq, count } from 'drizzle-orm';
 import { attendanceRecords, lectureSessions, courses, students, authorizedDevices, users } from '@/data/db/schema';
 import { getCurrentUser } from '@/lib/auth';
 import { withErrorHandling } from '@/utils/api';
+import { Students } from '@/data/models/students';
 
 export const GET = withErrorHandling(async () => {
     const user = await getCurrentUser();
     if (!user || !user.matricNo) {
         return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
-     
-    const studentQuery = await db.select().from(students).innerJoin(users, eq(students.userId, users.id)).where(eq(users.username, user.matricNo)).limit(1);
-    if (studentQuery.length === 0) {
-        return NextResponse.json({ error: 'Student not found' }, { status: 404 });
-    }
     const studentId = user.studentId;
     if(!studentId){
         return NextResponse.json({error: 'Student not found'}, {status: 404});
     }
+     
+    const student= await Students.getByRegNo(user.matricNo);
+    if (!student) {
+        return NextResponse.json({ error: 'Student not found' }, { status: 404 });
+    }
+
 
     const totalClassesResult = await db.select({ value: count() }).from(lectureSessions);
     const attendedClassesResult = await db.select({ value: count() }).from(attendanceRecords).where(and(eq(attendanceRecords.studentId, studentId), eq(attendanceRecords.attendanceRecord, 1)));

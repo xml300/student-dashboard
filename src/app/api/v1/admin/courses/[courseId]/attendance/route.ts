@@ -3,6 +3,7 @@ import { db } from '@/data/db';
 import { and, desc, eq } from 'drizzle-orm';
 import { attendanceRecords, courses, lectureSessions, students, users } from '@/data/db/schema';
 import { Activities } from '@/data/models/activities';
+import { LectureSessions } from '@/data/models/lecture-sessions';
 
 interface AttendanceRecord {
   studentId: number | null;
@@ -14,8 +15,6 @@ interface AttendanceRecord {
 
 export async function GET(_req: Request, { params }: { params: Promise<{courseId: string}> }) {
   const courseId = (await params).courseId;
-
-  
   const latestSession = await db
     .select({ sessionId: lectureSessions.id })
     .from(lectureSessions)
@@ -89,12 +88,7 @@ export async function POST(req: Request, { params }: { params: Promise<{courseId
   const courseId = (await params).courseId;
   const { studentId, sessionId, attendanceRecord } = await req.json();
   
-  const newRecord = await db.insert(attendanceRecords).values({
-    sessionId, 
-    studentId,
-    attendanceRecord,
-  }).returning({ recordId: attendanceRecords.id });
-
+  const newRecord = await LectureSessions.markRecord(sessionId, studentId, attendanceRecord);
   await Activities.create({
     category: "User Management",
     action: "Attendance recorded",

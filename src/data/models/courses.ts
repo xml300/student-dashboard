@@ -1,6 +1,6 @@
 import { eq } from "drizzle-orm";
 import { db } from "../db";
-import { Course, courseAssignments, courses } from "../db/schema";
+import { Course, courseAssignments, courses, studentEnrollments } from "../db/schema";
 
 
 export const Courses = {
@@ -11,6 +11,10 @@ export const Courses = {
     getById: async (id: number) => {
         const [course] = await db.select().from(courses).where(eq(courses.id, id)).limit(1);
         return course;
+    },
+    getByStudentId: async (studentId: number) => {
+        const sCourses = await db.select().from(studentEnrollments).innerJoin(courses, eq(studentEnrollments.courseId, courses.id)).where(eq(studentEnrollments.studentId, studentId));
+        return sCourses.map(c => c.courses);
     },
     create: async (data: typeof courses.$inferInsert) => {
         const [newCourse] = await db.insert(courses).values(data).returning();
@@ -23,6 +27,13 @@ export const Courses = {
     getByCode: async (code: string) => {
         const [course] = await db.select().from(courses).where(eq(courses.courseCode, code)).limit(1);
         return course;
+    },
+    enrollStudent: async (id: number, studentId: number) => {
+        const [enrollment] = await db.insert(studentEnrollments).values({
+            courseId: id,
+            studentId: studentId
+        }).returning();
+        return enrollment;
     },
     update: async (id: number, data: Partial<Course>) => {
         const [updatedCourse] = await db.update(courses).set(data).where(eq(courses.id, id)).returning();

@@ -3,6 +3,7 @@ import { db } from '@/data/db';
 import { activities, courseAssignments, courses } from '@/data/db/schema';
 import { and, eq } from 'drizzle-orm';
 import { getCurrentUser } from '@/lib/auth';
+import { Courses } from '@/data/models/courses';
 
 
 export async function POST(req: NextRequest) {
@@ -16,19 +17,20 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: 'Missing courseId or lecturerId' }, { status: 400 });
     }
 
-    const course = await db.select().from(courses).where(eq(courses.courseCode, courseId));
+    const course = await Courses.getByCode(courseId);
     const existingAssignment = await db.select().from(courseAssignments)
       .where(and(
-        eq(courseAssignments.courseId, course[0].id),
+        eq(courseAssignments.courseId, course.id),
         eq(courseAssignments.lecturerId, lecturerId)
       ));
+
 
     if (existingAssignment.length > 0) {
       return NextResponse.json({ error: 'Course already assigned to this lecturer' }, { status: 409 });
     }
 
     await db.insert(courseAssignments).values({
-      courseId: course[0].id,
+      courseId: course.id,
       lecturerId,
     });
 

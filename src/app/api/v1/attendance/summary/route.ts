@@ -2,24 +2,26 @@ import { NextResponse } from 'next/server';
 import { db } from '@/data/db';
 import { attendanceRooms, lectureSessions, courses } from '@/data/db/schema';
 import { eq } from 'drizzle-orm';
+import { LectureSessions } from '@/data/models/lecture-sessions';
+import { Courses } from '@/data/models/courses';
 
 export async function GET(request: Request) {
   const { searchParams } = new URL(request.url);
-  const attendID = searchParams.get('attendID');
+  const sessionId = searchParams.get('sessionId');
 
-  if (!attendID) {
+  if (!sessionId) {
     return NextResponse.json({
       success: false,
       error: {
         code: 400,
-        message: 'Missing attendID'
+        message: 'Missing sessionId'
       }
     }, { status: 400 });
   }
 
   try {
-    const roomData = await db.select().from(attendanceRooms).where(eq(attendanceRooms.sessionId, parseInt(attendID))).limit(1);
-    if (roomData.length === 0) {
+    const rooms = await LectureSessions.getAttendanceRooms(parseInt(sessionId));
+    if (rooms.length === 0) {
       return NextResponse.json({
         success: false,
         error: {
@@ -28,7 +30,7 @@ export async function GET(request: Request) {
         }
       }, { status: 404 });
     }
-    const room = roomData[0];
+    const room = rooms[0];
 
     if (!room.sessionId) {
       return NextResponse.json({
@@ -40,8 +42,8 @@ export async function GET(request: Request) {
       }, { status: 404 });
     }
 
-    const sessionData = await db.select().from(lectureSessions).where(eq(lectureSessions.id, room.sessionId)).limit(1);
-    if (sessionData.length === 0) {
+    const session = await LectureSessions.getById(parseInt(sessionId));
+    if (!session) {
       return NextResponse.json({
         success: false,
         error: {
@@ -50,7 +52,6 @@ export async function GET(request: Request) {
         }
       }, { status: 404 });
     }
-    const session = sessionData[0];
 
     if (!session.courseId) {
       return NextResponse.json({
@@ -62,8 +63,8 @@ export async function GET(request: Request) {
       }, { status: 404 });
     }
 
-    const courseData = await db.select().from(courses).where(eq(courses.id, session.courseId)).limit(1);
-    if (courseData.length === 0) {
+    const course = await Courses.getById(session.courseId);
+    if (!course) {
       return NextResponse.json({
         success: false,
         error: {
@@ -72,7 +73,6 @@ export async function GET(request: Request) {
         }
       }, { status: 404 });
     }
-    const course = courseData[0];
     const roomStatus = 'open';
 
     return NextResponse.json({

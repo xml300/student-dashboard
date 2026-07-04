@@ -6,7 +6,6 @@ import { UserRole } from './types/auth';
 export async function middleware(request: NextRequest) {
     const { pathname } = request.nextUrl;
 
-    // Skip next-auth api endpoints
     if (pathname.startsWith('/api/auth')) {
         return NextResponse.next();
     }
@@ -32,8 +31,16 @@ export async function middleware(request: NextRequest) {
 
     const roleId = token.roleId;
     if (roleId === UserRole.STUDENT) {
-        if (pathname.startsWith('/admin') || pathname.startsWith('/api/v1/admin') || pathname === '/') {
+        if (pathname.startsWith('/admin') || pathname === '/') {
             return NextResponse.redirect(new URL('/dashboard', request.url));
+        }else if(pathname.startsWith('/api/v1/admin')){
+            return NextResponse.json({
+                success: false,
+                error: {
+                    code: 403,
+                    message: "Forbidden"
+                }
+            }, {status: 403});
         }
     } else if (roleId === UserRole.LECTURER || roleId === UserRole.ADMIN) {
         const studentRoutes = [

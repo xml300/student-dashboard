@@ -4,6 +4,7 @@ import { attendanceRecords, attendanceRooms, courses, authorizedDevices, lecture
 import { eq } from 'drizzle-orm';
 import { getCurrentUser } from '@/lib/auth';
 import { Courses } from '@/data/models/courses';
+import { Activities } from '@/data/models/activities';
 
 export async function POST(req: Request) {
     const user = await getCurrentUser();
