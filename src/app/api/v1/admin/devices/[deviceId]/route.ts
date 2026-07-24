@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { db } from "@/data/db";
 import { authorizedDevices, courseAssignments, courses, lectureSessions, activities, lecturers } from "@/data/db/schema";
 import { eq, inArray, desc } from "drizzle-orm";
+import { AuthorizedDevices } from "@/data/models/authorized-devices";
 
 interface NewActivity {
   event: string;
@@ -15,18 +16,14 @@ export async function GET(req: Request, context: { params: Promise<{ deviceId: s
     return NextResponse.json({ error: "Device ID required" }, { status: 400 });
   }
   try {
-    
-    const found = await db.select().from(authorizedDevices).where(eq(authorizedDevices.id, Number(deviceId)));
-    if (!found.length) {
+xZX
+    const device = await AuthorizedDevices.getById(Number(deviceId))
+    if (!device) {
       return NextResponse.json({ error: "Device not found" }, { status: 404 });
-    }
-    const device = found[0];
-    
-
+    };
     
     let assignedCourses: string[] = [];
     if (device.userId) {
-      
       const assignments = await db.select({ courseId: courseAssignments.courseId })
         .from(courseAssignments)
         .where(eq(courseAssignments.lecturerId, device.userId));

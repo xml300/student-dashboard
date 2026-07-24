@@ -40,7 +40,7 @@ export async function middleware(request: NextRequest) {
                     code: 403,
                     message: "Forbidden"
                 }
-            }, {status: 403});
+            }, {status: 403});1f4e
         }
     } else if (roleId === UserRole.LECTURER || roleId === UserRole.ADMIN) {
         const studentRoutes = [
